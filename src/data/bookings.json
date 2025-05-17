@@ -1,0 +1,11 @@
+[
+  {
+    "id": "bk_001",
+    "petId": "pet_001",
+    "date": "2025-05-20",
+    "time": "14:00",
+    "service": "洗澡＋剪毛",
+    "status": "confirmed",
+    "note": "請使用低敏洗劑"
+  }
+]

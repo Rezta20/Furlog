@@ -1,0 +1,6 @@
+{
+  "workingDays": ["Mon", "Tue", "Thu", "Fri", "Sat"],
+  "openHour": "10:00",
+  "closeHour": "18:00",
+  "maxBookingsPerDay": 5
+}

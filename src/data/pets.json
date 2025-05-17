@@ -1,0 +1,12 @@
+[
+  {
+    "id": "pet_001",
+    "name": "布丁",
+    "type": "狗",
+    "breed": "柴犬",
+    "age": 5,
+    "owner": { "name": "王小明", "phone": "0912-345-678" },
+    "tags": ["敏感肌", "怕吹風機"],
+    "avatar": "/assets/pets/buding.jpg"
+  }
+]

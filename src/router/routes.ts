@@ -4,15 +4,18 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/DashboardPage.vue') }],
+    children: [
+      { path: '', name: 'Dashboard', component: () => import('pages/DashboardPage.vue') },
+      { path: 'booking', name: 'Booking', component: () => import('pages/BookingManagePage.vue') },
+      {
+        path: 'pet-cards',
+        name: 'PetCardWall',
+        component: () => import('pages/PetCardWallPage.vue'),
+      },
+    ],
   },
-
-  // Always leave this as last one,
-  // but you can also remove it
-  {
-    path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue'),
-  },
+  // 404 頁
+  { path: '/:catchAll(.*)*', name: 'NotFound', component: () => import('pages/ErrorNotFound.vue') },
 ];
 
 export default routes;

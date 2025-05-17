@@ -1,17 +1,17 @@
 <template>
-  <div>
-    <h1>Dashboard</h1>
-    <p>Welcome to the dashboard!</p>
-    <router-link to="/">Go to Home</router-link>
-    <router-link to="/about">Go to About</router-link>
-    <router-link to="/contact">Go to Contact</router-link>
-    <router-link to="/settings">Go to Settings</router-link>
-    <router-link to="/profile">Go to Profile</router-link>
-    <router-link to="/help">Go to Help</router-link>
-    <router-link to="/logout">Logout</router-link>
-  </div>
+  <q-page padding>
+    <h2>儀表板</h2>
+    <q-card>
+      <q-card-section> 今日預約：{{ todayCount }} </q-card-section>
+    </q-card>
+  </q-page>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useBookingStore } from 'stores/useBookingStore';
 
-<style scoped></style>
+const bookingStore = useBookingStore();
+const today = new Date().toISOString().slice(0, 10);
+const todayCount = computed(() => bookingStore.list.filter((b) => b.date === today).length);
+</script>
