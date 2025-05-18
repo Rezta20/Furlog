@@ -12,6 +12,11 @@ const routes: RouteRecordRaw[] = [
         name: 'PetCardWall',
         component: () => import('pages/PetCardWallPage.vue'),
       },
+      {
+        path: 'admin-bookings',
+        name: 'AdminBookings',
+        component: () => import('pages/AdminBookings.vue'),
+      },
     ],
   },
   // 404 頁
