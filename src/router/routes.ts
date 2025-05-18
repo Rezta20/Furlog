@@ -6,7 +6,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', name: 'Dashboard', component: () => import('pages/DashboardPage.vue') },
-      { path: 'booking', name: 'Booking', component: () => import('pages/BookingManagePage.vue') },
+      {
+        path: 'booking-manage',
+        name: 'BookingManege',
+        component: () => import('pages/BookingManagePage.vue'),
+      },
       {
         path: 'pet-cards',
         name: 'PetCardWall',
@@ -16,6 +20,11 @@ const routes: RouteRecordRaw[] = [
         path: 'admin-bookings',
         name: 'AdminBookings',
         component: () => import('pages/AdminBookings.vue'),
+      },
+      {
+        path: 'booking',
+        name: 'BookingPage',
+        component: () => import('pages/BookingPage.vue'),
       },
     ],
   },
