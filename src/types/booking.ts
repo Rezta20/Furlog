@@ -1,5 +1,5 @@
 export interface IBooking {
-  id: string;
+  bookingId: string;
   petId: string;
   date: string; // 格式：YYYY-MM-DD
   time: string; // 格式：HH:mm
@@ -24,3 +24,11 @@ type BookingStatus =
   | 'cancelled'
   | 'waiting'
   | 'cancelledByCustomer';
+
+export interface IBookingForm {
+  customerPhone: string;
+  orderId: string;
+  storeStatus: BookingStatus[];
+  dateStart: '';
+  dateEnd: '';
+}

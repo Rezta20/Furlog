@@ -1,9 +1,16 @@
 <template>
   <q-page padding>
-    <!-- table -->
-    <q-card class="q-pa-md">
-      <BookingTable :rows="bookingStore.list" :columns="columns" row-key="id" />
-    </q-card>
+    <div class="q-gutter-md">
+      <!-- search -->
+      <q-card class="q-pa-md">
+        <BookingSearch @search="onSearch" />
+      </q-card>
+
+      <!-- table -->
+      <q-card class="q-pa-md">
+        <BookingTable :rows="bookingStore.list" :columns="columns" row-key="id" />
+      </q-card>
+    </div>
   </q-page>
 </template>
 
@@ -11,7 +18,9 @@
 import { onMounted } from 'vue';
 import { useBookingStore } from '../stores/useBookingStore';
 import type { ITableColumns } from '../types/tables';
+import type { IBookingForm } from '../types/booking';
 import BookingTable from '../components/BookingTable.vue';
+import BookingSearch from '../components/BookingSearch.vue';
 
 const bookingStore = useBookingStore();
 
@@ -31,6 +40,12 @@ const columns: ITableColumns[] = [
   { name: 'customerName', label: '飼主姓名', field: 'customerName', align: 'left' },
   { name: 'customerPhone', label: '聯絡電話', field: 'customerPhone', align: 'left' },
   { name: 'customerStatus', label: '顧客狀態', field: 'status', align: 'center' },
+  { name: 'bookingId', label: '訂單編號', field: 'bookingId', align: 'left' },
   { name: 'action', label: '操作', field: 'action', align: 'center' },
 ];
+
+function onSearch(form: IBookingForm) {
+  bookingStore.filterList(form);
+  console.log(form);
+}
 </script>
