@@ -62,9 +62,8 @@ const drawer = ref(false);
 
 const menuList = [
   { label: 'Dashboard', to: '/', icon: 'dashboard' },
-  { label: '預約管理', to: '/booking-manage', icon: 'event' },
   { label: '美容卡片牆', to: '/pet-cards', icon: 'pets' },
-  { label: '預約清單', to: '/admin-bookings', icon: 'list_alt' },
+  { label: '預約清單', to: '/booking-list', icon: 'list_alt' },
   { label: '預約系統', to: '/booking', icon: 'today' },
 ];
 </script>

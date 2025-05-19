@@ -11,15 +11,17 @@
 // It's highly recommended to change the default colors
 // to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
+// 基礎主題色
+$primary: #3f51b5; // indigo-6
+$secondary: #90a4ae; // blue-grey-1
+$accent: #1976d2; // blue-7，這裡維持原 quasar 設定，也可以視覺上調整
 
-$primary   : #1976D2;
-$secondary : #26A69A;
-$accent    : #9C27B0;
+// 狀態色
+$positive: #43a047; // green-6
+$negative: #e53935; // red-5
+$info: #00bcd4; // cyan-6
+$warning: #039be5; // light-blue-6
 
-$dark      : #1D1D1D;
-$dark-page : #121212;
-
-$positive  : #21BA45;
-$negative  : #C10015;
-$info      : #31CCEC;
-$warning   : #F2C037;
+// 附加灰階
+$dark: #1d1d1d;
+$dark-page: #121212;
