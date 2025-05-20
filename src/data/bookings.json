@@ -2,7 +2,7 @@
   {
     "bookingId": "bk_001",
     "petId": "pet_001",
-    "date": "2025/05/20",
+    "date": "2025-05-20",
     "time": "14:00",
     "petName": "奶茶",
     "petType": "dog",
@@ -18,7 +18,7 @@
   {
     "bookingId": "bk_002",
     "petId": "pet_002",
-    "date": "2025/05/20",
+    "date": "2025-05-20",
     "time": "10:00",
     "petName": "球球",
     "petType": "other",
@@ -34,7 +34,7 @@
   {
     "bookingId": "bk_003",
     "petId": "pet_003",
-    "date": "2025/05/20",
+    "date": "2025-05-20",
     "time": "11:00",
     "petName": "花生",
     "petType": "cat",
@@ -50,7 +50,7 @@
   {
     "bookingId": "bk_004",
     "petId": "pet_004",
-    "date": "2025/05/23",
+    "date": "2025-05-23",
     "time": "13:30",
     "petName": "阿寶",
     "petType": "dog",
@@ -66,7 +66,7 @@
   {
     "bookingId": "bk_005",
     "petId": "pet_005",
-    "date": "2025/05/20",
+    "date": "2025-05-20",
     "time": "15:00",
     "petName": "橘子",
     "petType": "cat",
@@ -82,7 +82,7 @@
   {
     "bookingId": "bk_006",
     "petId": "pet_006",
-    "date": "2025/05/21",
+    "date": "2025-05-21",
     "time": "09:30",
     "petName": "乖乖",
     "petType": "dog",
@@ -98,7 +98,7 @@
   {
     "bookingId": "bk_007",
     "petId": "pet_007",
-    "date": "2025/05/21",
+    "date": "2025-05-21",
     "time": "11:00",
     "petName": "麻糬",
     "petType": "dog",
@@ -114,7 +114,7 @@
   {
     "bookingId": "bk_008",
     "petId": "pet_008",
-    "date": "2025/05/26",
+    "date": "2025-05-26",
     "time": "17:00",
     "petName": "高高",
     "petType": "cat",
@@ -130,7 +130,7 @@
   {
     "bookingId": "bk_009",
     "petId": "pet_005",
-    "date": "2025/05/26",
+    "date": "2025-05-26",
     "time": "15:00",
     "petName": "橘子",
     "petType": "cat",

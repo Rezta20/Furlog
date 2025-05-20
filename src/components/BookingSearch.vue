@@ -26,8 +26,7 @@
       <div class="col-12 col-md-4 col-lg-4">
         <q-input
           filled
-          v-model="form.dateStart"
-          mask="date"
+          :model-value="form.dateStart"
           label="開始日期"
           dense
           :rules="[(val: string) => !val || !isNaN(Date.parse(val)) || '請輸入有效日期']"
@@ -35,7 +34,12 @@
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="form.dateStart">
+                <q-date
+                  :model-value="form.dateStart"
+                  @update:model-value="form.dateStart = $event"
+                  mask="YYYY-MM-DD"
+                  today-btn
+                >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Close" color="primary" flat />
                   </div>
@@ -49,7 +53,6 @@
         <q-input
           filled
           v-model="form.dateEnd"
-          mask="date"
           label="結束日期"
           dense
           :rules="[(val: string) => !val || !isNaN(Date.parse(val)) || '請輸入有效日期']"
@@ -57,7 +60,12 @@
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="form.dateEnd">
+                <q-date
+                  :model-value="form.dateEnd"
+                  @update:model-value="form.dateEnd = $event"
+                  mask="YYYY-MM-DD"
+                  today-btn
+                >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Close" color="primary" flat />
                   </div>

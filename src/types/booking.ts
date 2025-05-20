@@ -29,6 +29,6 @@ export interface IBookingForm {
   customerPhone: string;
   orderId: string;
   storeStatus: BookingStatus[];
-  dateStart: '';
-  dateEnd: '';
+  dateStart: string;
+  dateEnd: string;
 }
