@@ -1,146 +1,2561 @@
 [
   {
     "bookingId": "bk_001",
-    "petId": "pet_001",
-    "date": "2025-05-20",
-    "time": "14:00",
-    "petName": "奶茶",
-    "petType": "dog",
-    "petBreed": "黃金獵犬",
-    "customerName": "陳太太",
-    "customerPhone": "0977-666-888",
-    "service": "洗澡+剪毛",
-    "customerStatus": "cancelledByCustomer",
-    "storeStatus": "cancelledByCustomer",
-    "note": "",
-    "action": "詳情"
+    "createdAt": "2025-05-01 11:34:00",
+    "updatedAt": "2025-05-01 23:34:00",
+    "source": "網路預約",
+    "pet": {
+      "petId": "pet_001",
+      "petName": "奶茶",
+      "petType": "other",
+      "petBreed": "倉鼠",
+      "petGender": "male",
+      "petAge": 3,
+      "petWeight": 34.5,
+      "petNote": "怕吹風機",
+      "healthReminder": "有皮膚過敏史",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_001",
+      "customerName": "張雅萍",
+      "customerPhone": "0987048663",
+      "customerEmail": "lifeng@chang.com",
+      "customerNote": ""
+    },
+    "date": "2025-05-01",
+    "time": "17:30",
+    "services": [
+      {
+        "serviceId": "svc_003",
+        "serviceName": "指甲修剪",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_002",
+        "serviceName": "剪毛",
+        "price": 400
+      }
+    ],
+    "discount": {
+      "type": "會員折扣",
+      "amount": 63
+    },
+    "totalPrice": 600,
+    "finalPrice": 537,
+    "payment": {
+      "method": "信用卡",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_004",
+      "groomerName": "阿信"
+    },
+    "arriveTime": "2025-05-01 10:30:00",
+    "finishTime": "2025-05-01 12:00:00",
+    "status": {
+      "customerStatus": "cancelledByCustomer",
+      "storeStatus": "rejected",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-01 11:34:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-01 12:34:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-01 13:44:00",
+          "action": "cancelledByCustomer",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-05-31"
   },
   {
     "bookingId": "bk_002",
-    "petId": "pet_002",
-    "date": "2025-05-20",
-    "time": "10:00",
-    "petName": "球球",
-    "petType": "other",
-    "petBreed": "馬爾濟斯",
-    "customerName": "林小姐",
-    "customerPhone": "0912-345-678",
-    "service": "洗澡＋全身修剪",
-    "customerStatus": "waiting",
-    "storeStatus": "in_service",
-    "note": "怕吹風機，請小聲處理",
-    "action": "詳情"
+    "createdAt": "2025-05-06 15:27:00",
+    "updatedAt": "2025-05-08 08:27:00",
+    "source": "現場",
+    "pet": {
+      "petId": "pet_002",
+      "petName": "小虎",
+      "petType": "cat",
+      "petBreed": "布偶貓",
+      "petGender": "male",
+      "petAge": 2,
+      "petWeight": 32.1,
+      "petNote": "對陌生人會吠叫",
+      "healthReminder": "請避免用香精",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_002",
+      "customerName": "馬冠宇",
+      "customerPhone": "0928900762",
+      "customerEmail": "yonghao@yahoo.com",
+      "customerNote": ""
+    },
+    "date": "2025-05-06",
+    "time": "12:30",
+    "services": [
+      {
+        "serviceId": "svc_005",
+        "serviceName": "深層護毛",
+        "price": 300
+      },
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_001",
+        "serviceName": "洗澡",
+        "price": 300
+      }
+    ],
+    "discount": {
+      "type": "會員折扣",
+      "amount": 77
+    },
+    "totalPrice": 800,
+    "finalPrice": 723,
+    "payment": {
+      "method": "現金",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_003",
+      "groomerName": "小美"
+    },
+    "arriveTime": "2025-05-06 16:30:00",
+    "finishTime": null,
+    "status": {
+      "customerStatus": "confirmed",
+      "storeStatus": "in_service",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-06 15:27:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-06 16:27:00",
+          "action": "confirmed",
+          "by": "store"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-05"
   },
   {
     "bookingId": "bk_003",
-    "petId": "pet_003",
-    "date": "2025-05-20",
-    "time": "11:00",
-    "petName": "花生",
-    "petType": "cat",
-    "petBreed": "英短",
-    "customerName": "王先生",
-    "customerPhone": "0923-222-789",
-    "service": "洗澡＋修指甲",
-    "customerStatus": "pending",
-    "storeStatus": "pending",
-    "note": "需戴頭套",
-    "action": "詳情"
+    "createdAt": "2025-05-07 08:30:00",
+    "updatedAt": "2025-05-07 16:30:00",
+    "source": "現場",
+    "pet": {
+      "petId": "pet_003",
+      "petName": "花花",
+      "petType": "cat",
+      "petBreed": "美短",
+      "petGender": "female",
+      "petAge": 3,
+      "petWeight": 4.3,
+      "petNote": "對剪指甲比較敏感，需安撫",
+      "healthReminder": "肚子常拉肚子",
+      "isAttack": true,
+      "attackNote": "討厭陌生人容易抓咬"
+    },
+    "customer": {
+      "customerId": "cus_003",
+      "customerName": "王宜庭",
+      "customerPhone": "0930798011",
+      "customerEmail": "juan25@xia.org",
+      "customerNote": ""
+    },
+    "date": "2025-05-07",
+    "time": "12:00",
+    "services": [
+      {
+        "serviceId": "svc_003",
+        "serviceName": "指甲修剪",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_006",
+        "serviceName": "耳道清潔",
+        "price": 100
+      }
+    ],
+    "discount": {
+      "type": "會員折扣",
+      "amount": 70
+    },
+    "totalPrice": 300,
+    "finalPrice": 230,
+    "payment": {
+      "method": "信用卡",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_002",
+      "groomerName": "莉莉"
+    },
+    "arriveTime": "2025-05-07 15:30:00",
+    "finishTime": "2025-05-07 11:00:00",
+    "status": {
+      "customerStatus": "pending",
+      "storeStatus": "waiting",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-07 08:30:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-07 09:30:00",
+          "action": "confirmed",
+          "by": "store"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-06"
   },
   {
     "bookingId": "bk_004",
-    "petId": "pet_004",
-    "date": "2025-05-23",
-    "time": "13:30",
-    "petName": "阿寶",
-    "petType": "dog",
-    "petBreed": "柴犬",
-    "customerName": "張太太",
-    "customerPhone": "0987-456-123",
-    "service": "洗澡＋深層護毛",
-    "customerStatus": "cancelled",
-    "storeStatus": "cancelled",
-    "note": "飼主臨時有事取消",
-    "action": "詳情"
+    "createdAt": "2025-05-06 15:18:00",
+    "updatedAt": "2025-05-08 02:18:00",
+    "source": "電話",
+    "pet": {
+      "petId": "pet_004",
+      "petName": "QQ",
+      "petType": "dog",
+      "petBreed": "貴賓犬",
+      "petGender": "male",
+      "petAge": 1,
+      "petWeight": 12.6,
+      "petNote": "怕生人，請輕聲細語",
+      "healthReminder": "",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_004",
+      "customerName": "周冠廷",
+      "customerPhone": "0970615248",
+      "customerEmail": "xiulan13@yahoo.com",
+      "customerNote": "請用簡訊聯繫"
+    },
+    "date": "2025-05-06",
+    "time": "15:30",
+    "services": [
+      {
+        "serviceId": "svc_006",
+        "serviceName": "耳道清潔",
+        "price": 100
+      },
+      {
+        "serviceId": "svc_003",
+        "serviceName": "指甲修剪",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_005",
+        "serviceName": "深層護毛",
+        "price": 300
+      }
+    ],
+    "discount": {
+      "type": "首購優惠",
+      "amount": 34
+    },
+    "totalPrice": 600,
+    "finalPrice": 566,
+    "payment": {
+      "method": "信用卡",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_001",
+      "groomerName": "阿玲"
+    },
+    "arriveTime": "2025-05-06 14:00:00",
+    "finishTime": "2025-05-06 15:00:00",
+    "status": {
+      "customerStatus": "pending",
+      "storeStatus": "cancelled",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-06 15:18:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-06 16:18:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-06 17:28:00",
+          "action": "pending",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-05"
   },
   {
     "bookingId": "bk_005",
-    "petId": "pet_005",
-    "date": "2025-05-20",
-    "time": "15:00",
-    "petName": "橘子",
-    "petType": "cat",
-    "petBreed": "米克斯",
-    "customerName": "李小姐",
-    "customerPhone": "0910-888-555",
-    "service": "美容剃毛",
-    "customerStatus": "waiting",
-    "storeStatus": "waiting",
-    "note": "容易緊張，請慢慢來",
-    "action": "詳情"
+    "createdAt": "2025-05-05 08:32:00",
+    "updatedAt": "2025-05-06 14:32:00",
+    "source": "網路預約",
+    "pet": {
+      "petId": "pet_005",
+      "petName": "屁屁",
+      "petType": "dog",
+      "petBreed": "哈士奇",
+      "petGender": "male",
+      "petAge": 9,
+      "petWeight": 37.7,
+      "petNote": "對陌生人會吠叫",
+      "healthReminder": "",
+      "isAttack": true,
+      "attackNote": "不喜歡抓抱，會揮爪"
+    },
+    "customer": {
+      "customerId": "cus_005",
+      "customerName": "張飛",
+      "customerPhone": "0913565343",
+      "customerEmail": "jiangtao@zeng.com",
+      "customerNote": ""
+    },
+    "date": "2025-05-05",
+    "time": "12:00",
+    "services": [
+      {
+        "serviceId": "svc_006",
+        "serviceName": "耳道清潔",
+        "price": 100
+      },
+      {
+        "serviceId": "svc_002",
+        "serviceName": "剪毛",
+        "price": 400
+      }
+    ],
+    "discount": {
+      "type": "會員折扣",
+      "amount": 54
+    },
+    "totalPrice": 500,
+    "finalPrice": 446,
+    "payment": {
+      "method": "信用卡",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_005",
+      "groomerName": "阿玲"
+    },
+    "arriveTime": "2025-05-05 12:30:00",
+    "finishTime": "2025-05-05 14:00:00",
+    "status": {
+      "customerStatus": "completed",
+      "storeStatus": "cancelled",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-05 08:32:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-05 09:32:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-05 10:32:00",
+          "action": "completed",
+          "by": "groomer"
+        },
+        {
+          "timestamp": "2025-05-05 10:42:00",
+          "action": "completed",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-04"
   },
   {
     "bookingId": "bk_006",
-    "petId": "pet_006",
-    "date": "2025-05-21",
-    "time": "09:30",
-    "petName": "乖乖",
-    "petType": "dog",
-    "petBreed": "博美",
-    "customerName": "陳先生",
-    "customerPhone": "0955-111-222",
-    "service": "洗澡＋剪指甲",
-    "customerStatus": "confirmed",
-    "storeStatus": "pending",
-    "note": "",
-    "action": "詳情"
+    "createdAt": "2025-05-07 08:02:00",
+    "updatedAt": "2025-05-08 10:02:00",
+    "source": "網路預約",
+    "pet": {
+      "petId": "pet_006",
+      "petName": "黑糖",
+      "petType": "dog",
+      "petBreed": "貴賓犬",
+      "petGender": "male",
+      "petAge": 4,
+      "petWeight": 20.4,
+      "petNote": "怕生人，請輕聲細語",
+      "healthReminder": "請避免用香精",
+      "isAttack": true,
+      "attackNote": "遇吹風機會撲咬"
+    },
+    "customer": {
+      "customerId": "cus_006",
+      "customerName": "李佳穎",
+      "customerPhone": "0907130908",
+      "customerEmail": "dwan@yahoo.com",
+      "customerNote": ""
+    },
+    "date": "2025-05-07",
+    "time": "10:30",
+    "services": [
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_001",
+        "serviceName": "洗澡",
+        "price": 300
+      },
+      {
+        "serviceId": "svc_005",
+        "serviceName": "深層護毛",
+        "price": 300
+      }
+    ],
+    "discount": {
+      "type": "首購優惠",
+      "amount": 30
+    },
+    "totalPrice": 800,
+    "finalPrice": 770,
+    "payment": {
+      "method": "現金",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_002",
+      "groomerName": "阿豪"
+    },
+    "arriveTime": "2025-05-07 10:30:00",
+    "finishTime": "2025-05-07 16:00:00",
+    "status": {
+      "customerStatus": "completed",
+      "storeStatus": "rejected",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-07 08:02:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-07 09:02:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-07 10:02:00",
+          "action": "completed",
+          "by": "groomer"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-06"
   },
   {
     "bookingId": "bk_007",
-    "petId": "pet_007",
-    "date": "2025-05-21",
-    "time": "11:00",
-    "petName": "麻糬",
-    "petType": "dog",
-    "petBreed": "雪納瑞",
-    "customerName": "許小姐",
-    "customerPhone": "0920-333-444",
-    "service": "全身造型剪毛",
-    "customerStatus": "confirmed",
-    "storeStatus": "pending",
-    "note": "飼主指定熊熊頭造型",
-    "action": "詳情"
+    "createdAt": "2025-05-03 18:05:00",
+    "updatedAt": "2025-05-04 09:05:00",
+    "source": "網路預約",
+    "pet": {
+      "petId": "pet_007",
+      "petName": "雪球",
+      "petType": "other",
+      "petBreed": "天竺鼠",
+      "petGender": "female",
+      "petAge": 11,
+      "petWeight": 30.7,
+      "petNote": "對剪指甲比較敏感，需安撫",
+      "healthReminder": "請避免用香精",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_007",
+      "customerName": "王志偉",
+      "customerPhone": "0982056477",
+      "customerEmail": "otao@gmail.com",
+      "customerNote": ""
+    },
+    "date": "2025-05-03",
+    "time": "17:30",
+    "services": [
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_006",
+        "serviceName": "耳道清潔",
+        "price": 100
+      }
+    ],
+    "discount": {
+      "type": "會員折扣",
+      "amount": 34
+    },
+    "totalPrice": 300,
+    "finalPrice": 266,
+    "payment": {
+      "method": "信用卡",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_002",
+      "groomerName": "阿信"
+    },
+    "arriveTime": "2025-05-03 12:00:00",
+    "finishTime": "2025-05-03 17:00:00",
+    "status": {
+      "customerStatus": "rejected",
+      "storeStatus": "cancelled",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-03 18:05:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-03 19:05:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-03 20:15:00",
+          "action": "rejected",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-02"
   },
   {
     "bookingId": "bk_008",
-    "petId": "pet_008",
-    "date": "2025-05-26",
-    "time": "17:00",
-    "petName": "高高",
-    "petType": "cat",
-    "petBreed": "米克斯",
-    "customerName": "許小姐",
-    "customerPhone": "0920-333-444",
-    "service": "全身造型剪毛",
-    "customerStatus": "confirmed",
-    "storeStatus": "in_service",
-    "note": "飼主指定熊熊頭造型",
-    "action": "詳情"
+    "createdAt": "2025-05-07 13:59:00",
+    "updatedAt": "2025-05-09 10:59:00",
+    "source": "網路預約",
+    "pet": {
+      "petId": "pet_008",
+      "petName": "可樂",
+      "petType": "dog",
+      "petBreed": "臘腸狗",
+      "petGender": "male",
+      "petAge": 1,
+      "petWeight": 30.4,
+      "petNote": "不喜歡洗耳朵",
+      "healthReminder": "肚子常拉肚子",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_008",
+      "customerName": "王雅涵",
+      "customerPhone": "0978390517",
+      "customerEmail": "pdai@luo.net",
+      "customerNote": ""
+    },
+    "date": "2025-05-07",
+    "time": "14:00",
+    "services": [
+      {
+        "serviceId": "svc_002",
+        "serviceName": "剪毛",
+        "price": 400
+      },
+      {
+        "serviceId": "svc_005",
+        "serviceName": "深層護毛",
+        "price": 300
+      }
+    ],
+    "discount": {
+      "type": "會員折扣",
+      "amount": 34
+    },
+    "totalPrice": 700,
+    "finalPrice": 666,
+    "payment": {
+      "method": "現金",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_003",
+      "groomerName": "莉莉"
+    },
+    "arriveTime": "2025-05-07 09:00:00",
+    "finishTime": null,
+    "status": {
+      "customerStatus": "in_service",
+      "storeStatus": "in_service",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-07 13:59:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-07 14:59:00",
+          "action": "confirmed",
+          "by": "store"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-06"
   },
   {
     "bookingId": "bk_009",
-    "petId": "pet_005",
-    "date": "2025-05-26",
-    "time": "15:00",
-    "petName": "橘子",
-    "petType": "cat",
-    "petBreed": "米克斯",
-    "customerName": "李小姐",
-    "customerPhone": "0910-888-555",
-    "service": "美容剃毛",
-    "customerStatus": "waiting",
-    "storeStatus": "waiting",
-    "note": "容易緊張，請慢慢來",
-    "action": "詳情"
+    "createdAt": "2025-05-03 17:51:00",
+    "updatedAt": "2025-05-03 21:51:00",
+    "source": "LINE Bot",
+    "pet": {
+      "petId": "pet_009",
+      "petName": "椰子",
+      "petType": "dog",
+      "petBreed": "貴賓犬",
+      "petGender": "female",
+      "petAge": 9,
+      "petWeight": 7.2,
+      "petNote": "近期皮膚過敏，請使用低敏洗劑",
+      "healthReminder": "肚子常拉肚子",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_009",
+      "customerName": "馮威廷",
+      "customerPhone": "0983275579",
+      "customerEmail": "zengyong@hao.tw",
+      "customerNote": "請提前10分鐘通知"
+    },
+    "date": "2025-05-03",
+    "time": "11:00",
+    "services": [
+      {
+        "serviceId": "svc_006",
+        "serviceName": "耳道清潔",
+        "price": 100
+      },
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_001",
+        "serviceName": "洗澡",
+        "price": 300
+      }
+    ],
+    "discount": {
+      "type": "會員折扣",
+      "amount": 11
+    },
+    "totalPrice": 600,
+    "finalPrice": 589,
+    "payment": {
+      "method": "信用卡",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_005",
+      "groomerName": "莉莉"
+    },
+    "arriveTime": "2025-05-03 15:00:00",
+    "finishTime": "2025-05-03 18:30:00",
+    "status": {
+      "customerStatus": "confirmed",
+      "storeStatus": "confirmed",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-03 17:51:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-03 18:51:00",
+          "action": "confirmed",
+          "by": "store"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-02"
+  },
+  {
+    "bookingId": "bk_010",
+    "createdAt": "2025-05-02 17:26:00",
+    "updatedAt": "2025-05-03 12:26:00",
+    "source": "電話",
+    "pet": {
+      "petId": "pet_010",
+      "petName": "乖乖",
+      "petType": "other",
+      "petBreed": "兔子",
+      "petGender": "female",
+      "petAge": 2,
+      "petWeight": 2.2,
+      "petNote": "怕生人，請輕聲細語",
+      "healthReminder": "請避免用香精",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_010",
+      "customerName": "石淑貞",
+      "customerPhone": "0912515078",
+      "customerEmail": "ozeng@hotmail.com",
+      "customerNote": ""
+    },
+    "date": "2025-05-02",
+    "time": "13:00",
+    "services": [
+      {
+        "serviceId": "svc_005",
+        "serviceName": "深層護毛",
+        "price": 300
+      },
+      {
+        "serviceId": "svc_006",
+        "serviceName": "耳道清潔",
+        "price": 100
+      }
+    ],
+    "discount": {
+      "type": "無",
+      "amount": 0
+    },
+    "totalPrice": 400,
+    "finalPrice": 400,
+    "payment": {
+      "method": "現金",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_004",
+      "groomerName": "阿玲"
+    },
+    "arriveTime": "2025-05-02 14:30:00",
+    "finishTime": null,
+    "status": {
+      "customerStatus": "rejected",
+      "storeStatus": "waiting",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-02 17:26:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-02 18:26:00",
+          "action": "confirmed",
+          "by": "store"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-01"
+  },
+  {
+    "bookingId": "bk_011",
+    "createdAt": "2025-05-09 15:32:00",
+    "updatedAt": "2025-05-11 04:32:00",
+    "source": "LINE Bot",
+    "pet": {
+      "petId": "pet_011",
+      "petName": "豆豆",
+      "petType": "other",
+      "petBreed": "倉鼠",
+      "petGender": "male",
+      "petAge": 2,
+      "petWeight": 32.3,
+      "petNote": "不喜歡洗耳朵",
+      "healthReminder": "請使用低敏洗劑",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_011",
+      "customerName": "馮淑芬",
+      "customerPhone": "095418503",
+      "customerEmail": "jiangwei@gmail.com",
+      "customerNote": ""
+    },
+    "date": "2025-05-09",
+    "time": "17:30",
+    "services": [
+      {
+        "serviceId": "svc_003",
+        "serviceName": "指甲修剪",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_001",
+        "serviceName": "洗澡",
+        "price": 300
+      }
+    ],
+    "discount": {
+      "type": "會員折扣",
+      "amount": 34
+    },
+    "totalPrice": 700,
+    "finalPrice": 666,
+    "payment": {
+      "method": "現金",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_002",
+      "groomerName": "阿信"
+    },
+    "arriveTime": "2025-05-09 13:30:00",
+    "finishTime": "2025-05-09 16:00:00",
+    "status": {
+      "customerStatus": "completed",
+      "storeStatus": "completed",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-09 15:32:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-09 16:32:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-09 17:32:00",
+          "action": "completed",
+          "by": "groomer"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-08"
+  },
+  {
+    "bookingId": "bk_012",
+    "createdAt": "2025-05-06 18:32:00",
+    "updatedAt": "2025-05-08 04:32:00",
+    "source": "LINE Bot",
+    "pet": {
+      "petId": "pet_012",
+      "petName": "小白",
+      "petType": "other",
+      "petBreed": "兔子",
+      "petGender": "male",
+      "petAge": 9,
+      "petWeight": 8.7,
+      "petNote": "怕吹風機",
+      "healthReminder": "肚子常拉肚子",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_012",
+      "customerName": "徐傑克",
+      "customerPhone": "0926291837",
+      "customerEmail": "tao60@feng.com",
+      "customerNote": "請提前10分鐘通知"
+    },
+    "date": "2025-05-06",
+    "time": "13:00",
+    "services": [
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_006",
+        "serviceName": "耳道清潔",
+        "price": 100
+      }
+    ],
+    "discount": {
+      "type": "無",
+      "amount": 0
+    },
+    "totalPrice": 300,
+    "finalPrice": 300,
+    "payment": {
+      "method": "信用卡",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_004",
+      "groomerName": "小美"
+    },
+    "arriveTime": "2025-05-06 16:30:00",
+    "finishTime": null,
+    "status": {
+      "customerStatus": "pending",
+      "storeStatus": "confirmed",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-06 18:32:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-06 19:32:00",
+          "action": "confirmed",
+          "by": "store"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-05"
+  },
+  {
+    "bookingId": "bk_013",
+    "createdAt": "2025-05-07 14:07:00",
+    "updatedAt": "2025-05-09 03:07:00",
+    "source": "LINE Bot",
+    "pet": {
+      "petId": "pet_013",
+      "petName": "小黑",
+      "petType": "other",
+      "petBreed": "鸚鵡",
+      "petGender": "male",
+      "petAge": 8,
+      "petWeight": 21.8,
+      "petNote": "近期皮膚過敏，請使用低敏洗劑",
+      "healthReminder": "肚子常拉肚子",
+      "isAttack": true,
+      "attackNote": "不喜歡抓抱，會揮爪"
+    },
+    "customer": {
+      "customerId": "cus_013",
+      "customerName": "潘淑玲",
+      "customerPhone": "0966200659",
+      "customerEmail": "ghe@yahoo.com",
+      "customerNote": "下午2點前請勿聯絡"
+    },
+    "date": "2025-05-07",
+    "time": "12:30",
+    "services": [
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      }
+    ],
+    "discount": {
+      "type": "首購優惠",
+      "amount": 82
+    },
+    "totalPrice": 200,
+    "finalPrice": 118,
+    "payment": {
+      "method": "現金",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_003",
+      "groomerName": "莉莉"
+    },
+    "arriveTime": "2025-05-07 15:00:00",
+    "finishTime": "2025-05-07 12:00:00",
+    "status": {
+      "customerStatus": "completed",
+      "storeStatus": "rejected",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-07 14:07:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-07 15:07:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-07 16:07:00",
+          "action": "completed",
+          "by": "groomer"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-06"
+  },
+  {
+    "bookingId": "bk_014",
+    "createdAt": "2025-05-08 13:48:00",
+    "updatedAt": "2025-05-10 06:48:00",
+    "source": "電話",
+    "pet": {
+      "petId": "pet_014",
+      "petName": "Lucky",
+      "petType": "cat",
+      "petBreed": "美短",
+      "petGender": "male",
+      "petAge": 4,
+      "petWeight": 15.3,
+      "petNote": "健康狀況良好",
+      "healthReminder": "肚子常拉肚子",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_014",
+      "customerName": "馮佳慧",
+      "customerPhone": "0908092030",
+      "customerEmail": "ming92@yahoo.com",
+      "customerNote": ""
+    },
+    "date": "2025-05-08",
+    "time": "17:00",
+    "services": [
+      {
+        "serviceId": "svc_005",
+        "serviceName": "深層護毛",
+        "price": 300
+      },
+      {
+        "serviceId": "svc_006",
+        "serviceName": "耳道清潔",
+        "price": 100
+      },
+      {
+        "serviceId": "svc_002",
+        "serviceName": "剪毛",
+        "price": 400
+      }
+    ],
+    "discount": {
+      "type": "無",
+      "amount": 0
+    },
+    "totalPrice": 800,
+    "finalPrice": 800,
+    "payment": {
+      "method": "信用卡",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_002",
+      "groomerName": "阿玲"
+    },
+    "arriveTime": "2025-05-08 12:30:00",
+    "finishTime": "2025-05-08 14:00:00",
+    "status": {
+      "customerStatus": "completed",
+      "storeStatus": "cancelled",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-08 13:48:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-08 14:48:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-08 15:48:00",
+          "action": "completed",
+          "by": "groomer"
+        },
+        {
+          "timestamp": "2025-05-08 15:58:00",
+          "action": "completed",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-07"
+  },
+  {
+    "bookingId": "bk_015",
+    "createdAt": "2025-05-08 10:12:00",
+    "updatedAt": "2025-05-10 02:12:00",
+    "source": "LINE Bot",
+    "pet": {
+      "petId": "pet_015",
+      "petName": "毛毛",
+      "petType": "cat",
+      "petBreed": "波斯貓",
+      "petGender": "female",
+      "petAge": 7,
+      "petWeight": 7.0,
+      "petNote": "怕生人，請輕聲細語",
+      "healthReminder": "請避免用香精",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_015",
+      "customerName": "溫佳慧",
+      "customerPhone": "0944304177",
+      "customerEmail": "xiuying50@wei.net",
+      "customerNote": "請提前10分鐘通知"
+    },
+    "date": "2025-05-08",
+    "time": "17:00",
+    "services": [
+      {
+        "serviceId": "svc_006",
+        "serviceName": "耳道清潔",
+        "price": 100
+      },
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      }
+    ],
+    "discount": {
+      "type": "無",
+      "amount": 0
+    },
+    "totalPrice": 300,
+    "finalPrice": 300,
+    "payment": {
+      "method": "現金",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_003",
+      "groomerName": "阿信"
+    },
+    "arriveTime": "2025-05-08 15:30:00",
+    "finishTime": "2025-05-08 18:30:00",
+    "status": {
+      "customerStatus": "confirmed",
+      "storeStatus": "in_service",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-08 10:12:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-08 11:12:00",
+          "action": "confirmed",
+          "by": "store"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-07"
+  },
+  {
+    "bookingId": "bk_016",
+    "createdAt": "2025-05-10 17:43:00",
+    "updatedAt": "2025-05-11 05:43:00",
+    "source": "LINE Bot",
+    "pet": {
+      "petId": "pet_016",
+      "petName": "Mimi",
+      "petType": "dog",
+      "petBreed": "柴犬",
+      "petGender": "female",
+      "petAge": 12,
+      "petWeight": 21.3,
+      "petNote": "對陌生人會吠叫",
+      "healthReminder": "請避免用香精",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_016",
+      "customerName": "李惠雯",
+      "customerPhone": "0945428121",
+      "customerEmail": "taocai@cao.com",
+      "customerNote": "請用簡訊聯繫"
+    },
+    "date": "2025-05-10",
+    "time": "12:00",
+    "services": [
+      {
+        "serviceId": "svc_003",
+        "serviceName": "指甲修剪",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_005",
+        "serviceName": "深層護毛",
+        "price": 300
+      }
+    ],
+    "discount": {
+      "type": "無",
+      "amount": 0
+    },
+    "totalPrice": 500,
+    "finalPrice": 500,
+    "payment": {
+      "method": "現金",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_001",
+      "groomerName": "阿玲"
+    },
+    "arriveTime": "2025-05-10 14:30:00",
+    "finishTime": "2025-05-10 13:30:00",
+    "status": {
+      "customerStatus": "confirmed",
+      "storeStatus": "waiting",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-10 17:43:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-10 18:43:00",
+          "action": "confirmed",
+          "by": "store"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-09"
+  },
+  {
+    "bookingId": "bk_017",
+    "createdAt": "2025-05-02 14:32:00",
+    "updatedAt": "2025-05-03 00:32:00",
+    "source": "電話",
+    "pet": {
+      "petId": "pet_017",
+      "petName": "小王子",
+      "petType": "other",
+      "petBreed": "倉鼠",
+      "petGender": "male",
+      "petAge": 12,
+      "petWeight": 11.8,
+      "petNote": "怕生人，請輕聲細語",
+      "healthReminder": "",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_017",
+      "customerName": "吳雅芳",
+      "customerPhone": "0982360152",
+      "customerEmail": "minzeng@qiao.tw",
+      "customerNote": "請提前10分鐘通知"
+    },
+    "date": "2025-05-02",
+    "time": "14:30",
+    "services": [
+      {
+        "serviceId": "svc_001",
+        "serviceName": "洗澡",
+        "price": 300
+      }
+    ],
+    "discount": {
+      "type": "首購優惠",
+      "amount": 76
+    },
+    "totalPrice": 300,
+    "finalPrice": 224,
+    "payment": {
+      "method": "信用卡",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_003",
+      "groomerName": "莉莉"
+    },
+    "arriveTime": "2025-05-02 09:00:00",
+    "finishTime": null,
+    "status": {
+      "customerStatus": "cancelledByCustomer",
+      "storeStatus": "in_service",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-02 14:32:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-02 15:32:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-02 16:42:00",
+          "action": "cancelledByCustomer",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-01"
+  },
+  {
+    "bookingId": "bk_018",
+    "createdAt": "2025-05-01 09:14:00",
+    "updatedAt": "2025-05-02 23:14:00",
+    "source": "LINE Bot",
+    "pet": {
+      "petId": "pet_018",
+      "petName": "小公主",
+      "petType": "other",
+      "petBreed": "鸚鵡",
+      "petGender": "female",
+      "petAge": 7,
+      "petWeight": 17.1,
+      "petNote": "近期皮膚過敏，請使用低敏洗劑",
+      "healthReminder": "請避免用香精",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_018",
+      "customerName": "張怡伶",
+      "customerPhone": "0995989624",
+      "customerEmail": "liwen@yahoo.com",
+      "customerNote": "下午2點前請勿聯絡"
+    },
+    "date": "2025-05-01",
+    "time": "13:00",
+    "services": [
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_004",
+        "serviceName": "造型修剪",
+        "price": 800
+      }
+    ],
+    "discount": {
+      "type": "首購優惠",
+      "amount": 32
+    },
+    "totalPrice": 1000,
+    "finalPrice": 968,
+    "payment": {
+      "method": "現金",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_003",
+      "groomerName": "阿豪"
+    },
+    "arriveTime": "2025-05-01 15:30:00",
+    "finishTime": "2025-05-01 17:00:00",
+    "status": {
+      "customerStatus": "rejected",
+      "storeStatus": "cancelledByCustomer",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-01 09:14:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-01 10:14:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-01 11:24:00",
+          "action": "rejected",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-05-31"
+  },
+  {
+    "bookingId": "bk_019",
+    "createdAt": "2025-05-01 10:17:00",
+    "updatedAt": "2025-05-01 22:17:00",
+    "source": "網路預約",
+    "pet": {
+      "petId": "pet_019",
+      "petName": "阿金",
+      "petType": "other",
+      "petBreed": "鸚鵡",
+      "petGender": "female",
+      "petAge": 11,
+      "petWeight": 5.6,
+      "petNote": "不喜歡洗耳朵",
+      "healthReminder": "",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_019",
+      "customerName": "劉俊傑",
+      "customerPhone": "0967782882",
+      "customerEmail": "gliu@hotmail.com",
+      "customerNote": "下午2點前請勿聯絡"
+    },
+    "date": "2025-05-01",
+    "time": "10:30",
+    "services": [
+      {
+        "serviceId": "svc_001",
+        "serviceName": "洗澡",
+        "price": 300
+      },
+      {
+        "serviceId": "svc_002",
+        "serviceName": "剪毛",
+        "price": 400
+      },
+      {
+        "serviceId": "svc_003",
+        "serviceName": "指甲修剪",
+        "price": 200
+      }
+    ],
+    "discount": {
+      "type": "會員折扣",
+      "amount": 31
+    },
+    "totalPrice": 900,
+    "finalPrice": 869,
+    "payment": {
+      "method": "現金",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_005",
+      "groomerName": "阿信"
+    },
+    "arriveTime": "2025-05-01 10:00:00",
+    "finishTime": "2025-05-01 14:30:00",
+    "status": {
+      "customerStatus": "cancelled",
+      "storeStatus": "cancelled",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-01 10:17:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-01 11:17:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-01 12:27:00",
+          "action": "cancelled",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-05-31"
+  },
+  {
+    "bookingId": "bk_020",
+    "createdAt": "2025-05-09 18:28:00",
+    "updatedAt": "2025-05-11 10:28:00",
+    "source": "網路預約",
+    "pet": {
+      "petId": "pet_020",
+      "petName": "皮皮",
+      "petType": "dog",
+      "petBreed": "柴犬",
+      "petGender": "male",
+      "petAge": 2,
+      "petWeight": 9.2,
+      "petNote": "近期皮膚過敏，請使用低敏洗劑",
+      "healthReminder": "",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_020",
+      "customerName": "鄒詩婷",
+      "customerPhone": "0943891575",
+      "customerEmail": "ilai@gmail.com",
+      "customerNote": "下午2點前請勿聯絡"
+    },
+    "date": "2025-05-09",
+    "time": "12:30",
+    "services": [
+      {
+        "serviceId": "svc_005",
+        "serviceName": "深層護毛",
+        "price": 300
+      }
+    ],
+    "discount": {
+      "type": "首購優惠",
+      "amount": 97
+    },
+    "totalPrice": 300,
+    "finalPrice": 203,
+    "payment": {
+      "method": "現金",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_001",
+      "groomerName": "阿信"
+    },
+    "arriveTime": "2025-05-09 11:30:00",
+    "finishTime": "2025-05-09 15:00:00",
+    "status": {
+      "customerStatus": "completed",
+      "storeStatus": "pending",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-09 18:28:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-09 19:28:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-09 20:28:00",
+          "action": "completed",
+          "by": "groomer"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-08"
+  },
+  {
+    "bookingId": "bk_021",
+    "createdAt": "2025-05-05 14:03:00",
+    "updatedAt": "2025-05-05 23:03:00",
+    "source": "LINE Bot",
+    "pet": {
+      "petId": "pet_021",
+      "petName": "咕咕",
+      "petType": "dog",
+      "petBreed": "臘腸狗",
+      "petGender": "female",
+      "petAge": 5,
+      "petWeight": 32.6,
+      "petNote": "健康狀況良好",
+      "healthReminder": "請避免用香精",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_021",
+      "customerName": "李宜庭",
+      "customerPhone": "0963232571",
+      "customerEmail": "mingmao@yahoo.com",
+      "customerNote": "請用簡訊聯繫"
+    },
+    "date": "2025-05-05",
+    "time": "17:00",
+    "services": [
+      {
+        "serviceId": "svc_006",
+        "serviceName": "耳道清潔",
+        "price": 100
+      },
+      {
+        "serviceId": "svc_004",
+        "serviceName": "造型修剪",
+        "price": 800
+      },
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      }
+    ],
+    "discount": {
+      "type": "會員折扣",
+      "amount": 39
+    },
+    "totalPrice": 1100,
+    "finalPrice": 1061,
+    "payment": {
+      "method": "現金",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_002",
+      "groomerName": "莉莉"
+    },
+    "arriveTime": "2025-05-05 16:00:00",
+    "finishTime": "2025-05-05 16:00:00",
+    "status": {
+      "customerStatus": "completed",
+      "storeStatus": "waiting",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-05 14:03:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-05 15:03:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-05 16:03:00",
+          "action": "completed",
+          "by": "groomer"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-04"
+  },
+  {
+    "bookingId": "bk_022",
+    "createdAt": "2025-05-09 12:02:00",
+    "updatedAt": "2025-05-10 15:02:00",
+    "source": "LINE Bot",
+    "pet": {
+      "petId": "pet_022",
+      "petName": "小胖",
+      "petType": "other",
+      "petBreed": "倉鼠",
+      "petGender": "female",
+      "petAge": 9,
+      "petWeight": 31.0,
+      "petNote": "",
+      "healthReminder": "",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_022",
+      "customerName": "賴庭瑋",
+      "customerPhone": "0998834125",
+      "customerEmail": "juantian@wu.tw",
+      "customerNote": "下午2點前請勿聯絡"
+    },
+    "date": "2025-05-09",
+    "time": "17:00",
+    "services": [
+      {
+        "serviceId": "svc_006",
+        "serviceName": "耳道清潔",
+        "price": 100
+      }
+    ],
+    "discount": {
+      "type": "無",
+      "amount": 0
+    },
+    "totalPrice": 100,
+    "finalPrice": 100,
+    "payment": {
+      "method": "現金",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_002",
+      "groomerName": "阿玲"
+    },
+    "arriveTime": "2025-05-09 13:30:00",
+    "finishTime": null,
+    "status": {
+      "customerStatus": "cancelled",
+      "storeStatus": "completed",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-09 12:02:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-09 13:02:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-09 14:02:00",
+          "action": "completed",
+          "by": "groomer"
+        },
+        {
+          "timestamp": "2025-05-09 14:12:00",
+          "action": "cancelled",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": []
+  },
+  {
+    "bookingId": "bk_023",
+    "createdAt": "2025-05-07 18:45:00",
+    "updatedAt": "2025-05-08 15:45:00",
+    "source": "現場",
+    "pet": {
+      "petId": "pet_023",
+      "petName": "寶寶",
+      "petType": "dog",
+      "petBreed": "臘腸狗",
+      "petGender": "female",
+      "petAge": 7,
+      "petWeight": 5.8,
+      "petNote": "怕生人，請輕聲細語",
+      "healthReminder": "",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_023",
+      "customerName": "吳依婷",
+      "customerPhone": "0911509440",
+      "customerEmail": "leimin@gmail.com",
+      "customerNote": ""
+    },
+    "date": "2025-05-07",
+    "time": "12:00",
+    "services": [
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_001",
+        "serviceName": "洗澡",
+        "price": 300
+      }
+    ],
+    "discount": {
+      "type": "會員折扣",
+      "amount": 40
+    },
+    "totalPrice": 500,
+    "finalPrice": 460,
+    "payment": {
+      "method": "現金",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_001",
+      "groomerName": "阿玲"
+    },
+    "arriveTime": "2025-05-07 11:00:00",
+    "finishTime": "2025-05-07 12:00:00",
+    "status": {
+      "customerStatus": "cancelled",
+      "storeStatus": "cancelledByCustomer",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-07 18:45:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-07 19:45:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-07 20:55:00",
+          "action": "cancelled",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-06"
+  },
+  {
+    "bookingId": "bk_024",
+    "createdAt": "2025-05-05 14:58:00",
+    "updatedAt": "2025-05-06 19:58:00",
+    "source": "電話",
+    "pet": {
+      "petId": "pet_024",
+      "petName": "橘子",
+      "petType": "cat",
+      "petBreed": "美短",
+      "petGender": "male",
+      "petAge": 7,
+      "petWeight": 9.8,
+      "petNote": "不喜歡洗耳朵",
+      "healthReminder": "",
+      "isAttack": true,
+      "attackNote": "摸耳朵會兇"
+    },
+    "customer": {
+      "customerId": "cus_024",
+      "customerName": "夏琬婷",
+      "customerPhone": "0988937542",
+      "customerEmail": "xliu@hotmail.com",
+      "customerNote": ""
+    },
+    "date": "2025-05-05",
+    "time": "10:30",
+    "services": [
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      }
+    ],
+    "discount": {
+      "type": "首購優惠",
+      "amount": 95
+    },
+    "totalPrice": 200,
+    "finalPrice": 105,
+    "payment": {
+      "method": "現金",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_002",
+      "groomerName": "莉莉"
+    },
+    "arriveTime": "2025-05-05 13:00:00",
+    "finishTime": "2025-05-05 16:30:00",
+    "status": {
+      "customerStatus": "cancelled",
+      "storeStatus": "completed",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-05 14:58:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-05 15:58:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-05 16:58:00",
+          "action": "completed",
+          "by": "groomer"
+        },
+        {
+          "timestamp": "2025-05-05 17:08:00",
+          "action": "cancelled",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-04"
+  },
+  {
+    "bookingId": "bk_025",
+    "createdAt": "2025-05-07 10:22:00",
+    "updatedAt": "2025-05-08 03:22:00",
+    "source": "電話",
+    "pet": {
+      "petId": "pet_025",
+      "petName": "小圓",
+      "petType": "dog",
+      "petBreed": "柴犬",
+      "petGender": "male",
+      "petAge": 7,
+      "petWeight": 17.6,
+      "petNote": "近期皮膚過敏，請使用低敏洗劑",
+      "healthReminder": "請避免用香精",
+      "isAttack": true,
+      "attackNote": "遇吹風機會撲咬"
+    },
+    "customer": {
+      "customerId": "cus_025",
+      "customerName": "彭志宏",
+      "customerPhone": "0932565934",
+      "customerEmail": "junxie@gmail.com",
+      "customerNote": ""
+    },
+    "date": "2025-05-07",
+    "time": "16:00",
+    "services": [
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      }
+    ],
+    "discount": {
+      "type": "首購優惠",
+      "amount": 99
+    },
+    "totalPrice": 200,
+    "finalPrice": 101,
+    "payment": {
+      "method": "信用卡",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_003",
+      "groomerName": "小美"
+    },
+    "arriveTime": "2025-05-07 10:30:00",
+    "finishTime": "2025-05-07 16:00:00",
+    "status": {
+      "customerStatus": "waiting",
+      "storeStatus": "cancelledByCustomer",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-07 10:22:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-07 11:22:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-07 12:32:00",
+          "action": "waiting",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-06"
+  },
+  {
+    "bookingId": "bk_026",
+    "createdAt": "2025-05-05 12:05:00",
+    "updatedAt": "2025-05-06 21:05:00",
+    "source": "LINE Bot",
+    "pet": {
+      "petId": "pet_026",
+      "petName": "皮蛋",
+      "petType": "cat",
+      "petBreed": "橘貓",
+      "petGender": "male",
+      "petAge": 2,
+      "petWeight": 39.5,
+      "petNote": "",
+      "healthReminder": "有皮膚過敏史",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_026",
+      "customerName": "唐怡安",
+      "customerPhone": "0989984277",
+      "customerEmail": "xiuyingding@he.tw",
+      "customerNote": ""
+    },
+    "date": "2025-05-05",
+    "time": "15:30",
+    "services": [
+      {
+        "serviceId": "svc_002",
+        "serviceName": "剪毛",
+        "price": 400
+      }
+    ],
+    "discount": {
+      "type": "無",
+      "amount": 0
+    },
+    "totalPrice": 400,
+    "finalPrice": 400,
+    "payment": {
+      "method": "信用卡",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_001",
+      "groomerName": "阿玲"
+    },
+    "arriveTime": "2025-05-05 15:30:00",
+    "finishTime": "2025-05-05 12:30:00",
+    "status": {
+      "customerStatus": "completed",
+      "storeStatus": "cancelled",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-05 12:05:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-05 13:05:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-05 14:05:00",
+          "action": "completed",
+          "by": "groomer"
+        },
+        {
+          "timestamp": "2025-05-05 14:15:00",
+          "action": "completed",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-04"
+  },
+  {
+    "bookingId": "bk_027",
+    "createdAt": "2025-05-07 17:42:00",
+    "updatedAt": "2025-05-08 12:42:00",
+    "source": "電話",
+    "pet": {
+      "petId": "pet_027",
+      "petName": "泡芙",
+      "petType": "dog",
+      "petBreed": "哈士奇",
+      "petGender": "female",
+      "petAge": 10,
+      "petWeight": 26.5,
+      "petNote": "怕生人，請輕聲細語",
+      "healthReminder": "請避免用香精",
+      "isAttack": true,
+      "attackNote": "防衛性強，勿直視"
+    },
+    "customer": {
+      "customerId": "cus_027",
+      "customerName": "徐怡君",
+      "customerPhone": "0941346430",
+      "customerEmail": "xiangfang@gmail.com",
+      "customerNote": ""
+    },
+    "date": "2025-05-07",
+    "time": "10:30",
+    "services": [
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_002",
+        "serviceName": "剪毛",
+        "price": 400
+      },
+      {
+        "serviceId": "svc_005",
+        "serviceName": "深層護毛",
+        "price": 300
+      }
+    ],
+    "discount": {
+      "type": "會員折扣",
+      "amount": 57
+    },
+    "totalPrice": 900,
+    "finalPrice": 843,
+    "payment": {
+      "method": "信用卡",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_002",
+      "groomerName": "阿玲"
+    },
+    "arriveTime": "2025-05-07 11:00:00",
+    "finishTime": "2025-05-07 16:30:00",
+    "status": {
+      "customerStatus": "completed",
+      "storeStatus": "waiting",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-07 17:42:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-07 18:42:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-07 19:42:00",
+          "action": "completed",
+          "by": "groomer"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-06"
+  },
+  {
+    "bookingId": "bk_028",
+    "createdAt": "2025-05-06 16:00:00",
+    "updatedAt": "2025-05-07 01:00:00",
+    "source": "現場",
+    "pet": {
+      "petId": "pet_028",
+      "petName": "布丁",
+      "petType": "dog",
+      "petBreed": "貴賓犬",
+      "petGender": "male",
+      "petAge": 11,
+      "petWeight": 20.4,
+      "petNote": "不喜歡洗耳朵",
+      "healthReminder": "",
+      "isAttack": true,
+      "attackNote": "摸耳朵會兇"
+    },
+    "customer": {
+      "customerId": "cus_028",
+      "customerName": "馬冠廷",
+      "customerPhone": "0952530585",
+      "customerEmail": "caina@fu.net",
+      "customerNote": "請用簡訊聯繫"
+    },
+    "date": "2025-05-06",
+    "time": "15:30",
+    "services": [
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      }
+    ],
+    "discount": {
+      "type": "首購優惠",
+      "amount": 80
+    },
+    "totalPrice": 200,
+    "finalPrice": 120,
+    "payment": {
+      "method": "信用卡",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_002",
+      "groomerName": "阿信"
+    },
+    "arriveTime": "2025-05-06 11:30:00",
+    "finishTime": "2025-05-06 18:30:00",
+    "status": {
+      "customerStatus": "pending",
+      "storeStatus": "in_service",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-06 16:00:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-06 17:00:00",
+          "action": "confirmed",
+          "by": "store"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-05"
+  },
+  {
+    "bookingId": "bk_029",
+    "createdAt": "2025-05-08 14:08:00",
+    "updatedAt": "2025-05-10 05:08:00",
+    "source": "網路預約",
+    "pet": {
+      "petId": "pet_029",
+      "petName": "小寶",
+      "petType": "cat",
+      "petBreed": "布偶貓",
+      "petGender": "male",
+      "petAge": 2,
+      "petWeight": 15.9,
+      "petNote": "對陌生人會吠叫",
+      "healthReminder": "",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_029",
+      "customerName": "徐美琪",
+      "customerPhone": "092131173",
+      "customerEmail": "jun67@gmail.com",
+      "customerNote": "請用簡訊聯繫"
+    },
+    "date": "2025-05-08",
+    "time": "17:00",
+    "services": [
+      {
+        "serviceId": "svc_001",
+        "serviceName": "洗澡",
+        "price": 300
+      },
+      {
+        "serviceId": "svc_004",
+        "serviceName": "造型修剪",
+        "price": 800
+      },
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      }
+    ],
+    "discount": {
+      "type": "無",
+      "amount": 0
+    },
+    "totalPrice": 1300,
+    "finalPrice": 1300,
+    "payment": {
+      "method": "信用卡",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_003",
+      "groomerName": "莉莉"
+    },
+    "arriveTime": "2025-05-08 13:30:00",
+    "finishTime": "2025-05-08 13:30:00",
+    "status": {
+      "customerStatus": "in_service",
+      "storeStatus": "rejected",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-08 14:08:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-08 15:08:00",
+          "action": "confirmed",
+          "by": "store"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-07"
+  },
+  {
+    "bookingId": "bk_030",
+    "createdAt": "2025-05-07 17:36:00",
+    "updatedAt": "2025-05-08 07:36:00",
+    "source": "網路預約",
+    "pet": {
+      "petId": "pet_030",
+      "petName": "阿福",
+      "petType": "dog",
+      "petBreed": "柴犬",
+      "petGender": "male",
+      "petAge": 1,
+      "petWeight": 37.4,
+      "petNote": "",
+      "healthReminder": "肚子常拉肚子",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_030",
+      "customerName": "宮淑芬",
+      "customerPhone": "0984082349",
+      "customerEmail": "jun59@gmail.com",
+      "customerNote": ""
+    },
+    "date": "2025-05-07",
+    "time": "10:00",
+    "services": [
+      {
+        "serviceId": "svc_007",
+        "serviceName": "去除糞球",
+        "price": 200
+      },
+      {
+        "serviceId": "svc_005",
+        "serviceName": "深層護毛",
+        "price": 300
+      },
+      {
+        "serviceId": "svc_003",
+        "serviceName": "指甲修剪",
+        "price": 200
+      }
+    ],
+    "discount": {
+      "type": "無",
+      "amount": 0
+    },
+    "totalPrice": 700,
+    "finalPrice": 700,
+    "payment": {
+      "method": "信用卡",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_001",
+      "groomerName": "小美"
+    },
+    "arriveTime": "2025-05-07 09:30:00",
+    "finishTime": "2025-05-07 15:00:00",
+    "status": {
+      "customerStatus": "cancelledByCustomer",
+      "storeStatus": "completed",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-07 17:36:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-07 18:36:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-07 19:36:00",
+          "action": "completed",
+          "by": "groomer"
+        },
+        {
+          "timestamp": "2025-05-07 19:46:00",
+          "action": "cancelledByCustomer",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-06"
+  },
+  {
+    "bookingId": "bk_031",
+    "createdAt": "2025-05-10 10:28:00",
+    "updatedAt": "2025-05-11 12:28:00",
+    "source": "網路預約",
+    "pet": {
+      "petId": "pet_031",
+      "petName": "橡皮",
+      "petType": "dog",
+      "petBreed": "哈士奇",
+      "petGender": "male",
+      "petAge": 5,
+      "petWeight": 4.5,
+      "petNote": "不喜歡洗耳朵",
+      "healthReminder": "請避免用香精",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_031",
+      "customerName": "杜淑芬",
+      "customerPhone": "0956464766",
+      "customerEmail": "kangxiulan@hotmail.com",
+      "customerNote": "下午2點前請勿聯絡"
+    },
+    "date": "2025-05-10",
+    "time": "11:30",
+    "services": [
+      {
+        "serviceId": "svc_005",
+        "serviceName": "深層護毛",
+        "price": 300
+      }
+    ],
+    "discount": {
+      "type": "會員折扣",
+      "amount": 17
+    },
+    "totalPrice": 300,
+    "finalPrice": 283,
+    "payment": {
+      "method": "信用卡",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_003",
+      "groomerName": "阿玲"
+    },
+    "arriveTime": "2025-05-10 15:30:00",
+    "finishTime": "2025-05-10 13:00:00",
+    "status": {
+      "customerStatus": "waiting",
+      "storeStatus": "confirmed",
+      "cancelReason": "",
+      "history": [
+        {
+          "timestamp": "2025-05-10 10:28:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-10 11:28:00",
+          "action": "confirmed",
+          "by": "store"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-09"
+  },
+  {
+    "bookingId": "bk_032",
+    "createdAt": "2025-05-08 16:06:00",
+    "updatedAt": "2025-05-09 08:06:00",
+    "source": "現場",
+    "pet": {
+      "petId": "pet_032",
+      "petName": "雪寶",
+      "petType": "dog",
+      "petBreed": "臘腸狗",
+      "petGender": "male",
+      "petAge": 9,
+      "petWeight": 15.7,
+      "petNote": "對陌生人會吠叫",
+      "healthReminder": "肚子常拉肚子",
+      "isAttack": false,
+      "attackNote": ""
+    },
+    "customer": {
+      "customerId": "cus_032",
+      "customerName": "余佳玲",
+      "customerPhone": "0937956382",
+      "customerEmail": "heyang@yahoo.com",
+      "customerNote": "請用簡訊聯繫"
+    },
+    "date": "2025-05-08",
+    "time": "10:00",
+    "services": [
+      {
+        "serviceId": "svc_005",
+        "serviceName": "深層護毛",
+        "price": 300
+      },
+      {
+        "serviceId": "svc_003",
+        "serviceName": "指甲修剪",
+        "price": 200
+      }
+    ],
+    "discount": {
+      "type": "無",
+      "amount": 0
+    },
+    "totalPrice": 500,
+    "finalPrice": 500,
+    "payment": {
+      "method": "信用卡",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_003",
+      "groomerName": "小美"
+    },
+    "arriveTime": "2025-05-08 15:30:00",
+    "finishTime": "2025-05-08 12:30:00",
+    "status": {
+      "customerStatus": "cancelled",
+      "storeStatus": "waiting",
+      "cancelReason": "臨時有事",
+      "history": [
+        {
+          "timestamp": "2025-05-08 16:06:00",
+          "action": "created",
+          "by": "customer"
+        },
+        {
+          "timestamp": "2025-05-08 17:06:00",
+          "action": "confirmed",
+          "by": "store"
+        },
+        {
+          "timestamp": "2025-05-08 18:16:00",
+          "action": "cancelled",
+          "by": "customer",
+          "note": "臨時有事"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-07"
   }
 ]

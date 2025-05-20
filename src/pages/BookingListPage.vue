@@ -39,9 +39,9 @@ const columns: ITableColumns[] = [
   { name: 'petName', label: '寵物姓名', field: 'petName', align: 'left' },
   { name: 'customerName', label: '飼主姓名', field: 'customerName', align: 'left' },
   { name: 'customerPhone', label: '聯絡電話', field: 'customerPhone', align: 'left' },
-  { name: 'customerStatus', label: '顧客狀態', field: 'status', align: 'center' },
   { name: 'bookingId', label: '訂單編號', field: 'bookingId', align: 'left' },
   { name: 'action', label: '操作', field: 'action', align: 'center' },
+  { name: 'customerStatus', label: '顧客狀態', field: 'status', align: 'center' },
 ];
 
 function onSearch(form: IBookingForm) {

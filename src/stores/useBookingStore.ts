@@ -22,10 +22,12 @@ export const useBookingStore = defineStore('booking', {
     loadFromJson() {
       const formatted = bookingsRaw.map((item) => ({
         ...item,
-        customerStatus: isBookingStatus(item.customerStatus)
-          ? item.customerStatus
+        customerStatus: isBookingStatus(item.status.customerStatus)
+          ? item.status.customerStatus
           : BookingStatus.PENDING,
-        storeStatus: isBookingStatus(item.storeStatus) ? item.storeStatus : BookingStatus.PENDING,
+        storeStatus: isBookingStatus(item.status.storeStatus)
+          ? item.status.storeStatus
+          : BookingStatus.PENDING,
       })) as IBooking[];
       this.originList = formatted;
       this.list = formatted;
@@ -38,14 +40,14 @@ export const useBookingStore = defineStore('booking', {
     updateCustomerStatus(id: string, status: BookingStatus) {
       const idx = this.list.findIndex((b) => b.bookingId === id);
       if (idx !== -1 && this.list[idx]) {
-        this.list[idx].customerStatus = status;
+        this.list[idx].status.customerStatus = status;
       }
     },
     // 更新店家狀態
     updateStoreStatus(id: string, status: BookingStatus) {
       const idx = this.list.findIndex((b) => b.bookingId === id);
       if (idx !== -1 && this.list[idx]) {
-        this.list[idx].storeStatus = status;
+        this.list[idx].status.storeStatus = status;
       }
     },
     // 移除預約
@@ -65,21 +67,23 @@ export const useBookingStore = defineStore('booking', {
             '查詢條件:',
             query.storeStatus,
             'item.storeStatus:',
-            item.storeStatus,
+            item.status.storeStatus,
             '比對結果:',
-            query.storeStatus.includes(item.storeStatus),
+            query.storeStatus.includes(item.status.storeStatus),
           );
-          if (!query.storeStatus.includes(item.storeStatus)) return false;
+          if (!query.storeStatus.includes(item.status.storeStatus)) return false;
         }
 
         // 電話（模糊查詢）
-        if (query.customerPhone && !item.customerPhone.includes(query.customerPhone)) return false;
+        if (query.customerPhone && !item.customer.customerPhone.includes(query.customerPhone))
+          return false;
 
         // 訂單編號（模糊查詢）
         if (query.orderId && !item.bookingId.includes(query.orderId)) return false;
 
         // 狀態（多選 AND 查詢）
-        if (query.storeStatus.length && !query.storeStatus.includes(item.storeStatus)) return false;
+        if (query.storeStatus.length && !query.storeStatus.includes(item.status.storeStatus))
+          return false;
 
         // 日期區間/單日查詢
         if (start && end) {
