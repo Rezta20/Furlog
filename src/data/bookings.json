@@ -72,13 +72,13 @@
         {
           "timestamp": "2025-05-01 13:44:00",
           "action": "cancelledByCustomer",
-          "by": "customer",
-          "note": "臨時有事"
+          "by": "customer"
         }
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-05-31"
+    "nextBookingSuggestion": "2025-05-31",
+    "note": "請提前10分鐘通知"
   },
   {
     "bookingId": "bk_002",
@@ -158,7 +158,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-05"
+    "nextBookingSuggestion": "2025-06-05",
+    "note": "需要注意洗潔劑品牌 只能使用 A 牌子"
   },
   {
     "bookingId": "bk_003",
@@ -233,7 +234,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-06"
+    "nextBookingSuggestion": "2025-06-06",
+    "note": ""
   },
   {
     "bookingId": "bk_004",
@@ -319,7 +321,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-05"
+    "nextBookingSuggestion": "2025-06-05",
+    "note": "請用簡訊聯繫"
   },
   {
     "bookingId": "bk_005",
@@ -405,7 +408,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-04"
+    "nextBookingSuggestion": "2025-06-04",
+    "note": "需要注意洗潔劑品牌 只能使用 A 牌子"
   },
   {
     "bookingId": "bk_006",
@@ -490,7 +494,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-06"
+    "nextBookingSuggestion": "2025-06-06",
+    "note": ""
   },
   {
     "bookingId": "bk_007",
@@ -571,7 +576,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-02"
+    "nextBookingSuggestion": "2025-06-02",
+    "note": ""
   },
   {
     "bookingId": "bk_008",
@@ -646,7 +652,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-06"
+    "nextBookingSuggestion": "2025-06-06",
+    "note": ""
   },
   {
     "bookingId": "bk_009",
@@ -726,7 +733,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-02"
+    "nextBookingSuggestion": "2025-06-02",
+    "note": ""
   },
   {
     "bookingId": "bk_010",
@@ -801,7 +809,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-01"
+    "nextBookingSuggestion": "2025-06-01",
+    "note": ""
   },
   {
     "bookingId": "bk_011",
@@ -886,7 +895,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-08"
+    "nextBookingSuggestion": "2025-06-08",
+    "note": ""
   },
   {
     "bookingId": "bk_012",
@@ -961,7 +971,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-05"
+    "nextBookingSuggestion": "2025-06-05",
+    "note": ""
   },
   {
     "bookingId": "bk_013",
@@ -1036,7 +1047,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-06"
+    "nextBookingSuggestion": "2025-06-06",
+    "note": ""
   },
   {
     "bookingId": "bk_014",
@@ -1127,7 +1139,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-07"
+    "nextBookingSuggestion": "2025-06-07",
+    "note": ""
   },
   {
     "bookingId": "bk_015",
@@ -1202,7 +1215,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-07"
+    "nextBookingSuggestion": "2025-06-07",
+    "note": ""
   },
   {
     "bookingId": "bk_016",
@@ -1277,7 +1291,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-09"
+    "nextBookingSuggestion": "2025-06-09",
+    "note": ""
   },
   {
     "bookingId": "bk_017",
@@ -1353,7 +1368,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-01"
+    "nextBookingSuggestion": "2025-06-01",
+    "note": ""
   },
   {
     "bookingId": "bk_018",
@@ -1434,7 +1450,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-05-31"
+    "nextBookingSuggestion": "2025-05-31",
+    "note": ""
   },
   {
     "bookingId": "bk_019",
@@ -1520,7 +1537,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-05-31"
+    "nextBookingSuggestion": "2025-05-31",
+    "note": ""
   },
   {
     "bookingId": "bk_020",
@@ -1595,7 +1613,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-08"
+    "nextBookingSuggestion": "2025-06-08",
+    "note": ""
   },
   {
     "bookingId": "bk_021",
@@ -1680,7 +1699,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-04"
+    "nextBookingSuggestion": "2025-06-04",
+    "note": ""
   },
   {
     "bookingId": "bk_022",
@@ -1760,7 +1780,9 @@
         }
       ]
     },
-    "photoRecords": []
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-06",
+    "note": ""
   },
   {
     "bookingId": "bk_023",
@@ -1841,7 +1863,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-06"
+    "nextBookingSuggestion": "2025-06-06",
+    "note": ""
   },
   {
     "bookingId": "bk_024",
@@ -1922,7 +1945,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-04"
+    "nextBookingSuggestion": "2025-06-04",
+    "note": ""
   },
   {
     "bookingId": "bk_025",
@@ -1998,7 +2022,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-06"
+    "nextBookingSuggestion": "2025-06-06",
+    "note": ""
   },
   {
     "bookingId": "bk_026",
@@ -2079,7 +2104,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-04"
+    "nextBookingSuggestion": "2025-06-04",
+    "note": ""
   },
   {
     "bookingId": "bk_027",
@@ -2164,7 +2190,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-06"
+    "nextBookingSuggestion": "2025-06-06",
+    "note": ""
   },
   {
     "bookingId": "bk_028",
@@ -2234,7 +2261,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-05"
+    "nextBookingSuggestion": "2025-06-05",
+    "note": ""
   },
   {
     "bookingId": "bk_029",
@@ -2314,7 +2342,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-07"
+    "nextBookingSuggestion": "2025-06-07",
+    "note": ""
   },
   {
     "bookingId": "bk_030",
@@ -2405,7 +2434,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-06"
+    "nextBookingSuggestion": "2025-06-06",
+    "note": ""
   },
   {
     "bookingId": "bk_031",
@@ -2475,7 +2505,8 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-09"
+    "nextBookingSuggestion": "2025-06-09",
+    "note": ""
   },
   {
     "bookingId": "bk_032",
@@ -2556,6 +2587,7 @@
       ]
     },
     "photoRecords": [],
-    "nextBookingSuggestion": "2025-06-07"
+    "nextBookingSuggestion": "2025-06-07",
+    "note": ""
   }
 ]

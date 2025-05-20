@@ -1,20 +1,20 @@
 <template>
   <q-page padding>
     <q-card class="q-pa-lg q-mx-auto">
-      <q-card-section class="flex justify-between">
-        <div class="text-h6">訂單詳情</div>
-        <div>
-          <q-item-label>目前狀態</q-item-label>
-          <q-badge
-            v-if="booking"
-            :color="getStatusColor(booking.status.customerStatus)"
-            class="q-mr-xs"
-          >
-            顧客：{{ booking?.status.customerStatus }}
-          </q-badge>
-          <q-badge v-if="booking" :color="getStatusColor(booking.status.storeStatus)">
-            店家：{{ booking?.status.storeStatus }}
-          </q-badge>
+      <q-card-section class="row">
+        <div class="col-8">
+          <div class="text-h6">訂單詳情</div>
+        </div>
+        <div class="col-4 flex justify-end">
+          <q-btn label="編輯" type="submit" color="primary" class="q-mr-md" />
+          <q-btn
+            :label="booking?.status.storeStatus === 'cancelled' ? '已取消' : '取消'"
+            :disable="booking?.status.storeStatus === 'cancelled'"
+            type="submit"
+            color="secondary"
+            outline
+            @click="cancelledBooking()"
+          />
         </div>
       </q-card-section>
       <q-separator />
@@ -86,6 +86,16 @@
                       outlined
                     />
                   </div>
+                  <q-input
+                    v-if="booking"
+                    label="訂單備註"
+                    v-model="booking.note"
+                    :readonly="readonly"
+                    type="textarea"
+                    class="col-12"
+                    autogrow
+                    outlined
+                  />
                 </div>
               </q-card-section>
             </q-card>
@@ -141,6 +151,19 @@
                   </div>
                 </q-card-section>
               </q-card>
+              <div class="col">
+                <q-item-label>目前狀態</q-item-label>
+                <q-badge
+                  v-if="booking"
+                  :color="getStatusColor(booking.status.customerStatus)"
+                  class="q-mr-xs"
+                >
+                  顧客：{{ booking?.status.customerStatus }}
+                </q-badge>
+                <q-badge v-if="booking" :color="getStatusColor(booking.status.storeStatus)">
+                  店家：{{ booking?.status.storeStatus }}
+                </q-badge>
+              </div>
             </div>
           </div>
           <div class="col-3">
@@ -433,23 +456,16 @@
     <!-- 狀態與備註 -->
     <q-card class="q-mt-md">
       <q-separator />
-      <q-card-section>
+      <q-card-section class="row">
         <q-input
           v-if="booking"
           label="下一次建議預約"
           v-model="booking.nextBookingSuggestion"
           :readonly="readonly"
+          class="col-6"
           dense
           outlined
         />
-        <!-- <q-input
-          label="訂單備註"
-          v-model="booking.note"
-          :readonly="readonly"
-          type="textarea"
-          autogrow
-          outlined
-        /> -->
       </q-card-section>
     </q-card>
   </q-page>
@@ -457,17 +473,23 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 import type { IBooking } from '../types/booking'; // 請用你的路徑
 import { useBookingStore } from 'src/stores/useBookingStore';
 
-const booking = ref<IBooking | null>(null);
-
+const $q = useQuasar();
 const route = useRoute();
 const bookingStore = useBookingStore();
+
+const booking = ref<IBooking | null>(null);
 const bookingId = route.params.id as string;
 
 onMounted(() => {
+  if (bookingStore.list.length === 0) {
+    bookingStore.loadFromJson();
+  }
+
   const detail = bookingStore.fetchBookingDetail(bookingId);
   booking.value = detail ?? null;
 });
@@ -497,6 +519,32 @@ const paymentStatus = [
   { label: '未付款', value: 'unpaid' },
   { label: '已付款', value: 'paid' },
 ];
+
+function cancelledBooking() {
+  const now = new Date();
+  const today = now.toISOString().slice(0, 10); // '2025-05-20'
+  const time = now.toTimeString().slice(0, 8); // '14:59:31'
+  const rightNow = `${today} ${time}`;
+
+  const cancelled = {
+    timestamp: rightNow,
+    action: 'cancelled',
+    by: 'groomer',
+  };
+
+  $q.dialog({
+    title: '取消預約',
+    message: '確定要取消這個預約嗎？',
+    cancel: true,
+    persistent: true,
+  }).onOk(() => {
+    booking.value?.status.history.push(cancelled);
+    if (booking.value && booking.value.status) {
+      booking.value.status.cancelReason = '寵物當下過度緊張不適合美容';
+      booking.value.status.storeStatus = 'cancelled' as typeof booking.value.status.storeStatus;
+    }
+  });
+}
 
 function getStatusColor(status: string) {
   switch (status) {

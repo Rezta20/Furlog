@@ -92,4 +92,5 @@ export interface IBooking {
   };
   photoRecords: string[];
   nextBookingSuggestion: string; // 格式：YYYY-MM-DD
+  note: string;
 }
