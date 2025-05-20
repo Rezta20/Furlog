@@ -6,14 +6,29 @@
           <div class="text-h6">訂單詳情</div>
         </div>
         <div class="col-4 flex justify-end">
-          <q-btn label="編輯" type="submit" color="primary" class="q-mr-md" />
+          <q-btn
+            v-if="booking?.status.storeStatus !== 'cancelled' && readonly"
+            label="編輯"
+            type="submit"
+            color="primary"
+            class="q-mr-md"
+            @click="readonly = false"
+          />
+          <q-btn
+            v-if="!readonly"
+            label="儲存"
+            type="submit"
+            color="primary"
+            class="q-mr-md"
+            @click="onSaveBooking()"
+          />
           <q-btn
             :label="booking?.status.storeStatus === 'cancelled' ? '已取消' : '取消'"
             :disable="booking?.status.storeStatus === 'cancelled'"
             type="submit"
             color="secondary"
             outline
-            @click="cancelledBooking()"
+            @click="onCancelledBooking()"
           />
         </div>
       </q-card-section>
@@ -31,7 +46,7 @@
                       v-if="booking"
                       label="預約編號"
                       v-model="booking.bookingId"
-                      :readonly="readonly"
+                      readonly
                       dense
                       outlined
                     />
@@ -475,7 +490,8 @@
 import { ref, onMounted } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
-import type { IBooking } from '../types/booking'; // 請用你的路徑
+import type { IBooking } from '../types/booking';
+import { BookingStatus } from '../types/booking';
 import { useBookingStore } from 'src/stores/useBookingStore';
 
 const $q = useQuasar();
@@ -484,6 +500,61 @@ const bookingStore = useBookingStore();
 
 const booking = ref<IBooking | null>(null);
 const bookingId = route.params.id as string;
+
+const initialBooking = ref<IBooking>({
+  bookingId: '',
+  createdAt: '',
+  updatedAt: '',
+  source: '',
+  pet: {
+    petId: '',
+    petName: '',
+    petType: '',
+    petBreed: '',
+    petGender: '',
+    petAge: 0,
+    petWeight: 0,
+    petNote: '',
+    healthReminder: '',
+    isAttack: false,
+    attackNote: '',
+  },
+  customer: {
+    customerId: '',
+    customerName: '',
+    customerPhone: '',
+    customerEmail: '',
+    customerNote: '',
+  },
+  date: '',
+  time: '',
+  services: [],
+  discount: {
+    type: '',
+    amount: 0,
+  },
+  totalPrice: 0,
+  finalPrice: 0,
+  payment: {
+    method: '',
+    status: '',
+  },
+  groomer: {
+    groomerId: '',
+    groomerName: '',
+  },
+  arriveTime: '',
+  finishTime: '',
+  status: {
+    customerStatus: BookingStatus.WAITING,
+    storeStatus: BookingStatus.WAITING,
+    cancelReason: '',
+    history: [],
+  },
+  photoRecords: [],
+  nextBookingSuggestion: '',
+  note: '',
+});
 
 onMounted(() => {
   if (bookingStore.list.length === 0) {
@@ -520,7 +591,26 @@ const paymentStatus = [
   { label: '已付款', value: 'paid' },
 ];
 
-function cancelledBooking() {
+function onSaveBooking() {
+  console.log(booking.value);
+
+  if (booking.value) {
+    booking.value = {
+      ...initialBooking.value,
+      ...booking.value,
+    };
+    bookingStore.updateBookingDetail(bookingId, booking.value);
+    readonly.value = true;
+    $q.notify({
+      type: 'positive',
+      message: '儲存成功',
+      position: 'top',
+      timeout: 2000,
+    });
+  }
+}
+
+function onCancelledBooking() {
   const now = new Date();
   const today = now.toISOString().slice(0, 10); // '2025-05-20'
   const time = now.toTimeString().slice(0, 8); // '14:59:31'
@@ -542,6 +632,7 @@ function cancelledBooking() {
     if (booking.value && booking.value.status) {
       booking.value.status.cancelReason = '寵物當下過度緊張不適合美容';
       booking.value.status.storeStatus = 'cancelled' as typeof booking.value.status.storeStatus;
+      readonly.value = true;
     }
   });
 }

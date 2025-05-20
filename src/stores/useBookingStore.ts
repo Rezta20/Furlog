@@ -105,5 +105,13 @@ export const useBookingStore = defineStore('booking', {
       const result = this.list.find((item) => item.bookingId === id);
       return result;
     },
+
+    updateBookingDetail(id: string, booking: IBooking) {
+      const idx = this.list.findIndex((b) => b.bookingId === id);
+      console.log(id, booking);
+      if (idx !== -1 && this.list[idx]) {
+        this.list.splice(idx, 1, JSON.parse(JSON.stringify(booking)));
+      }
+    },
   },
 });
