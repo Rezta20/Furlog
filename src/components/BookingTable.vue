@@ -37,7 +37,11 @@
     </template>
     <template #body-cell-action="props">
       <q-td :props="props">
-        <q-btn color="primary" label="詳情" @click="console.log(props.row.petName)" />
+        <q-btn
+          color="primary"
+          label="詳情"
+          @click="$router.push(`/booking-list/${props.row.bookingId}`)"
+        />
       </q-td>
     </template>
   </q-table>

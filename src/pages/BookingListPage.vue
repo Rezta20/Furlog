@@ -46,6 +46,5 @@ const columns: ITableColumns[] = [
 
 function onSearch(form: IBookingForm) {
   bookingStore.filterList(form);
-  console.log(form);
 }
 </script>
