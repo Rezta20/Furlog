@@ -17,7 +17,21 @@
       <q-td :props="props">{{ props.row.pet.petNote }} </q-td>
     </template>
     <template #body-cell-petName="props">
-      <q-td :props="props">{{ props.row.pet.petName }} </q-td>
+      <q-td :props="props"
+        >{{ props.row.pet.petName }}
+        <q-btn
+          v-if="props.row.pet.isAttack"
+          icon="warning"
+          dense
+          color="negative"
+          size="sm"
+          flat
+          class="q-mb-xs"
+          @click="onAlertAttackDialog(props.row.pet)"
+        >
+          <q-tooltip class="bg-negative">具有攻擊性</q-tooltip>
+        </q-btn>
+      </q-td>
     </template>
     <template #body-cell-customerName="props">
       <q-td :props="props">{{ props.row.customer.customerName }} </q-td>
@@ -48,6 +62,7 @@
 </template>
 
 <script setup lang="ts">
+import { useQuasar } from 'quasar';
 import BookingStatusBadge from './BookingStatusBadge.vue';
 import type { IBooking, IBookingService } from '../types/booking';
 import type { ITableColumns } from '../types/tables';
@@ -58,9 +73,22 @@ defineProps<{
   rowKey: string;
 }>();
 
+const $q = useQuasar();
 const pagination = { rowsPerPage: 10 };
 
 const serviceNames = (services: IBookingService[]) => {
   return services.map((s) => s.serviceName).join(', ');
+};
+
+const onAlertAttackDialog = (pet: IBooking['pet']) => {
+  $q.dialog({
+    title: `${pet.petName} 具有攻擊性`,
+    message: `  ${pet.attackNote}`,
+    persistent: true,
+    ok: {
+      label: '知道了',
+      color: 'negative',
+    },
+  });
 };
 </script>
