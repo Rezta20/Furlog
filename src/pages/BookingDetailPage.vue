@@ -5,30 +5,68 @@
         <div class="col-8">
           <div class="text-h6">訂單詳情</div>
         </div>
-        <div class="col-4 flex justify-end">
+        <div v-if="booking" class="col-4 row q-gutter-md justify-end">
           <q-btn
-            v-if="booking?.status.storeStatus !== 'cancelled' && readonly"
+            v-if="booking?.status.storeStatus === 'pending'"
+            label="接單"
+            type="submit"
+            color="info"
+            @click="onConfirmBooking"
+          />
+          <q-btn
+            v-if="booking?.status.storeStatus === 'pending'"
+            label="拒絕"
+            type="submit"
+            color="negative"
+            @click="onRejectedBooking"
+          />
+          <q-btn
+            v-if="isToday(booking.date) && booking?.status.storeStatus === 'confirmed'"
+            label="到店"
+            type="submit"
+            :color="getStatusColor('waiting')"
+            @click="onWaitingForService"
+          />
+          <q-btn
+            v-if="isToday(booking.date) && booking?.status.storeStatus === 'waiting'"
+            label="美容去"
+            type="submit"
+            :color="getStatusColor('in_service')"
+            @click="onServiceBooking"
+          />
+          <q-btn
+            v-if="booking?.status.storeStatus === 'in_service'"
+            label="完成"
+            type="submit"
+            :color="getStatusColor('completed')"
+            @click="onCompletedBooking"
+          />
+          <q-btn
+            v-if="readonly"
             label="編輯"
             type="submit"
             color="primary"
-            class="q-mr-md"
-            @click="readonly = false"
+            @click="onEditBooking"
           />
           <q-btn
             v-if="!readonly"
             label="儲存"
             type="submit"
             color="primary"
-            class="q-mr-md"
-            @click="onSaveBooking()"
+            @click="onSaveBooking"
           />
           <q-btn
-            :label="booking?.status.storeStatus === 'cancelled' ? '已取消' : '取消'"
-            :disable="booking?.status.storeStatus === 'cancelled'"
+            v-if="
+              booking?.status.storeStatus !== 'cancelled' &&
+              booking?.status.storeStatus !== 'pending' &&
+              booking?.status.storeStatus !== 'rejected' &&
+              booking?.status.storeStatus !== 'completed'
+            "
+            label="取消"
             type="submit"
             color="secondary"
             outline
-            @click="onCancelledBooking()"
+            @click="onCancelledBooking"
           />
         </div>
       </q-card-section>
@@ -173,10 +211,10 @@
                   :color="getStatusColor(booking.status.customerStatus)"
                   class="q-mr-xs"
                 >
-                  顧客：{{ booking?.status.customerStatus }}
+                  顧客：{{ CustomerBookingStatusText[booking?.status.customerStatus] }}
                 </q-badge>
                 <q-badge v-if="booking" :color="getStatusColor(booking.status.storeStatus)">
-                  店家：{{ booking?.status.storeStatus }}
+                  店家：{{ StoreBookingStatusText[booking?.status.storeStatus] }}
                 </q-badge>
               </div>
             </div>
@@ -490,9 +528,16 @@
 import { ref, onMounted } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
+import { useBookingStore } from 'src/stores/useBookingStore';
+
 import type { IBooking } from '../types/booking';
 import { BookingStatus } from '../types/booking';
-import { useBookingStore } from 'src/stores/useBookingStore';
+import {
+  CustomerBookingStatusText,
+  // CustomerBookingStatusColor,
+  StoreBookingStatusText,
+  // StoreBookingStatusColor,
+} from '../enums/bookingStatus';
 
 const $q = useQuasar();
 const route = useRoute();
@@ -500,61 +545,6 @@ const bookingStore = useBookingStore();
 
 const booking = ref<IBooking | null>(null);
 const bookingId = route.params.id as string;
-
-const initialBooking = ref<IBooking>({
-  bookingId: '',
-  createdAt: '',
-  updatedAt: '',
-  source: '',
-  pet: {
-    petId: '',
-    petName: '',
-    petType: '',
-    petBreed: '',
-    petGender: '',
-    petAge: 0,
-    petWeight: 0,
-    petNote: '',
-    healthReminder: '',
-    isAttack: false,
-    attackNote: '',
-  },
-  customer: {
-    customerId: '',
-    customerName: '',
-    customerPhone: '',
-    customerEmail: '',
-    customerNote: '',
-  },
-  date: '',
-  time: '',
-  services: [],
-  discount: {
-    type: '',
-    amount: 0,
-  },
-  totalPrice: 0,
-  finalPrice: 0,
-  payment: {
-    method: '',
-    status: '',
-  },
-  groomer: {
-    groomerId: '',
-    groomerName: '',
-  },
-  arriveTime: '',
-  finishTime: '',
-  status: {
-    customerStatus: BookingStatus.WAITING,
-    storeStatus: BookingStatus.WAITING,
-    cancelReason: '',
-    history: [],
-  },
-  photoRecords: [],
-  nextBookingSuggestion: '',
-  note: '',
-});
 
 onMounted(() => {
   if (bookingStore.list.length === 0) {
@@ -591,6 +581,48 @@ const paymentStatus = [
   { label: '已付款', value: 'paid' },
 ];
 
+function onConfirmBooking() {
+  console.log(booking.value);
+  booking.value?.status.history.push({
+    timestamp: getNowDateTimeString(),
+    action: 'confirmed',
+    by: 'groomer',
+  });
+
+  bookingStore.updateBookingStatus(bookingId, BookingStatus.CONFIRMED);
+
+  $q.notify({
+    type: 'positive',
+    message: '已確認預約',
+    position: 'top',
+    timeout: 2000,
+  });
+}
+
+function onRejectedBooking() {
+  $q.dialog({
+    title: '拒絕預約',
+    message: '確定要拒絕這個預約嗎？',
+    cancel: true,
+    persistent: true,
+  }).onOk(() => {
+    booking.value?.status.history.push({
+      timestamp: getNowDateTimeString(),
+      action: 'rejected',
+      by: 'groomer',
+    });
+
+    bookingStore.updateBookingStatus(bookingId, BookingStatus.REJECTED);
+
+    $q.notify({
+      type: 'negative',
+      message: '已拒絕預約',
+      position: 'top',
+      timeout: 2000,
+    });
+  });
+}
+
 function onSaveBooking() {
   console.log(booking.value);
 
@@ -602,10 +634,6 @@ function onSaveBooking() {
   }).onOk(() => {
     $q.loading.show({ message: '儲存中...' });
     if (booking.value) {
-      booking.value = {
-        ...initialBooking.value,
-        ...booking.value,
-      };
       bookingStore.updateBookingDetail(bookingId, booking.value);
       readonly.value = true;
 
@@ -644,26 +672,108 @@ function onCancelledBooking() {
     booking.value?.status.history.push(cancelled);
     if (booking.value && booking.value.status) {
       booking.value.status.cancelReason = '寵物當下過度緊張不適合美容';
-      booking.value.status.storeStatus = 'cancelled' as typeof booking.value.status.storeStatus;
-      booking.value.status.customerStatus =
-        'cancelled' as typeof booking.value.status.customerStatus;
+
+      bookingStore.updateBookingStatus(bookingId, BookingStatus.CANCELLED);
+
       readonly.value = true;
     }
   });
 }
 
+function onEditBooking() {
+  readonly.value = false;
+  $q.notify({
+    type: 'info',
+    message: '編輯模式已開啟',
+    position: 'top',
+    timeout: 2000,
+  });
+}
+
+function onWaitingForService() {
+  booking.value?.status.history.push({
+    timestamp: getNowDateTimeString(),
+    action: 'waiting',
+    by: 'groomer',
+  });
+
+  bookingStore.updateBookingStatus(bookingId, BookingStatus.WAITING);
+
+  $q.notify({
+    type: 'info',
+    message: '已確認到店',
+    position: 'top',
+  });
+}
+
+function onServiceBooking() {
+  booking.value?.status.history.push({
+    timestamp: new Date().toISOString(),
+    action: 'in_service',
+    by: 'groomer',
+  });
+
+  bookingStore.updateBookingStatus(bookingId, BookingStatus.IN_SERVICE);
+
+  $q.notify({
+    type: 'info',
+    message: '已確認開始服務',
+    position: 'top',
+  });
+}
+
+function onCompletedBooking() {
+  booking.value?.status.history.push({
+    timestamp: getNowDateTimeString(),
+    action: 'completed',
+    by: 'groomer',
+  });
+
+  bookingStore.updateBookingStatus(bookingId, BookingStatus.COMPLETED);
+
+  $q.notify({
+    type: 'positive',
+    message: '已完成服務',
+    position: 'top',
+  });
+}
+
+function formatDate(d: string | Date): string {
+  const dateObj = typeof d === 'string' ? new Date(d) : d;
+  return dateObj.toISOString().slice(0, 10);
+}
+
+function isToday(date: string): boolean {
+  const today = formatDate(new Date());
+  const rowDate = formatDate(date);
+  return today === rowDate;
+}
+
+function getNowDateTimeString(): string {
+  const date = new Date();
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, '0');
+  const hh = String(date.getHours()).padStart(2, '0');
+  const min = String(date.getMinutes()).padStart(2, '0');
+  const ss = String(date.getSeconds()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
+}
+
 function getStatusColor(status: string) {
   switch (status) {
     case 'completed':
-      return 'primary';
+      return 'green-6';
     case 'confirmed':
       return 'info';
     case 'cancelled':
     case 'cancelledByCustomer':
     case 'rejected':
       return 'negative';
+    case 'waiting':
+      return 'light-blue-4';
     case 'in_service':
-      return 'warning';
+      return 'primary';
     case 'pending':
       return 'grey-6';
     default:
@@ -677,6 +787,12 @@ function historyActionLabel(action: string) {
       return '建立預約';
     case 'confirmed':
       return '確認預約';
+    case 'in_service':
+      return '開始服務';
+    case 'waiting':
+      return '等待服務';
+    case 'pending':
+      return '等待確認';
     case 'completed':
       return '服務完成';
     case 'cancelled':

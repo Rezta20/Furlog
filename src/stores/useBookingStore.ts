@@ -36,20 +36,19 @@ export const useBookingStore = defineStore('booking', {
     add(booking: IBooking) {
       this.list.push(booking);
     },
-    // 更新顧客狀態
-    updateCustomerStatus(id: string, status: BookingStatus) {
+    // 更新預約狀態
+    updateBookingStatus(id: string, status: BookingStatus, role?: 'store' | 'customer') {
       const idx = this.list.findIndex((b) => b.bookingId === id);
-      if (idx !== -1 && this.list[idx]) {
+      if (idx === -1 || !this.list[idx]) return;
+
+      if (!role || role === 'store') {
+        this.list[idx].status.storeStatus = status;
+      }
+      if (!role || role === 'customer') {
         this.list[idx].status.customerStatus = status;
       }
     },
-    // 更新店家狀態
-    updateStoreStatus(id: string, status: BookingStatus) {
-      const idx = this.list.findIndex((b) => b.bookingId === id);
-      if (idx !== -1 && this.list[idx]) {
-        this.list[idx].status.storeStatus = status;
-      }
-    },
+
     // 移除預約
     remove(id: string) {
       this.list = this.list.filter((b) => b.bookingId !== id);
