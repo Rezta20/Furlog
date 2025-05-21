@@ -75,7 +75,7 @@ import { ref } from 'vue';
 
 // Drawer 開關與 mini 狀態
 const drawer = ref(false);
-const miniState = ref(false);
+const miniState = ref(true);
 
 function drawerClick(e: Event) {
   if (miniState.value) {

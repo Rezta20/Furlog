@@ -52,8 +52,9 @@
     <template #body-cell-action="props">
       <q-td :props="props">
         <q-btn
+          flat
+          icon="description"
           color="primary"
-          label="詳情"
           @click="$router.push(`/booking-list/${props.row.bookingId}`)"
         />
       </q-td>

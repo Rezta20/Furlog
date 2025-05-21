@@ -594,20 +594,33 @@ const paymentStatus = [
 function onSaveBooking() {
   console.log(booking.value);
 
-  if (booking.value) {
-    booking.value = {
-      ...initialBooking.value,
-      ...booking.value,
-    };
-    bookingStore.updateBookingDetail(bookingId, booking.value);
-    readonly.value = true;
-    $q.notify({
-      type: 'positive',
-      message: '儲存成功',
-      position: 'top',
-      timeout: 2000,
-    });
-  }
+  $q.dialog({
+    title: '確認儲存？',
+    message: '你確定要儲存嗎？',
+    cancel: true,
+    persistent: true,
+  }).onOk(() => {
+    $q.loading.show({ message: '儲存中...' });
+    if (booking.value) {
+      booking.value = {
+        ...initialBooking.value,
+        ...booking.value,
+      };
+      bookingStore.updateBookingDetail(bookingId, booking.value);
+      readonly.value = true;
+
+      setTimeout(() => {
+        $q.loading.hide();
+
+        $q.notify({
+          type: 'positive',
+          message: '儲存成功',
+          position: 'top',
+          timeout: 2000,
+        });
+      }, 1500);
+    }
+  });
 }
 
 function onCancelledBooking() {
@@ -632,6 +645,8 @@ function onCancelledBooking() {
     if (booking.value && booking.value.status) {
       booking.value.status.cancelReason = '寵物當下過度緊張不適合美容';
       booking.value.status.storeStatus = 'cancelled' as typeof booking.value.status.storeStatus;
+      booking.value.status.customerStatus =
+        'cancelled' as typeof booking.value.status.customerStatus;
       readonly.value = true;
     }
   });
