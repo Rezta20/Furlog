@@ -17,10 +17,12 @@
         </q-toolbar>
       </q-header>
 
-      <!-- Drawer：藍底白字 -->
+      <!-- Drawer：可縮起，藍底白字 -->
       <q-drawer
         v-model="drawer"
         show-if-above
+        :mini="!drawer || miniState"
+        @click.capture="drawerClick"
         :width="220"
         :breakpoint="500"
         bordered
@@ -40,14 +42,27 @@
               <q-item-section avatar>
                 <q-icon :name="item.icon" color="indigo-6" />
               </q-item-section>
-              <q-item-section>
+              <q-item-section v-if="!miniState">
                 {{ item.label }}
               </q-item-section>
             </q-item>
           </q-list>
         </q-scroll-area>
+
+        <!-- Mini 切換按鈕 -->
+        <div class="q-mini-drawer-hide absolute" style="top: 15px; right: -17px">
+          <q-btn
+            dense
+            round
+            unelevated
+            color="accent"
+            icon="chevron_left"
+            @click="miniState = true"
+          />
+        </div>
       </q-drawer>
 
+      <!-- 主要頁面 -->
       <q-page-container class="bg-grey-1 text-dark">
         <router-view />
       </q-page-container>
@@ -58,8 +73,18 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+// Drawer 開關與 mini 狀態
 const drawer = ref(false);
+const miniState = ref(false);
 
+function drawerClick(e: Event) {
+  if (miniState.value) {
+    miniState.value = false;
+    e.stopPropagation();
+  }
+}
+
+// 導覽選單
 const menuList = [
   { label: 'Dashboard', to: '/', icon: 'dashboard' },
   { label: '美容卡片牆', to: '/pet-cards', icon: 'pets' },
