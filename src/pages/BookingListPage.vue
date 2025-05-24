@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
 import { useBookingStore } from '../stores/useBookingStore';
 import type { ITableColumns } from '../types/tables';
 import type { IBookingForm } from '../types/booking';
@@ -23,10 +22,6 @@ import BookingTable from '../components/BookingTable.vue';
 import BookingSearch from '../components/BookingSearch.vue';
 
 const bookingStore = useBookingStore();
-
-onMounted(() => {
-  bookingStore.loadFromJson();
-});
 
 const columns: ITableColumns[] = [
   { name: 'date', label: '預約日期', field: 'date', align: 'left', sortable: true },

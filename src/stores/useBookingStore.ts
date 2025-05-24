@@ -9,10 +9,40 @@ function isBookingStatus(val: string): val is BookingStatus {
 }
 
 export const useBookingStore = defineStore('booking', {
-  state: () => ({
-    originList: [] as IBooking[], // 新增，原始完整資料
-    list: [] as IBooking[], // 目前顯示資料
-  }),
+  state: () => {
+    let formatted: IBooking[] = [];
+
+    // 1️⃣ Check localStorage first
+    const saved = localStorage.getItem('bookings');
+    if (saved) {
+      try {
+        formatted = JSON.parse(saved);
+        console.log('Initialized bookings from localStorage');
+      } catch (e) {
+        console.error('Failed to parse localStorage data:', e);
+        formatted = [];
+      }
+    }
+
+    // 2️⃣ Fallback to default JSON if no local data
+    if (!formatted || formatted.length === 0) {
+      formatted = bookingsRaw.map((item) => ({
+        ...item,
+        customerStatus: isBookingStatus(item.status.customerStatus)
+          ? item.status.customerStatus
+          : BookingStatus.PENDING,
+        storeStatus: isBookingStatus(item.status.storeStatus)
+          ? item.status.storeStatus
+          : BookingStatus.PENDING,
+      })) as IBooking[];
+      console.log('Initialized bookings from raw data');
+    }
+
+    return {
+      list: formatted,
+      originList: formatted,
+    };
+  },
   getters: {
     // 篩選未來預約（這裡可視情境改篩 customerStatus 或 storeStatus）
     upcoming: (state) => state.list.filter((b) => new Date(b.date) >= new Date()),
@@ -47,6 +77,9 @@ export const useBookingStore = defineStore('booking', {
       if (!role || role === 'customer') {
         this.list[idx].status.customerStatus = status;
       }
+
+      // 🔥 Save to localStorage
+      localStorage.setItem('bookings', JSON.stringify(this.list));
     },
 
     // 移除預約
@@ -107,9 +140,10 @@ export const useBookingStore = defineStore('booking', {
 
     updateBookingDetail(id: string, booking: IBooking) {
       const idx = this.list.findIndex((b) => b.bookingId === id);
-      console.log(id, booking);
-      if (idx !== -1 && this.list[idx]) {
+      if (idx !== -1) {
         this.list.splice(idx, 1, JSON.parse(JSON.stringify(booking)));
+        // 🔥 Save to localStorage
+        localStorage.setItem('bookings', JSON.stringify(this.list));
       }
     },
   },
