@@ -84,5 +84,11 @@ export const useCustomerStore = defineStore('customer', {
       this.list = this.list.filter((c) => c.id !== id);
       localStorage.setItem('customers', JSON.stringify(this.list));
     },
+
+    fetchCustomerDetail(id: string) {
+      // 假資料篩選邏輯，實際上你可以改成 fetch 或 axios 請求
+      const result = this.list.find((item) => item.id === id);
+      return result;
+    },
   },
 });

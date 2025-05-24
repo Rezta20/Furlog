@@ -26,7 +26,7 @@
           flat
           icon="description"
           color="primary"
-          @click="$router.push(`/customer/${props.row.id}`)"
+          @click="$router.push(`/customer-list/${props.row.id}`)"
         />
       </q-td>
     </template>

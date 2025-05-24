@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <div class="q-gutter-md">
-      <p class="text-bold text-h5">預約列表</p>
+      <p class="text-bold text-h5">預約清單</p>
       <!-- search -->
       <q-card class="q-pa-md">
         <BookingSearch @search="onSearch" />

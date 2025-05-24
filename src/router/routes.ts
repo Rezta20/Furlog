@@ -31,6 +31,11 @@ const routes: RouteRecordRaw[] = [
         name: 'CustomerListPage',
         component: () => import('pages/CustomerListPage.vue'),
       },
+      {
+        path: 'customer-list/:id',
+        name: 'CustomerDetailPage',
+        component: () => import('pages/CustomerDetailPage.vue'),
+      },
     ],
   },
   // 404 頁
