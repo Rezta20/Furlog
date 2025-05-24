@@ -26,6 +26,11 @@ const routes: RouteRecordRaw[] = [
         name: 'BookingPage',
         component: () => import('pages/BookingPage.vue'),
       },
+      {
+        path: 'customer-list',
+        name: 'CustomerListPage',
+        component: () => import('pages/CustomerListPage.vue'),
+      },
     ],
   },
   // 404 頁
