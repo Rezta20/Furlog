@@ -48,20 +48,6 @@ export const useBookingStore = defineStore('booking', {
     upcoming: (state) => state.list.filter((b) => new Date(b.date) >= new Date()),
   },
   actions: {
-    // 初始化載入資料（雙欄位檢查）
-    loadFromJson() {
-      const formatted = bookingsRaw.map((item) => ({
-        ...item,
-        customerStatus: isBookingStatus(item.status.customerStatus)
-          ? item.status.customerStatus
-          : BookingStatus.PENDING,
-        storeStatus: isBookingStatus(item.status.storeStatus)
-          ? item.status.storeStatus
-          : BookingStatus.PENDING,
-      })) as IBooking[];
-      this.originList = formatted;
-      this.list = formatted;
-    },
     // 新增預約
     add(booking: IBooking) {
       this.list.push(booking);
