@@ -547,10 +547,6 @@ const booking = ref<IBooking | null>(null);
 const bookingId = route.params.id as string;
 
 onMounted(() => {
-  if (bookingStore.list.length === 0) {
-    bookingStore.loadFromJson();
-  }
-
   const detail = bookingStore.fetchBookingDetail(bookingId);
   booking.value = detail ?? null;
 });

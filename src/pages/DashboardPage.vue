@@ -8,12 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed } from 'vue';
+import { computed } from 'vue';
 import { useBookingStore } from 'stores/useBookingStore';
-
-onMounted(() => {
-  bookingStore.loadFromJson();
-});
 
 const bookingStore = useBookingStore();
 const today = new Date().toISOString().slice(0, 10);
