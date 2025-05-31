@@ -85,6 +85,19 @@
               dense
             />
           </div>
+          <div class="col-12">
+            <q-input
+              v-model="ownerName"
+              label="飼主"
+              readonly
+              dense
+              @click="$router.push(`/customer-list/${pet.customer_id}`)"
+            >
+              <template v-slot:append>
+                <q-icon name="chevron_right" />
+              </template>
+            </q-input>
+          </div>
           <div class="col-6">
             <q-input v-model="pet.created_at" label="建立時間" readonly dense />
           </div>
@@ -98,20 +111,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { useQuasar } from 'quasar';
 import { useRoute, useRouter } from 'vue-router';
 import { usePetStore } from 'src/stores/usePetStore';
-import { useQuasar } from 'quasar';
+import { useCustomerStore } from '../stores/useCustomerStore';
 import type { IPet } from '../types/pet';
 
+const $q = useQuasar();
 const route = useRoute();
 const $router = useRouter();
 const petStore = usePetStore();
-const $q = useQuasar();
+const customerStore = useCustomerStore();
+
+const owner = computed(() => customerStore.list.find((c) => c.id === pet.value.customer_id));
+const ownerName = computed(() => owner.value?.name ?? '');
 
 const petId = route.params.id as string;
 const readonly = ref(true);
-
 const pet = ref<IPet>({
   id: '',
   customer_id: '',

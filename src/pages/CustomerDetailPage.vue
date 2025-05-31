@@ -55,15 +55,42 @@
         </div>
       </q-card-section>
     </q-card>
+
+    <!-- PET -->
+    <q-card class="q-mt-md q-pa-md">
+      <div class="text-subtitle1 q-mb-sm">飼養的寵物</div>
+      <q-list bordered separator>
+        <q-item
+          v-for="pet in customerPets"
+          :key="pet.id"
+          clickable
+          @click="$router.push(`/pet-list/${pet.id}`)"
+        >
+          <q-item-section>
+            <q-item-label>{{ pet.name }}（{{ pet.petType }}）</q-item-label>
+            <q-item-label caption
+              >{{ pet.petBreed }}，{{ pet.petGender }}，{{ pet.petAge }}歲</q-item-label
+            >
+          </q-item-section>
+          <q-item-section side>
+            <q-icon name="navigate_next" />
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-card>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { useQuasar } from 'quasar';
 import { useRoute, useRouter } from 'vue-router';
 import { useCustomerStore } from 'src/stores/useCustomerStore';
-import { useQuasar } from 'quasar';
+import { usePetStore } from '../stores/usePetStore';
 import type { ICustomer } from '../types/customer';
+const petStore = usePetStore();
+
+const customerPets = computed(() => petStore.list.filter((p) => p.customer_id === customerId));
 
 const route = useRoute();
 const $router = useRouter();
