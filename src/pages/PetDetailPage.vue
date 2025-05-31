@@ -89,11 +89,12 @@
             <q-input
               v-model="ownerName"
               label="飼主"
+              :hint="ownerName ? '' : '點擊選擇飼主'"
               readonly
               dense
-              @click="$router.push(`/customer-list/${pet.customer_id}`)"
+              @click="onOwner"
             >
-              <template v-slot:append>
+              <template v-if="ownerName && petId !== 'create'" v-slot:append>
                 <q-icon name="chevron_right" />
               </template>
             </q-input>
@@ -108,6 +109,32 @@
       </q-card-section>
     </q-card>
   </q-page>
+  <!-- 顧客選擇 Dialog -->
+  <q-dialog v-model="showCustomerDialog">
+    <q-card style="min-width: 700px; max-width: 90vw">
+      <q-card-section class="text-h6 q-pb-sm">選擇飼主</q-card-section>
+      <q-separator />
+
+      <!-- 搜尋區塊 -->
+      <q-card-section>
+        <CustomerSearch @search="handleSearch" />
+      </q-card-section>
+
+      <!-- 顧客列表 table -->
+      <q-card-section>
+        <CustomerTable
+          :rows="customerStore.list"
+          :columns="columns"
+          row-key="id"
+          @row-click="selectCustomer"
+        />
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="取消" color="primary" @click="showCustomerDialog = false" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup lang="ts">
@@ -117,6 +144,10 @@ import { useRoute, useRouter } from 'vue-router';
 import { usePetStore } from 'src/stores/usePetStore';
 import { useCustomerStore } from '../stores/useCustomerStore';
 import type { IPet } from '../types/pet';
+import type { ICustomer, ICustomerForm } from '../types/customer';
+import type { ITableColumns } from '../types/tables';
+import CustomerSearch from '../components/CustomerSearch.vue';
+import CustomerTable from '../components/CustomerTable.vue';
 
 const $q = useQuasar();
 const route = useRoute();
@@ -145,6 +176,15 @@ const pet = ref<IPet>({
   created_at: '',
   updated_at: '',
 });
+const showCustomerDialog = ref(false);
+const selectedCustomerId = ref('');
+const selectCustomerName = ref('');
+
+const columns: ITableColumns[] = [
+  { name: 'name', label: '姓名', field: 'name', align: 'left', sortable: true },
+  { name: 'phone', label: '電話', field: 'phone', align: 'left' },
+  { name: 'email', label: 'Email', field: 'email', align: 'left' },
+];
 
 onMounted(() => {
   const detail = petStore.fetchPetDetail(petId);
@@ -197,11 +237,37 @@ async function onCreate() {
   pet.value.created_at = now;
   pet.value.updated_at = now;
   pet.value.id = crypto.randomUUID();
+  pet.value.customer_id = selectedCustomerId.value;
+
+  if (!selectedCustomerId.value) {
+    $q.notify({ type: 'negative', message: '請選擇一位飼主' });
+    return;
+  }
 
   petStore.createPet(pet.value);
   readonly.value = true;
   $q.notify({ type: 'positive', message: '新寵物已建立' });
 
   await $router.push('/pet-list');
+}
+
+async function onOwner() {
+  if (owner.value && petId !== 'create') {
+    await $router.push(`/customer-list/${owner.value?.id}`);
+    return;
+  }
+
+  showCustomerDialog.value = true;
+}
+
+function handleSearch(form: ICustomerForm) {
+  customerStore.filterList(form);
+}
+
+function selectCustomer(evt: Event, row: ICustomer) {
+  pet.value.customer_id = row.id;
+  selectCustomerName.value = row.name;
+  showCustomerDialog.value = false;
+  customerStore.filterList({}); // 更新顧客列表
 }
 </script>
