@@ -87,11 +87,10 @@ function drawerClick(e: Event) {
 // 導覽選單
 const menuList = [
   { label: 'Dashboard', to: '/', icon: 'dashboard' },
-  { label: '美容卡片牆', to: '/pet-cards', icon: 'pets' },
   { label: '預約清單', to: '/booking-list', icon: 'list_alt' },
   { label: '預約系統', to: '/booking', icon: 'today' },
   { label: '顧客清單', to: '/customer-list', icon: 'people' },
-  // { label: '寵物清單', to: '/pet-list', icon: 'pets' },
+  { label: '寵物清單', to: '/pet-list', icon: 'pets' },
   // { label: '設定', to: '/settings', icon: 'settings' },
 ];
 </script>

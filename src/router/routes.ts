@@ -7,11 +7,6 @@ const routes: RouteRecordRaw[] = [
     children: [
       { path: '', name: 'Dashboard', component: () => import('pages/DashboardPage.vue') },
       {
-        path: 'pet-cards',
-        name: 'PetCardWall',
-        component: () => import('pages/PetCardWallPage.vue'),
-      },
-      {
         path: 'booking-list',
         name: 'BookingList',
         component: () => import('pages/BookingListPage.vue'),
@@ -35,6 +30,16 @@ const routes: RouteRecordRaw[] = [
         path: 'customer-list/:id',
         name: 'CustomerDetailPage',
         component: () => import('pages/CustomerDetailPage.vue'),
+      },
+      {
+        path: 'pet-list',
+        name: 'PetListPage',
+        component: () => import('pages/PetListPage.vue'),
+      },
+      {
+        path: 'pet-list/:id',
+        name: 'PetDetailPage',
+        component: () => import('pages/PetDetailPage.vue'),
       },
     ],
   },
