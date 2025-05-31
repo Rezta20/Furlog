@@ -25,7 +25,6 @@
     <div class="row q-col-gutter-md q-gutter-y-lg">
       <div class="col-12 col-md-4 col-lg-4">
         <q-input
-          filled
           :model-value="form.dateStart"
           label="開始日期"
           dense
@@ -51,7 +50,6 @@
       </div>
       <div class="col-12 col-md-4 col-lg-4">
         <q-input
-          filled
           v-model="form.dateEnd"
           label="結束日期"
           dense
