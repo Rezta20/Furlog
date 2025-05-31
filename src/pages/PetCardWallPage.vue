@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <q-page padding>
     <h2>美容卡片牆</h2>
     <q-gutter class="row q-col-gutter-md q-row-gutter-md">
@@ -16,4 +16,4 @@
 <script setup lang="ts">
 import { usePetStore } from 'stores/usePetStore';
 const petStore = usePetStore();
-</script>
+</script> -->

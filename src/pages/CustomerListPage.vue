@@ -1,8 +1,19 @@
 <template>
   <q-page padding>
+    <div class="flex justify-between">
+      <q-breadcrumbs class="q-mb-xs text-h6 text-bold">
+        <q-breadcrumbs-el label="顧客清單" />
+      </q-breadcrumbs>
+      <q-btn
+        label="新增顧客"
+        color="primary"
+        icon="add"
+        to="/customer-list/create"
+        class="q-mb-sm"
+        flat
+      />
+    </div>
     <div class="q-gutter-md">
-      <p class="text-bold text-h5">顧客清單</p>
-
       <!-- search -->
       <q-card class="q-pa-md">
         <CustomerSearch @search="onSearch" />

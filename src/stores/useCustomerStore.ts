@@ -66,7 +66,7 @@ export const useCustomerStore = defineStore('customer', {
       }
     },
 
-    addCustomer(customer: ICustomer) {
+    createCustomer(customer: ICustomer) {
       this.list.push(customer);
 
       localStorage.setItem('customers', JSON.stringify(this.list));

@@ -1,12 +1,34 @@
 [
   {
     "id": "pet_001",
-    "name": "布丁",
-    "type": "狗",
-    "breed": "柴犬",
-    "age": 5,
-    "owner": { "name": "王小明", "phone": "0912-345-678" },
-    "tags": ["敏感肌", "怕吹風機"],
-    "avatar": "/assets/pets/buding.jpg"
+    "customer_id": "customer_001",
+    "name": "小白",
+    "petType": "狗",
+    "petBreed": "柴犬",
+    "petGender": "公",
+    "petAge": 3,
+    "petWeight": 10.5,
+    "petNote": "對陌生人稍微敏感",
+    "isAttack": false,
+    "attackNote": "",
+    "healthReminder": "每年需打狂犬病疫苗",
+    "created_at": "2024-12-01T10:15:30Z",
+    "updated_at": "2025-05-24T12:00:00Z"
+  },
+  {
+    "id": "pet_002",
+    "customer_id": "customer_002",
+    "name": "橘子",
+    "petType": "貓",
+    "petBreed": "橘貓",
+    "petGender": "母",
+    "petAge": 5,
+    "petWeight": 4.2,
+    "petNote": "怕生、需要慢慢接觸",
+    "isAttack": true,
+    "attackNote": "剪指甲時會抓人",
+    "healthReminder": "定期服用化毛膏",
+    "created_at": "2023-07-20T08:30:00Z",
+    "updated_at": "2025-05-24T12:00:00Z"
   }
 ]

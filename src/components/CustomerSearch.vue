@@ -2,13 +2,13 @@
   <q-form @submit.prevent="doSearch">
     <div class="row q-col-gutter-lg q-mb-sm">
       <div class="col-12 col-md-4 col-lg-4">
-        <q-input v-model="form.name" label="顧客姓名" dense />
+        <q-input v-model="form.name" label="姓名" dense />
       </div>
       <div class="col-12 col-md-4 col-lg-4">
         <q-input v-model="form.phone" label="電話" dense />
       </div>
       <div class="col-12 col-md-4 col-lg-4">
-        <q-input v-model="form.email" label="信箱" dense />
+        <q-input v-model="form.email" label="Email" dense />
       </div>
     </div>
     <div class="row justify-end">
