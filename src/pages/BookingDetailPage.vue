@@ -7,39 +7,39 @@
         </div>
         <div v-if="booking" class="col-4 row q-gutter-md justify-end">
           <q-btn
-            v-if="booking?.status.storeStatus === 'pending'"
+            v-if="booking?.status.value === 'created'"
             label="接單"
             type="submit"
             color="info"
             @click="onConfirmBooking"
           />
           <q-btn
-            v-if="booking?.status.storeStatus === 'pending'"
+            v-if="booking?.status.value === 'created'"
             label="拒絕"
             type="submit"
             color="negative"
             @click="onRejectedBooking"
           />
           <q-btn
-            v-if="isToday(booking.date) && booking?.status.storeStatus === 'confirmed'"
+            v-if="isToday(booking.date) && booking?.status.value === 'confirmed'"
             label="到店"
             type="submit"
-            :color="getStatusColor('waiting')"
-            @click="onWaitingForService"
+            :color="getStatusColor('arrived')"
+            @click="onArrivedForService"
           />
           <q-btn
-            v-if="isToday(booking.date) && booking?.status.storeStatus === 'waiting'"
+            v-if="isToday(booking.date) && booking?.status.value === 'arrived'"
             label="美容去"
             type="submit"
             :color="getStatusColor('in_service')"
             @click="onServiceBooking"
           />
           <q-btn
-            v-if="booking?.status.storeStatus === 'in_service'"
+            v-if="booking?.status.value === 'in_service'"
             label="完成"
             type="submit"
-            :color="getStatusColor('completed')"
-            @click="onCompletedBooking"
+            :color="getStatusColor('finished')"
+            @click="onFinishedBooking"
           />
           <q-btn
             v-if="readonly"
@@ -57,10 +57,10 @@
           />
           <q-btn
             v-if="
-              booking?.status.storeStatus !== 'cancelled' &&
-              booking?.status.storeStatus !== 'pending' &&
-              booking?.status.storeStatus !== 'rejected' &&
-              booking?.status.storeStatus !== 'completed'
+              booking?.status.value !== 'cancelled_by_customer' &&
+              booking?.status.value !== 'created' &&
+              booking?.status.value !== 'rejected' &&
+              booking?.status.value !== 'finished'
             "
             label="取消"
             type="submit"
@@ -164,7 +164,7 @@
                       <q-input
                         v-if="booking"
                         label="姓名"
-                        v-model="booking.customer.customerName"
+                        v-model="booking.customer.name"
                         :readonly="readonly"
                         dense
                         outlined
@@ -174,7 +174,7 @@
                       <q-input
                         v-if="booking"
                         label="電話"
-                        v-model="booking.customer.customerPhone"
+                        v-model="booking.customer.phone"
                         :readonly="readonly"
                         dense
                         outlined
@@ -184,7 +184,7 @@
                       <q-input
                         v-if="booking"
                         label="Email"
-                        v-model="booking.customer.customerEmail"
+                        v-model="booking.customer.email"
                         :readonly="readonly"
                         dense
                         outlined
@@ -194,7 +194,7 @@
                       <q-input
                         v-if="booking"
                         label="聯絡備註"
-                        v-model="booking.customer.customerNote"
+                        v-model="booking.customer.note"
                         :readonly="readonly"
                         type="textarea"
                         autogrow
@@ -208,13 +208,10 @@
                 <q-item-label>目前狀態</q-item-label>
                 <q-badge
                   v-if="booking"
-                  :color="getStatusColor(booking.status.customerStatus)"
+                  :color="getStatusColor(booking.status.value)"
                   class="q-mr-xs"
                 >
-                  顧客：{{ CustomerBookingStatusText[booking?.status.customerStatus] }}
-                </q-badge>
-                <q-badge v-if="booking" :color="getStatusColor(booking.status.storeStatus)">
-                  店家：{{ StoreBookingStatusText[booking?.status.storeStatus] }}
+                  {{ BookingStatusMap[booking.status.value] }}
                 </q-badge>
               </div>
             </div>
@@ -249,118 +246,117 @@
     <q-card class="q-mt-md">
       <q-separator />
       <q-card-section>
-        <div class="text-subtitle1 q-mb-sm"><q-icon name="pets" class="q-mr-xs" />寵物資訊</div>
-        <div class="row q-col-gutter-md">
-          <div class="col-4">
-            <q-input
-              v-if="booking"
-              label="姓名"
-              v-model="booking.pet.petName"
-              :readonly="readonly"
-              dense
-              outlined
-            />
-          </div>
-          <div class="col-4">
-            <q-select
-              v-if="booking"
-              label="種類"
-              v-model="booking.pet.petType"
-              :options="petTypes"
-              :readonly="readonly"
-              dense
-              outlined
-            />
-          </div>
-          <div class="col-4">
-            <q-input
-              v-if="booking"
-              label="品種"
-              v-model="booking.pet.petBreed"
-              :readonly="readonly"
-              dense
-              outlined
-            />
-          </div>
-          <div class="col-4">
-            <q-select
-              v-if="booking"
-              label="性別"
-              v-model="booking.pet.petGender"
-              :options="petGenders"
-              :readonly="readonly"
-              dense
-              outlined
-            />
-          </div>
-          <div class="col-4">
-            <q-input
-              v-if="booking"
-              label="年齡"
-              type="number"
-              v-model.number="booking.pet.petAge"
-              :readonly="readonly"
-              dense
-              outlined
-            />
-          </div>
-          <div class="col-4">
-            <q-input
-              v-if="booking"
-              label="體重(kg)"
-              type="number"
-              v-model.number="booking.pet.petWeight"
-              :readonly="readonly"
-              dense
-              outlined
-            />
-          </div>
-          <div class="col-12">
-            <q-input
-              v-if="booking"
-              label="寵物備註"
-              v-model="booking.pet.petNote"
-              :readonly="readonly"
-              type="textarea"
-              autogrow
-              outlined
-            />
-          </div>
-          <div class="col-12">
-            <q-input
-              v-if="booking"
-              label="健康提醒"
-              v-model="booking.pet.healthReminder"
-              :readonly="readonly"
-              type="textarea"
-              autogrow
-              outlined
-            />
-          </div>
-          <div class="col-4">
-            <q-select
-              v-if="booking"
-              label="是否攻擊"
-              v-model="booking.pet.isAttack"
-              :options="boolOptions"
-              :readonly="readonly"
-              dense
-              outlined
-              emit-value
-              map-options
-            />
-          </div>
-          <div class="col-8" v-if="booking?.pet.isAttack">
-            <q-input
-              v-if="booking"
-              label="攻擊行為備註"
-              v-model="booking.pet.attackNote"
-              :readonly="readonly"
-              outlined
-              autogrow
-            />
-          </div>
+        <div class="text-subtitle1 q-mb-sm">
+          <q-icon name="pets" class="q-mr-xs" />
+          寵物資訊
         </div>
+
+        <template v-if="booking">
+          <div
+            v-for="(pet, index) in booking.pet"
+            :key="pet.id"
+            class="q-mb-md q-pa-sm q-rounded bordered row q-col-gutter-md"
+          >
+            <div class="col-12 text-subtitle2 text-weight-medium">寵物 {{ index + 1 }}</div>
+
+            <div class="col-4">
+              <q-input label="姓名" v-model="pet.name" :readonly="readonly" dense outlined />
+            </div>
+
+            <div class="col-4">
+              <q-select
+                label="種類"
+                v-model="pet.petType"
+                :options="petTypes"
+                :readonly="readonly"
+                dense
+                outlined
+              />
+            </div>
+
+            <div class="col-4">
+              <q-input label="品種" v-model="pet.petBreed" :readonly="readonly" dense outlined />
+            </div>
+
+            <div class="col-4">
+              <q-select
+                label="性別"
+                v-model="pet.petGender"
+                :options="petGenders"
+                :readonly="readonly"
+                dense
+                outlined
+              />
+            </div>
+
+            <div class="col-4">
+              <q-input
+                label="年齡"
+                type="number"
+                v-model.number="pet.petAge"
+                :readonly="readonly"
+                dense
+                outlined
+              />
+            </div>
+
+            <div class="col-4">
+              <q-input
+                label="體重(kg)"
+                type="number"
+                v-model.number="pet.petWeight"
+                :readonly="readonly"
+                dense
+                outlined
+              />
+            </div>
+
+            <div class="col-12">
+              <q-input
+                label="寵物備註"
+                v-model="pet.petNote"
+                :readonly="readonly"
+                type="textarea"
+                autogrow
+                outlined
+              />
+            </div>
+
+            <div class="col-12">
+              <q-input
+                label="健康提醒"
+                v-model="pet.healthReminder"
+                :readonly="readonly"
+                type="textarea"
+                autogrow
+                outlined
+              />
+            </div>
+
+            <div class="col-4">
+              <q-select
+                label="是否攻擊"
+                v-model="pet.isAttack"
+                :options="boolOptions"
+                :readonly="readonly"
+                dense
+                outlined
+                emit-value
+                map-options
+              />
+            </div>
+
+            <div class="col-8" v-if="pet.isAttack">
+              <q-input
+                label="攻擊行為備註"
+                v-model="pet.attackNote"
+                :readonly="readonly"
+                outlined
+                autogrow
+              />
+            </div>
+          </div>
+        </template>
       </q-card-section>
     </q-card>
 
@@ -399,7 +395,7 @@
             v-if="booking"
             class="col-6"
             label="折扣說明"
-            v-model="booking.discount.type"
+            v-model="discountType"
             :readonly="readonly"
             dense
             outlined
@@ -408,7 +404,7 @@
             v-if="booking"
             class="col-6"
             label="折扣金額"
-            v-model.number="booking.discount.amount"
+            v-model.number="discountAmount"
             :readonly="readonly"
             dense
             outlined
@@ -525,30 +521,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 import { useBookingStore } from 'src/stores/useBookingStore';
-
 import type { IBooking } from '../types/booking';
-import { BookingStatus } from '../types/booking';
-import {
-  CustomerBookingStatusText,
-  // CustomerBookingStatusColor,
-  StoreBookingStatusText,
-  // StoreBookingStatusColor,
-} from '../enums/bookingStatus';
+import { BookingStatus } from '../enums/bookingStatus';
+import { BookingStatusMap } from '../constants/statusMap';
 
 const $q = useQuasar();
 const route = useRoute();
 const bookingStore = useBookingStore();
 
-const booking = ref<IBooking | null>(null);
+const booking = ref<IBooking>();
 const bookingId = route.params.id as string;
+
+const discountType = computed(() => {
+  return booking.value?.discount?.type || '';
+});
+
+const discountAmount = computed(() => {
+  return booking.value?.discount?.amount || '';
+});
 
 onMounted(() => {
   const detail = bookingStore.fetchBookingDetail(bookingId);
-  booking.value = detail ?? null;
+  booking.value = detail;
 });
 
 // readonly 控制編輯
@@ -578,13 +576,6 @@ const paymentStatus = [
 ];
 
 function onConfirmBooking() {
-  console.log(booking.value);
-  booking.value?.status.history.push({
-    timestamp: getNowDateTimeString(),
-    action: 'confirmed',
-    by: 'groomer',
-  });
-
   bookingStore.updateBookingStatus(bookingId, BookingStatus.CONFIRMED);
 
   $q.notify({
@@ -602,12 +593,6 @@ function onRejectedBooking() {
     cancel: true,
     persistent: true,
   }).onOk(() => {
-    booking.value?.status.history.push({
-      timestamp: getNowDateTimeString(),
-      action: 'rejected',
-      by: 'groomer',
-    });
-
     bookingStore.updateBookingStatus(bookingId, BookingStatus.REJECTED);
 
     $q.notify({
@@ -648,29 +633,15 @@ function onSaveBooking() {
 }
 
 function onCancelledBooking() {
-  const now = new Date();
-  const today = now.toISOString().slice(0, 10); // '2025-05-20'
-  const time = now.toTimeString().slice(0, 8); // '14:59:31'
-  const rightNow = `${today} ${time}`;
-
-  const cancelled = {
-    timestamp: rightNow,
-    action: 'cancelled',
-    by: 'groomer',
-  };
-
   $q.dialog({
     title: '取消預約',
     message: '確定要取消這個預約嗎？',
     cancel: true,
     persistent: true,
   }).onOk(() => {
-    booking.value?.status.history.push(cancelled);
     if (booking.value && booking.value.status) {
       booking.value.status.cancelReason = '寵物當下過度緊張不適合美容';
-
-      bookingStore.updateBookingStatus(bookingId, BookingStatus.CANCELLED);
-
+      bookingStore.updateBookingStatus(bookingId, BookingStatus.CANCELLED_BY_STORE);
       readonly.value = true;
     }
   });
@@ -686,14 +657,8 @@ function onEditBooking() {
   });
 }
 
-function onWaitingForService() {
-  booking.value?.status.history.push({
-    timestamp: getNowDateTimeString(),
-    action: 'waiting',
-    by: 'groomer',
-  });
-
-  bookingStore.updateBookingStatus(bookingId, BookingStatus.WAITING);
+function onArrivedForService() {
+  bookingStore.updateBookingStatus(bookingId, BookingStatus.ARRIVED);
 
   $q.notify({
     type: 'info',
@@ -703,12 +668,6 @@ function onWaitingForService() {
 }
 
 function onServiceBooking() {
-  booking.value?.status.history.push({
-    timestamp: new Date().toISOString(),
-    action: 'in_service',
-    by: 'groomer',
-  });
-
   bookingStore.updateBookingStatus(bookingId, BookingStatus.IN_SERVICE);
 
   $q.notify({
@@ -718,14 +677,8 @@ function onServiceBooking() {
   });
 }
 
-function onCompletedBooking() {
-  booking.value?.status.history.push({
-    timestamp: getNowDateTimeString(),
-    action: 'completed',
-    by: 'groomer',
-  });
-
-  bookingStore.updateBookingStatus(bookingId, BookingStatus.COMPLETED);
+function onFinishedBooking() {
+  bookingStore.updateBookingStatus(bookingId, BookingStatus.FINISHED);
 
   $q.notify({
     type: 'positive',
@@ -743,17 +696,6 @@ function isToday(date: string): boolean {
   const today = formatDate(new Date());
   const rowDate = formatDate(date);
   return today === rowDate;
-}
-
-function getNowDateTimeString(): string {
-  const date = new Date();
-  const yyyy = date.getFullYear();
-  const mm = String(date.getMonth() + 1).padStart(2, '0');
-  const dd = String(date.getDate()).padStart(2, '0');
-  const hh = String(date.getHours()).padStart(2, '0');
-  const min = String(date.getMinutes()).padStart(2, '0');
-  const ss = String(date.getSeconds()).padStart(2, '0');
-  return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
 }
 
 function getStatusColor(status: string) {

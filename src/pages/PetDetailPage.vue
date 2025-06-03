@@ -33,7 +33,11 @@
           <div class="col-6">
             <q-select
               v-model="pet.petType"
-              :options="['狗', '貓', '其他']"
+              :options="[
+                { label: '狗', value: 'dog' },
+                { label: '貓', value: 'cat' },
+                { label: '其他', value: 'other' },
+              ]"
               label="寵物種類"
               :readonly="readonly"
               dense
@@ -48,7 +52,10 @@
           <div class="col-6">
             <q-select
               v-model="pet.petGender"
-              :options="['公', '母']"
+              :options="[
+                { label: '公', value: 'male' },
+                { label: '母', value: 'female' },
+              ]"
               label="性別"
               :readonly="readonly"
               dense
@@ -164,9 +171,9 @@ const pet = ref<IPet>({
   id: '',
   customer_id: '',
   name: '',
-  petType: '狗',
+  petType: 'dog',
   petBreed: '',
-  petGender: '公',
+  petGender: 'male',
   petAge: 0,
   petWeight: 0,
   petNote: '',

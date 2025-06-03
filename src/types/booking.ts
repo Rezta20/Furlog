@@ -1,96 +1,68 @@
-export interface IBookingForm {
+import type { IPet } from './pet';
+import type { ICustomer } from './customer';
+import type { BookingStatus } from '../enums/bookingStatus';
+
+export interface IBookingSearch {
   customerPhone: string;
   orderId: string;
-  storeStatus: BookingStatus[];
-  dateStart: string;
-  dateEnd: string;
+  status: BookingStatus[];
+  dateStart: string; // yyyy-MM-dd
+  dateEnd: string; // yyyy-MM-dd
 }
 
-// 狀態 enum
-export enum BookingStatus {
-  PENDING = 'pending',
-  REJECTED = 'rejected',
-  CONFIRMED = 'confirmed',
-  IN_SERVICE = 'in_service',
-  COMPLETED = 'completed',
-  CANCELLED = 'cancelled',
-  WAITING = 'waiting',
-  CANCELLED_BY_CUSTOMER = 'cancelledByCustomer',
-}
-
-// 服務項目
 export interface IBookingService {
   serviceId: string;
   serviceName: string;
   price: number;
 }
 
-// 寵物資訊
-export interface IPet {
-  petId: string;
-  petName: string;
-  petType: string;
-  petBreed: string;
-  petGender: string;
-  petAge: number;
-  petWeight: number;
-  petNote: string;
-  healthReminder: string;
-  isAttack: boolean;
-  attackNote: string;
-}
-
-// 客戶資訊
-export interface ICustomer {
-  customerId: string;
-  customerName: string;
-  customerPhone: string;
-  customerEmail: string;
-  customerNote: string;
-}
-
-// 狀態歷程
 export interface IBookingHistory {
-  timestamp: string; // 格式：YYYY-MM-DD HH:mm:ss
-  action: string;
-  by: string;
-  note?: string;
+  timestamp: string;
+  action: BookingStatus;
+  by: 'customer' | 'store';
+  note?: string; // 可選的操作備註
 }
-
-// 訂單主體
 export interface IBooking {
   bookingId: string;
-  createdAt: string; // 格式：YYYY-MM-DD HH:mm:ss
-  updatedAt: string; // 格式：YYYY-MM-DD HH:mm:ss
-  source: string;
-  pet: IPet;
+  createdAt: string;
+  updatedAt: string;
+  source: '線上' | '電話' | '現場';
+
   customer: ICustomer;
-  date: string; // 格式：YYYY-MM-DD
-  time: string; // 格式：HH:mm
+
+  pet: IPet[];
+  date: string; // yyyy-MM-dd
+  time: string; // HH:mm
+
   services: IBookingService[];
-  discount: {
+  discount?: {
     type: string;
     amount: number;
   };
+
   totalPrice: number;
   finalPrice: number;
+
   payment: {
-    method: string;
-    status: string;
+    method: '現金' | '刷卡' | 'Line Pay' | '其他';
+    status: 'paid' | 'unpaid';
   };
+
   groomer: {
     groomerId: string;
     groomerName: string;
   };
-  arriveTime: string; // 格式：YYYY-MM-DD HH:mm:ss
-  finishTime: string | null; // 格式：YYYY-MM-DD HH:mm:ss
+
+  arriveTime?: string;
+  finishTime?: string;
+
   status: {
-    customerStatus: BookingStatus;
-    storeStatus: BookingStatus;
-    cancelReason: string;
+    value: BookingStatus;
+    cancelReason?: string;
     history: IBookingHistory[];
   };
-  photoRecords: string[];
-  nextBookingSuggestion: string; // 格式：YYYY-MM-DD
-  note: string;
+
+  photoRecords: string[]; // 照片 URL 陣列
+  nextBookingSuggestion?: string;
+  note?: string;
 }

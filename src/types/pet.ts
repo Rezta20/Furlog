@@ -3,9 +3,9 @@ export interface IPet {
   id: string;
   customer_id: string;
   name: string;
-  petType: '狗' | '貓' | '其他';
+  petType: 'dog' | 'cat' | 'other';
   petBreed: string;
-  petGender: '公' | '母';
+  petGender: 'male' | 'female';
   petAge: number;
   petWeight: number;
   petNote: string;
@@ -18,7 +18,7 @@ export interface IPet {
 
 export interface IPetForm {
   name?: string;
-  petType?: '狗' | '貓' | '其他';
+  petType?: 'dog' | 'cat' | 'other';
   petBreed?: string;
-  petGender?: '公' | '母';
+  petGender?: 'male' | 'female';
 }

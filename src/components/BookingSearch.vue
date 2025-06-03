@@ -10,7 +10,7 @@
       </div>
       <div class="col-12 col-md-4 col-lg-4">
         <q-select
-          v-model="form.storeStatus"
+          v-model="form.status"
           :options="statusOptions"
           label="訂單狀態"
           multiple
@@ -84,23 +84,23 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useQuasar } from 'quasar';
-import { StoreBookingStatusText } from '../enums/bookingStatus';
-import type { IBookingForm } from '../types/booking';
+import { BookingStatusMap } from '../constants/statusMap';
+import type { IBookingSearch } from '../types/booking';
 
 const emit = defineEmits(['search']);
 
 const $q = useQuasar();
 
-const form = ref<IBookingForm>({
+const form = ref<IBookingSearch>({
   customerPhone: '',
   orderId: '',
-  storeStatus: [],
+  status: [],
   dateStart: '',
   dateEnd: '',
 });
 
 const statusOptions = computed(() =>
-  Object.entries(StoreBookingStatusText).map(([value, label]) => ({
+  Object.entries(BookingStatusMap).map(([value, label]) => ({
     label,
     value,
   })),
@@ -109,7 +109,7 @@ const statusOptions = computed(() =>
 function resetForm() {
   form.value.customerPhone = '';
   form.value.orderId = '';
-  form.value.storeStatus = [];
+  form.value.status = [];
   form.value.dateStart = '';
   form.value.dateEnd = '';
 }
@@ -131,12 +131,6 @@ function dateValidator() {
 function doSearch() {
   dateValidator();
 
-  emit('search', {
-    customerPhone: form.value.customerPhone,
-    orderId: form.value.orderId,
-    storeStatus: form.value.storeStatus,
-    dateStart: form.value.dateStart,
-    dateEnd: form.value.dateEnd,
-  });
+  emit('search', form.value);
 }
 </script>

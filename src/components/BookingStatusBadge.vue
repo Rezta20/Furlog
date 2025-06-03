@@ -5,12 +5,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { BookingStatus } from '../enums/bookingStatus';
-import {
-  CustomerBookingStatusText,
-  CustomerBookingStatusColor,
-  StoreBookingStatusText,
-  StoreBookingStatusColor,
-} from '../enums/bookingStatus';
+import { BookingStatusMap, BookingStatusColorMap } from '../constants/statusMap';
 
 // props
 const props = defineProps<{
@@ -19,16 +14,10 @@ const props = defineProps<{
 }>();
 
 const color = computed(() => {
-  if (props.mode === 'store') {
-    return StoreBookingStatusColor[props.status] || 'grey';
-  }
-  return CustomerBookingStatusColor[props.status] || 'grey';
+  return BookingStatusColorMap[props.status] || 'grey';
 });
 
 const text = computed(() => {
-  if (props.mode === 'store') {
-    return StoreBookingStatusText[props.status] || '';
-  }
-  return CustomerBookingStatusText[props.status] || '';
+  return BookingStatusMap[props.status] || '未顯示';
 });
 </script>

@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
-import type { IBooking, IBookingForm } from '../types/booking';
+import type { IBooking, IBookingSearch } from '../types/booking';
 import { BookingStatus } from '../enums/bookingStatus';
 import bookingsRaw from 'src/data/bookings.json';
 
-// 型別守門：驗證是 enum 之一
+// 型別守門：驗證是否為 enum 之一
 function isBookingStatus(val: string): val is BookingStatus {
   return Object.values(BookingStatus).includes(val as BookingStatus);
 }
@@ -12,11 +12,12 @@ export const useBookingStore = defineStore('booking', {
   state: () => {
     let formatted: IBooking[] = [];
 
-    // 1️⃣ Check localStorage first
+    // 1️⃣ 讀取 localStorage 儲存的資料
     const saved = localStorage.getItem('bookings');
     if (saved) {
       try {
         formatted = JSON.parse(saved);
+
         console.log('Initialized bookings from localStorage');
       } catch (e) {
         console.error('Failed to parse localStorage data:', e);
@@ -24,17 +25,19 @@ export const useBookingStore = defineStore('booking', {
       }
     }
 
-    // 2️⃣ Fallback to default JSON if no local data
+    // 2️⃣ 如果沒 localStorage，讀 JSON 資料並格式化 enum
     if (!formatted || formatted.length === 0) {
+      // 這裡要確保 enum 來源一致，並且 status 結構完全符合 IBooking
       formatted = bookingsRaw.map((item) => ({
         ...item,
-        customerStatus: isBookingStatus(item.status.customerStatus)
-          ? item.status.customerStatus
-          : BookingStatus.PENDING,
-        storeStatus: isBookingStatus(item.status.storeStatus)
-          ? item.status.storeStatus
-          : BookingStatus.PENDING,
-      })) as IBooking[];
+        status: {
+          value: isBookingStatus(item.status.value) ? item.status.value : BookingStatus.CREATED,
+          cancelReason: item.status.cancelReason,
+          history: item.status.history,
+        },
+      })) as unknown as IBooking[];
+
+      localStorage.setItem('bookings', JSON.stringify(formatted));
       console.log('Initialized bookings from raw data');
     }
 
@@ -43,93 +46,93 @@ export const useBookingStore = defineStore('booking', {
       originList: formatted,
     };
   },
+
   getters: {
-    // 篩選未來預約（這裡可視情境改篩 customerStatus 或 storeStatus）
     upcoming: (state) => state.list.filter((b) => new Date(b.date) >= new Date()),
   },
+
   actions: {
-    // 新增預約
     add(booking: IBooking) {
       this.list.push(booking);
-    },
-    // 更新預約狀態
-    updateBookingStatus(id: string, status: BookingStatus, role?: 'store' | 'customer') {
-      const idx = this.list.findIndex((b) => b.bookingId === id);
-      if (idx === -1 || !this.list[idx]) return;
-
-      if (!role || role === 'store') {
-        this.list[idx].status.storeStatus = status;
-      }
-      if (!role || role === 'customer') {
-        this.list[idx].status.customerStatus = status;
-      }
-
-      // 🔥 Save to localStorage
       localStorage.setItem('bookings', JSON.stringify(this.list));
     },
 
-    // 移除預約
+    updateBookingStatus(id: string, status: BookingStatus) {
+      function getNowDateTimeString(): string {
+        const date = new Date();
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        const hh = String(date.getHours()).padStart(2, '0');
+        const min = String(date.getMinutes()).padStart(2, '0');
+        const ss = String(date.getSeconds()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
+      }
+
+      const target = this.list.find((b) => b.bookingId === id);
+      if (!target) return;
+
+      target.status.value = status;
+      target.status.history.push({
+        timestamp: getNowDateTimeString(),
+        action: status,
+        by: 'store',
+      });
+
+      localStorage.setItem('bookings', JSON.stringify(this.list));
+    },
+
     remove(id: string) {
       this.list = this.list.filter((b) => b.bookingId !== id);
-    },
-    //篩選預約資料
-    filterList(query: IBookingForm) {
-      const start = query.dateStart;
-      const end = query.dateEnd;
-
-      console.log(query.storeStatus);
-
-      this.list = this.originList.filter((item) => {
-        if (query.storeStatus.length) {
-          console.log(
-            '查詢條件:',
-            query.storeStatus,
-            'item.storeStatus:',
-            item.status.storeStatus,
-            '比對結果:',
-            query.storeStatus.includes(item.status.storeStatus),
-          );
-          if (!query.storeStatus.includes(item.status.storeStatus)) return false;
-        }
-
-        // 電話（模糊查詢）
-        if (query.customerPhone && !item.customer.customerPhone.includes(query.customerPhone))
-          return false;
-
-        // 訂單編號（模糊查詢）
-        if (query.orderId && !item.bookingId.includes(query.orderId)) return false;
-
-        // 狀態（多選 AND 查詢）
-        if (query.storeStatus.length && !query.storeStatus.includes(item.status.storeStatus))
-          return false;
-
-        // 日期區間/單日查詢
-        if (start && end) {
-          if (new Date(item.date) < new Date(start) || new Date(item.date) > new Date(end))
-            return false;
-        } else if (start && !end) {
-          if (item.date !== start) return false;
-        } else if (!start && end) {
-          if (item.date !== end) return false;
-        }
-        // 其餘欄位也可在這裡補
-
-        return true;
-      });
+      localStorage.setItem('bookings', JSON.stringify(this.list));
     },
 
     fetchBookingDetail(id: string) {
-      // 假資料篩選邏輯，實際上你可以改成 fetch 或 axios 請求
-      const result = this.list.find((item) => item.bookingId === id);
-      return result;
+      return this.list.find((item) => item.bookingId === id);
     },
 
     updateBookingDetail(id: string, booking: IBooking) {
       const idx = this.list.findIndex((b) => b.bookingId === id);
       if (idx !== -1) {
         this.list.splice(idx, 1, JSON.parse(JSON.stringify(booking)));
-        // 🔥 Save to localStorage
         localStorage.setItem('bookings', JSON.stringify(this.list));
+      }
+    },
+
+    filterList(query: IBookingSearch) {
+      console.log(query);
+      const phone = query.customerPhone?.trim() || '';
+      const orderId = query.orderId?.trim() || '';
+      const statusList = query.status;
+      const start = query.dateStart;
+      const end = query.dateEnd;
+
+      this.list = this.originList.filter((item) => {
+        console.log(this.originList);
+        // 電話模糊查詢
+        if (phone && !item.customer.phone.includes(phone)) return false;
+
+        // 訂單編號模糊查詢
+        if (orderId && !item.bookingId.includes(orderId)) return false;
+
+        // 狀態（多選 OR 查詢）
+
+        if (statusList.length && !statusList.includes(item.status.value)) return false;
+
+        // 日期區間（含開始與結束當日）
+        if (start && end) {
+          const itemDate = new Date(item.date).getTime();
+          const startDate = new Date(start).getTime();
+          const endDate = new Date(end).getTime();
+          if (itemDate < startDate || itemDate > endDate) return false;
+        }
+
+        return true;
+      });
+
+      // 若完全沒填寫查詢條件，就回復原始列表
+      if (!phone && !orderId && !statusList.length && !start && !end) {
+        this.list = this.originList;
       }
     },
   },
