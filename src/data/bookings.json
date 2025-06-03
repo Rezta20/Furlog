@@ -35,14 +35,19 @@
     "time": "14:00",
     "services": [
       {
-        "serviceId": "svc_001",
-        "serviceName": "洗澡",
-        "price": 500
-      },
-      {
-        "serviceId": "svc_003",
-        "serviceName": "指甲修剪",
-        "price": 200
+        "petId": "pet_001",
+        "items": [
+          {
+            "serviceId": "svc_001",
+            "serviceName": "洗澡",
+            "price": 800
+          },
+          {
+            "serviceId": "svc_002",
+            "serviceName": "全套美容",
+            "price": 1000
+          }
+        ]
       }
     ],
     "discount": {
@@ -62,7 +67,7 @@
     "arriveTime": "2025-06-10 13:50",
     "status": {
       "value": "confirmed",
-      "cancelReason": "取消原因臨時有事",
+      "cancelReason": "",
       "history": [
         {
           "timestamp": "2025-06-01 10:00:00",
@@ -114,9 +119,14 @@
     "time": "11:00",
     "services": [
       {
-        "serviceId": "svc_002",
-        "serviceName": "全套美容",
-        "price": 800
+        "petId": "pet_002",
+        "items": [
+          {
+            "serviceId": "svc_001",
+            "serviceName": "洗澡",
+            "price": 800
+          }
+        ]
       }
     ],
     "totalPrice": 800,
@@ -192,18 +202,38 @@
     "time": "13:00",
     "services": [
       {
-        "serviceId": "svc_001",
-        "serviceName": "洗澡",
-        "price": 500
+        "petId": "pet_003",
+        "items": [
+          {
+            "serviceId": "svc_001",
+            "serviceName": "洗澡",
+            "price": 800
+          },
+          {
+            "serviceId": "svc_002",
+            "serviceName": "修指甲",
+            "price": 200
+          }
+        ]
       },
       {
-        "serviceId": "svc_003",
-        "serviceName": "指甲修剪",
-        "price": 200
+        "petId": "pet_004",
+        "items": [
+          {
+            "serviceId": "svc_001",
+            "serviceName": "洗澡",
+            "price": 800
+          },
+          {
+            "serviceId": "svc_002",
+            "serviceName": "修指甲",
+            "price": 200
+          }
+        ]
       }
     ],
-    "totalPrice": 1400,
-    "finalPrice": 1400,
+    "totalPrice": 2000,
+    "finalPrice": 2000,
     "payment": {
       "method": "現金",
       "status": "paid"
@@ -231,5 +261,171 @@
     "photoRecords": [],
     "nextBookingSuggestion": "",
     "note": "兩隻狗都需洗澡加修指甲。"
+  },
+  {
+    "bookingId": "bk_004",
+    "createdAt": "2025-06-03 09:00:00",
+    "updatedAt": "2025-06-03 10:00:00",
+    "source": "電話",
+    "customer": {
+      "id": "cus_004",
+      "name": "李佩芸",
+      "phone": "0922555666",
+      "email": "peiyun@example.com",
+      "note": "新客人，第一次預約",
+      "created_at": "2025-06-01 08:30",
+      "updated_at": "2025-06-03 10:00"
+    },
+    "pet": [
+      {
+        "id": "pet_010",
+        "customer_id": "cus_004",
+        "name": "可可",
+        "petType": "dog",
+        "petBreed": "貴賓犬",
+        "petGender": "female",
+        "petAge": 3,
+        "petWeight": 5.5,
+        "petNote": "活潑，愛叫",
+        "isAttack": false,
+        "created_at": "2025-06-01 09:00",
+        "updated_at": "2025-06-03 10:00"
+      },
+      {
+        "id": "pet_011",
+        "customer_id": "cus_004",
+        "name": "布丁",
+        "petType": "dog",
+        "petBreed": "柴犬",
+        "petGender": "male",
+        "petAge": 4,
+        "petWeight": 10.2,
+        "petNote": "不喜歡剪指甲",
+        "isAttack": true,
+        "attackNote": "會咬人請注意",
+        "created_at": "2025-06-01 09:30",
+        "updated_at": "2025-06-03 10:00"
+      },
+      {
+        "id": "pet_012",
+        "customer_id": "cus_004",
+        "name": "QQ",
+        "petType": "cat",
+        "petBreed": "英短",
+        "petGender": "male",
+        "petAge": 2,
+        "petWeight": 4.5,
+        "petNote": "怕水，需乾洗",
+        "isAttack": true,
+        "created_at": "2025-06-01 10:00",
+        "updated_at": "2025-06-03 10:00"
+      },
+      {
+        "id": "pet_013",
+        "customer_id": "cus_004",
+        "name": "雪球",
+        "petType": "dog",
+        "petBreed": "哈士奇",
+        "petGender": "female",
+        "petAge": 5,
+        "petWeight": 22.0,
+        "petNote": "體型大，需要兩人協助",
+        "isAttack": false,
+        "created_at": "2025-06-01 10:30",
+        "updated_at": "2025-06-03 10:00"
+      }
+    ],
+    "date": "2025-06-15",
+    "time": "13:30",
+    "services": [
+      {
+        "petId": "pet_010",
+        "items": [
+          {
+            "serviceId": "svc_001",
+            "serviceName": "洗澡",
+            "price": 500
+          },
+          {
+            "serviceId": "svc_003",
+            "serviceName": "指甲修剪",
+            "price": 150
+          }
+        ]
+      },
+      {
+        "petId": "pet_011",
+        "items": [
+          {
+            "serviceId": "svc_001",
+            "serviceName": "洗澡",
+            "price": 550
+          },
+          {
+            "serviceId": "svc_004",
+            "serviceName": "除臭護毛",
+            "price": 200
+          }
+        ]
+      },
+      {
+        "petId": "pet_012",
+        "items": [
+          {
+            "serviceId": "svc_005",
+            "serviceName": "乾洗服務",
+            "price": 400
+          },
+          {
+            "serviceId": "svc_006",
+            "serviceName": "梳毛",
+            "price": 100
+          }
+        ]
+      },
+      {
+        "petId": "pet_013",
+        "items": [
+          {
+            "serviceId": "svc_007",
+            "serviceName": "大型犬洗澡",
+            "price": 900
+          },
+          {
+            "serviceId": "svc_008",
+            "serviceName": "深層護毛",
+            "price": 350
+          }
+        ]
+      }
+    ],
+    "discount": {
+      "type": "活動優惠",
+      "amount": 150
+    },
+    "totalPrice": 3150,
+    "finalPrice": 3000,
+    "payment": {
+      "method": "現金",
+      "status": "unpaid"
+    },
+    "groomer": {
+      "groomerId": "gr_003",
+      "groomerName": "小美"
+    },
+    "arriveTime": null,
+    "status": {
+      "value": "created",
+      "history": [
+        {
+          "timestamp": "2025-06-03 09:00:00",
+          "action": "created",
+          "by": "customer"
+        }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-07-01",
+    "note": "客人希望四隻一起安排，有攻擊性需小心。"
   }
 ]

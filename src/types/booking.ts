@@ -10,10 +10,15 @@ export interface IBookingSearch {
   dateEnd: string; // yyyy-MM-dd
 }
 
-export interface IBookingService {
+export interface IService {
   serviceId: string;
   serviceName: string;
   price: number;
+}
+
+export interface IBookingService {
+  petId: string;
+  items: IService[];
 }
 
 export interface IBookingHistory {
@@ -34,7 +39,10 @@ export interface IBooking {
   date: string; // yyyy-MM-dd
   time: string; // HH:mm
 
-  services: IBookingService[];
+  services: {
+    petId: string;
+    items: IService[];
+  }[];
   discount?: {
     type: string;
     amount: number;
