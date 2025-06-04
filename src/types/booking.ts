@@ -38,6 +38,7 @@ export interface IBooking {
   pet: IPet[];
   date: string; // yyyy-MM-dd
   time: string; // HH:mm
+  duration: number; // 美容時長，單位為分鐘
 
   services: {
     petId: string;

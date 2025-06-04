@@ -17,15 +17,16 @@
     <q-calendar-day
       ref="calendar"
       v-model="selectedDate"
-      view="week"
+      view="day"
+      max-days="5"
       animated
       bordered
       transition-next="slide-left"
       transition-prev="slide-right"
       no-active-date
       :interval-start="8"
-      :interval-count="10"
-      :interval-height="28"
+      :interval-count="14"
+      :interval-height="45"
       short-weekday-label
       @click-date="onClickDate"
     >
@@ -36,11 +37,51 @@
             v-for="booking in getBookingsByDate(timestamp.date)"
             :key="booking.bookingId"
             :color="BookingStatusColorMap[booking.status.value]"
-            :label="`${booking.time} ${booking.customer.name}`"
             class="q-mx-xs q-mb-xs cursor-pointer"
-            @click="() => onClickBooking(booking)"
           />
+          <q-popup-proxy cover transition-show="scale" transition-hide="scale" class="q-pa-sm">
+            <div class="text-left">
+              <div v-for="booking in getBookingsByDate(timestamp.date)" :key="booking.bookingId">
+                {{ booking.time }} - {{ booking.customer.name }} ({{
+                  booking.pet.map((p) => p.name).join(', ')
+                }})
+              </div>
+            </div>
+          </q-popup-proxy>
         </div>
+      </template>
+
+      <!-- 每日時間區塊內的預約 -->
+      <template #day-body="{ scope: { timestamp, timeStartPos, timeDurationHeight } }">
+        <template
+          v-for="(booking, index) in getBookingsByDate(timestamp.date)"
+          :key="booking.bookingId"
+        >
+          <q-badge
+            v-if="booking.time !== undefined"
+            :style="
+              badgeStyles(
+                booking,
+                'body',
+                index,
+                getBookingsByDate(timestamp.date).length,
+                timeStartPos,
+                timeDurationHeight,
+              )
+            "
+            class="q-mx-xs q-mb-xs cursor-pointer text-wrap"
+            :key="booking.bookingId"
+            :color="BookingStatusColorMap[booking.status.value]"
+            @click="() => onClickBooking(booking)"
+          >
+            <div class="text-body2 text-wrap">
+              {{ booking.time }} <br />
+              {{ booking.customer.name }} - {{ booking.pet.map((p) => p.name).join(', ') }}
+            </div>
+
+            <q-tooltip>{{ booking }}</q-tooltip>
+          </q-badge>
+        </template>
       </template>
     </q-calendar-day>
   </q-card>
@@ -48,6 +89,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+
 import { today, QCalendarDay } from '@quasar/quasar-ui-qcalendar';
 import { useBookingStore } from '../stores/useBookingStore';
 import { BookingStatusColorMap } from '../constants/statusMap';
@@ -79,4 +121,32 @@ const onClickDate = (data: string) => {
   console.log(data);
   // console.log('點擊日期：', data.scope.timestamp.date);
 };
+
+function badgeStyles(
+  event: IBooking,
+  type: 'body' | 'header',
+  index: number,
+  total: number,
+  timeStartPos?: (time: string) => number,
+  timeDurationHeight?: (duration: number) => number,
+): Record<string, string> {
+  const style: Record<string, string> = {
+    position: 'absolute',
+
+    fontSize: '14px',
+    zIndex: '1',
+  };
+
+  if (type === 'body' && timeStartPos && timeDurationHeight && event.time && event.duration) {
+    style.top = `${timeStartPos(event.time)}px`;
+    style.height = `${timeDurationHeight(event.duration)}px`;
+  }
+
+  const gap = 2; // px
+  const widthPercent = 100 / total;
+  style.width = `calc(${widthPercent}% - ${gap}px)`;
+  style.left = `calc(${index * widthPercent}% + ${gap / 2}px)`;
+
+  return style;
+}
 </script>

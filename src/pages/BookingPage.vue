@@ -9,8 +9,8 @@
         size="1rem"
         :options="[
           { label: '清單', value: 'list' },
-          { label: '月', value: 'month' },
-          { label: '週', value: 'week' },
+          { label: '月份', value: 'month' },
+          { label: '週期', value: 'week' },
         ]"
         unelevated
         dense

@@ -31,8 +31,9 @@
         "updated_at": "2025-05-24 12:00"
       }
     ],
-    "date": "2025-06-10",
+    "date": "2025-06-04",
     "time": "14:00",
+    "duration": 60,
     "services": [
       {
         "petId": "pet_001",
@@ -115,8 +116,9 @@
         "updated_at": "2025-06-01 12:00"
       }
     ],
-    "date": "2025-06-12",
-    "time": "11:00",
+    "date": "2025-06-05",
+    "time": "14:00",
+    "duration": 90,
     "services": [
       {
         "petId": "pet_002",
@@ -200,6 +202,7 @@
     ],
     "date": "2025-06-15",
     "time": "13:00",
+    "duration": 150,
     "services": [
       {
         "petId": "pet_003",
@@ -337,6 +340,7 @@
     ],
     "date": "2025-06-15",
     "time": "13:30",
+    "duration": 180,
     "services": [
       {
         "petId": "pet_010",
@@ -462,6 +466,7 @@
     ],
     "date": "2025-05-22",
     "time": "11:00",
+    "duration": 30,
     "services": [
       {
         "petId": "pet_010",
@@ -523,6 +528,7 @@
     ],
     "date": "2025-07-03",
     "time": "15:30",
+    "duration": 120,
     "services": [
       {
         "petId": "pet_012",
