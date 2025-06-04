@@ -18,7 +18,7 @@
       ref="calendar"
       v-model="selectedDate"
       view="day"
-      max-days="5"
+      :max-days="5"
       animated
       bordered
       transition-next="slide-left"
@@ -34,14 +34,17 @@
       <template #head-day-event="{ scope: { timestamp } }">
         <div class="q-pa-xs flex justify-center wrap">
           <q-badge
-            v-for="booking in getBookingsByDate(timestamp.date)"
+            v-for="booking in sortBookingsByDateTIme(timestamp.date)"
             :key="booking.bookingId"
             :color="BookingStatusColorMap[booking.status.value]"
             class="q-mx-xs q-mb-xs cursor-pointer"
           />
           <q-popup-proxy cover transition-show="scale" transition-hide="scale" class="q-pa-sm">
             <div class="text-left">
-              <div v-for="booking in getBookingsByDate(timestamp.date)" :key="booking.bookingId">
+              <div
+                v-for="booking in sortBookingsByDateTIme(timestamp.date)"
+                :key="booking.bookingId"
+              >
                 {{ booking.time }} - {{ booking.customer.name }} ({{
                   booking.pet.map((p) => p.name).join(', ')
                 }})
@@ -65,21 +68,27 @@
                 'body',
                 index,
                 getBookingsByDate(timestamp.date).length,
+                getBookingsByDate(timestamp.date),
                 timeStartPos,
                 timeDurationHeight,
               )
             "
-            class="q-mx-xs q-mb-xs cursor-pointer text-wrap"
             :key="booking.bookingId"
             :color="BookingStatusColorMap[booking.status.value]"
             @click="() => onClickBooking(booking)"
           >
-            <div class="text-body2 text-wrap">
-              {{ booking.time }} <br />
-              {{ booking.customer.name }} - {{ booking.pet.map((p) => p.name).join(', ') }}
+            <div v-if="booking.duration === 30" class="text-body2 cursor-pointer">
+              <span class="text-bold">{{ booking.time }}</span> {{ booking.customer.name }} -
+              {{ booking.pet.map((p) => p.name).join(', ') }}
             </div>
 
-            <q-tooltip>{{ booking }}</q-tooltip>
+            <div v-if="booking.duration > 30" class="text-body2 cursor-pointer">
+              <span class="text-bold">{{ booking.time }}</span>
+              {{ booking.customer.name }} <br />
+              {{ booking.pet.map((p) => p.name).join(', ') }}
+            </div>
+
+            <!-- <q-tooltip>{{ booking }}</q-tooltip> -->
           </q-badge>
         </template>
       </template>
@@ -113,6 +122,12 @@ const calendarTitle = computed(() => {
 const getBookingsByDate = (date: string): IBooking[] =>
   bookingStore.list.filter((b) => b.date === date);
 
+const sortBookingsByDateTIme = (date: string): IBooking[] => {
+  return bookingStore.list
+    .filter((b) => b.date === date && b.time) // 避免 undefined time
+    .sort((a, b) => a.time.localeCompare(b.time)); // 依時間排序
+};
+
 const onClickBooking = (booking: IBooking) => {
   console.log('點擊預約：', booking);
 };
@@ -127,12 +142,14 @@ function badgeStyles(
   type: 'body' | 'header',
   index: number,
   total: number,
+  allEvents: IBooking[],
   timeStartPos?: (time: string) => number,
   timeDurationHeight?: (duration: number) => number,
 ): Record<string, string> {
   const style: Record<string, string> = {
     position: 'absolute',
-
+    left: '0',
+    right: '0',
     fontSize: '14px',
     zIndex: '1',
   };
@@ -142,11 +159,39 @@ function badgeStyles(
     style.height = `${timeDurationHeight(event.duration)}px`;
   }
 
-  const gap = 2; // px
-  const widthPercent = 100 / total;
-  style.width = `calc(${widthPercent}% - ${gap}px)`;
-  style.left = `calc(${index * widthPercent}% + ${gap / 2}px)`;
+  function parseTime(time: string): number {
+    const [h, m] = time.split(':').map(Number);
+    if (typeof h !== 'number' || typeof m !== 'number' || isNaN(h) || isNaN(m)) {
+      return 0;
+    }
+    return h * 60 + m;
+  }
 
+  function findOverlaps(target: IBooking, bookings: IBooking[]) {
+    const startA = parseTime(target.time);
+    const endA = startA + target.duration;
+
+    return bookings
+      .filter((b) => {
+        if (b.bookingId === target.bookingId || !b.time || !b.duration) return false;
+        const startB = parseTime(b.time);
+        const endB = startB + b.duration;
+        return !(endA <= startB || startA >= endB); // overlap 判斷
+      })
+      .concat([target]); // 加回自己
+  }
+
+  const gap = 2; // px
+  const overlapped = findOverlaps(event, allEvents); // ⬅️ 你要傳入完整當日所有事件
+
+  if (overlapped.length > 1) {
+    const widthPercent = 100 / overlapped.length;
+    style.width = `calc(${widthPercent}% - ${gap}px)`;
+    style.left = `calc(${index * widthPercent}% + ${gap / 2}px)`;
+  } else {
+    style.width = '100%';
+    style.left = '0';
+  }
   return style;
 }
 </script>
