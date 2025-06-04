@@ -427,5 +427,137 @@
     "photoRecords": [],
     "nextBookingSuggestion": "2025-07-01",
     "note": "客人希望四隻一起安排，有攻擊性需小心。"
+  },
+  {
+    "bookingId": "bk_005",
+    "createdAt": "2025-05-20 09:00:00",
+    "updatedAt": "2025-05-22 10:15:00",
+    "source": "電話預約",
+    "customer": {
+      "id": "cus_005",
+      "name": "林美芳",
+      "phone": "0987654321",
+      "email": "meifang@example.com",
+      "note": "第一次來店，需多加關照",
+      "created_at": "2025-05-01 08:00",
+      "updated_at": "2025-05-20 08:30"
+    },
+    "pet": [
+      {
+        "id": "pet_010",
+        "customer_id": "cus_005",
+        "name": "多多",
+        "petType": "dog",
+        "petBreed": "柴犬",
+        "petGender": "male",
+        "petAge": 3,
+        "petWeight": 12,
+        "petNote": "不喜歡碰肚子",
+        "isAttack": true,
+        "attackNote": "剪指甲時會咬人",
+        "healthReminder": "",
+        "created_at": "2025-05-01 08:00",
+        "updated_at": "2025-05-21 10:00"
+      }
+    ],
+    "date": "2025-05-22",
+    "time": "11:00",
+    "services": [
+      {
+        "petId": "pet_010",
+        "items": [{ "serviceId": "svc_001", "serviceName": "洗澡", "price": 600 }]
+      }
+    ],
+    "discount": { "type": "", "amount": 0 },
+    "totalPrice": 600,
+    "finalPrice": 600,
+    "payment": {
+      "method": "現金",
+      "status": "paid"
+    },
+    "groomer": { "groomerId": "gr_002", "groomerName": "小朱" },
+    "arriveTime": "2025-05-22 10:55",
+    "status": {
+      "value": "arrived",
+      "cancelReason": "",
+      "history": [
+        { "timestamp": "2025-05-20 09:00:00", "action": "created", "by": "store" },
+        { "timestamp": "2025-05-22 10:15:00", "action": "arrived", "by": "store" }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-06-15",
+    "note": ""
+  },
+  {
+    "bookingId": "bk_007",
+    "createdAt": "2025-06-28 15:00:00",
+    "updatedAt": "2025-07-03 17:30:00",
+    "source": "現場預約",
+    "customer": {
+      "id": "cus_007",
+      "name": "陳志偉",
+      "phone": "0933444555",
+      "email": "zwei@example.com",
+      "note": "固定每月美容一次",
+      "created_at": "2024-11-20 11:11",
+      "updated_at": "2025-06-28 15:00"
+    },
+    "pet": [
+      {
+        "id": "pet_012",
+        "customer_id": "cus_007",
+        "name": "小黑",
+        "petType": "dog",
+        "petBreed": "拉不拉多",
+        "petGender": "male",
+        "petAge": 5,
+        "petWeight": 25,
+        "petNote": "",
+        "isAttack": false,
+        "attackNote": "",
+        "healthReminder": "",
+        "created_at": "2024-11-20 11:15",
+        "updated_at": "2025-06-28 15:00"
+      }
+    ],
+    "date": "2025-07-03",
+    "time": "15:30",
+    "services": [
+      {
+        "petId": "pet_012",
+        "items": [
+          { "serviceId": "svc_002", "serviceName": "全套美容", "price": 1200 },
+          { "serviceId": "svc_003", "serviceName": "耳朵清潔", "price": 300 }
+        ]
+      }
+    ],
+    "discount": {
+      "type": "會員優惠",
+      "amount": 200
+    },
+    "totalPrice": 1500,
+    "finalPrice": 1300,
+    "payment": {
+      "method": "信用卡",
+      "status": "paid"
+    },
+    "groomer": {
+      "groomerId": "gr_001",
+      "groomerName": "阿毛"
+    },
+    "arriveTime": "2025-07-03 15:20",
+    "status": {
+      "value": "finished",
+      "cancelReason": "",
+      "history": [
+        { "timestamp": "2025-06-28 15:00:00", "action": "created", "by": "store" },
+        { "timestamp": "2025-07-03 15:20:00", "action": "arrived", "by": "store" },
+        { "timestamp": "2025-07-03 17:30:00", "action": "finished", "by": "store" }
+      ]
+    },
+    "photoRecords": [],
+    "nextBookingSuggestion": "2025-08-01",
+    "note": ""
   }
 ]

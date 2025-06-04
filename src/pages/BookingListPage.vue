@@ -1,18 +1,16 @@
 <template>
-  <q-page padding>
-    <div class="q-gutter-md">
-      <p class="text-bold text-h5">預約清單</p>
-      <!-- search -->
-      <q-card class="q-pa-md">
-        <BookingSearch @search="onSearch" />
-      </q-card>
+  <div class="q-gutter-md">
+    <!-- <p class="text-bold text-h5">預約清單</p> -->
+    <!-- search -->
+    <q-card class="q-pa-md">
+      <BookingSearch @search="onSearch" />
+    </q-card>
 
-      <!-- table -->
-      <q-card class="q-pa-md">
-        <BookingTable :rows="bookingStore.list" :columns="columns" row-key="id" />
-      </q-card>
-    </div>
-  </q-page>
+    <!-- table -->
+    <q-card class="q-pa-md">
+      <BookingTable :rows="bookingStore.list" :columns="columns" row-key="id" />
+    </q-card>
+  </div>
 </template>
 
 <script setup lang="ts">
