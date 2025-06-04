@@ -3,7 +3,7 @@
     <div class="row justify-between items-center q-pa-sm">
       <div class="col-4 col-md-5 q-mr-lg">
         <q-btn color="primary" icon="chevron_left" @click="onPrev" flat />
-        <q-btn color="primary" label="Today" @click="onToday" flat />
+        <q-btn color="primary" label="今天" @click="onToday" flat />
         <q-btn color="primary" icon="chevron_right" @click="onNext" flat />
         <q-btn color="primary" icon="event" flat>
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -57,7 +57,6 @@ import { useBookingStore } from '../stores/useBookingStore';
 import type { IBooking } from '../types/booking';
 import { BookingStatusColorMap } from '../constants/statusMap';
 
-// const selectedDate = ref(new Date().toISOString().slice(0, 10)); // yyyy-MM-dd
 const bookingStore = useBookingStore();
 
 const calendarTitle = computed(() => {
@@ -67,8 +66,8 @@ const calendarTitle = computed(() => {
   return `${year} 年 ${month} 月`;
 });
 
-const calendar = ref<QCalendarMonth>(),
-  selectedDate = ref(today());
+const calendar = ref<QCalendarMonth>();
+const selectedDate = ref(today());
 
 function onToday() {
   if (calendar.value) {
