@@ -1,5 +1,6 @@
 <template>
   <q-page padding>
+    <q-btn color="primary" icon="chevron_left" label="回上一頁" flat dense @click="$router.back" />
     <q-card class="q-pa-lg q-mx-auto">
       <q-card-section class="row">
         <div class="col-8">

@@ -73,16 +73,17 @@
                 timeDurationHeight,
               )
             "
+            class="cursor-pointer"
             :key="booking.bookingId"
             :color="BookingStatusColorMap[booking.status.value]"
-            @click="() => onClickBooking(booking)"
+            @click="() => $router.push('/booking/' + booking.bookingId)"
           >
-            <div v-if="booking.duration === 30" class="text-body2 cursor-pointer">
+            <div v-if="booking.duration === 30" class="text-body2">
               <span class="text-bold">{{ booking.time }}</span> {{ booking.customer.name }} -
               {{ booking.pet.map((p) => p.name).join(', ') }}
             </div>
 
-            <div v-if="booking.duration > 30" class="text-body2 cursor-pointer">
+            <div v-if="booking.duration > 30" class="text-body2">
               <span class="text-bold">{{ booking.time }}</span>
               {{ booking.customer.name }} <br />
               {{ booking.pet.map((p) => p.name).join(', ') }}
@@ -128,9 +129,9 @@ const sortBookingsByDateTIme = (date: string): IBooking[] => {
     .sort((a, b) => a.time.localeCompare(b.time)); // 依時間排序
 };
 
-const onClickBooking = (booking: IBooking) => {
-  console.log('點擊預約：', booking);
-};
+// const onClickBooking = (booking: IBooking) => {
+//   console.log('點擊預約：', booking);
+// };
 
 const onClickDate = (data: string) => {
   console.log(data);

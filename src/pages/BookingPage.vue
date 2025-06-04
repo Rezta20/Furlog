@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-floating-promises -->
 <template>
   <q-page padding>
     <div class="row items-center justify-between">
@@ -28,19 +29,40 @@
     </div>
 
     <!-- 週檢視模式 -->
-    <q-card v-if="viewMode === 'week'">
+    <div v-if="viewMode === 'week'">
       <BookingCalendarWeek />
-    </q-card>
+    </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 // import { useBookingStore } from '../stores/useBookingStore';
 import BookingListPage from './BookingListPage.vue';
 import BookingCalendarMonth from '../components/BookingCalendarMonth.vue';
 import BookingCalendarWeek from '../components/BookingCalendarWeek.vue';
+import { useRoute, useRouter } from 'vue-router';
 
 // const bookingStore = useBookingStore();
 const viewMode = ref<'list' | 'month' | 'week'>('list');
+const route = useRoute();
+const router = useRouter();
+
+onMounted(() => {
+  if (!route.query.view) {
+    // 如果沒有指定 view，預設為 'list'
+    void router.replace({ query: { ...route.query, view: 'list' } });
+    return;
+  }
+
+  const queryView = route.query.view as string;
+  if (['list', 'month', 'week'].includes(queryView)) {
+    viewMode.value = queryView as 'list' | 'month' | 'week';
+  }
+});
+
+// 當 viewMode 改變時，更新網址
+watch(viewMode, (newView) => {
+  void router.replace({ query: { ...route.query, view: newView } });
+});
 </script>

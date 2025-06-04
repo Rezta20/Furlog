@@ -100,7 +100,7 @@
           flat
           icon="description"
           color="primary"
-          @click="$router.push(`/booking-list/${props.row.bookingId}`)"
+          @click="$router.push(`/booking/${props.row.bookingId}`)"
         />
       </q-td>
     </template>
