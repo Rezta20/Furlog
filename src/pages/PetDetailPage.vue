@@ -23,125 +23,40 @@
         />
       </div>
     </div>
+    <PetInfoCard
+      :pet="pet"
+      :readonly="readonly"
+      :ownerName="ownerName"
+      @onOwner="ownerClick"
+      @update:pet="(val: IPet) => (pet = val)"
+    />
 
-    <q-card class="q-pa-lg q-mx-auto">
-      <q-card-section>
-        <div class="row q-col-gutter-md">
-          <div class="col-6">
-            <q-input v-model="pet.name" label="寵物名稱" :readonly="readonly" dense />
-          </div>
-          <div class="col-6">
-            <q-select
-              v-model="pet.petType"
-              :options="[
-                { label: '狗', value: 'dog' },
-                { label: '貓', value: 'cat' },
-                { label: '其他', value: 'other' },
-              ]"
-              label="寵物種類"
-              :readonly="readonly"
-              dense
-              emit-value
-              map-options
-              clearable
-            />
-          </div>
-          <div class="col-6">
-            <q-input v-model="pet.petBreed" label="品種" :readonly="readonly" dense />
-          </div>
-          <div class="col-6">
-            <q-select
-              v-model="pet.petGender"
-              :options="[
-                { label: '公', value: 'male' },
-                { label: '母', value: 'female' },
-              ]"
-              label="性別"
-              :readonly="readonly"
-              dense
-              emit-value
-              map-options
-              clearable
-            />
-          </div>
-          <div class="col-6">
-            <q-input
-              v-model.number="pet.petAge"
-              label="年齡（歲）"
-              :readonly="readonly"
-              type="number"
-              dense
-            />
-          </div>
-          <div class="col-6">
-            <q-input
-              v-model.number="pet.petWeight"
-              label="體重（kg）"
-              :readonly="readonly"
-              type="number"
-              dense
-            />
-          </div>
-          <div class="col-12">
-            <q-input
-              v-model="pet.petNote"
-              label="備註"
-              :readonly="readonly"
-              type="textarea"
-              autogrow
-              dense
-            />
-          </div>
-          <div class="col-12">
-            <q-input
-              v-model="ownerName"
-              label="飼主"
-              :hint="ownerName ? '' : '點擊選擇飼主'"
-              readonly
-              dense
-              @click="onOwner"
-            >
-              <template v-if="ownerName && petId !== 'create'" v-slot:append>
-                <q-icon name="chevron_right" />
-              </template>
-            </q-input>
-          </div>
-          <div class="col-6">
-            <q-input v-model="pet.created_at" label="建立時間" readonly dense />
-          </div>
-          <div class="col-6">
-            <q-input v-model="pet.updated_at" label="更新時間" readonly dense />
-          </div>
-        </div>
-      </q-card-section>
-    </q-card>
+    <!-- 顧客選擇 Dialog -->
+    <q-dialog v-model="showCustomerDialog">
+      <q-card style="min-width: 700px; max-width: 90vw">
+        <q-card-section class="text-h6 q-pb-sm">選擇飼主</q-card-section>
+        <q-separator />
+
+        <!-- 搜尋區塊 -->
+        <q-card-section>
+          <CustomerSearch @search="handleSearch" />
+        </q-card-section>
+        <!-- 顧客列表 table -->
+        <q-card-section>
+          <CustomerTable
+            :rows="$customerStore.list"
+            :columns="columns"
+            row-key="id"
+            @row-click="selectCustomer"
+          />
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="取消" color="primary" @click="showCustomerDialog = false" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
-  <!-- 顧客選擇 Dialog -->
-  <q-dialog v-model="showCustomerDialog">
-    <q-card style="min-width: 700px; max-width: 90vw">
-      <q-card-section class="text-h6 q-pb-sm">選擇飼主</q-card-section>
-      <q-separator />
-
-      <!-- 搜尋區塊 -->
-      <q-card-section>
-        <CustomerSearch @search="handleSearch" />
-      </q-card-section>
-
-      <!-- 顧客列表 table -->
-      <q-card-section>
-        <CustomerTable
-          :rows="customerStore.list"
-          :columns="columns"
-          row-key="id"
-          @row-click="selectCustomer"
-        />
-      </q-card-section>
-
-      <q-card-actions align="right">
-        <q-btn flat label="取消" color="primary" @click="showCustomerDialog = false" />
-      </q-card-actions>
-    </q-card>
-  </q-dialog>
 </template>
 
 <script setup lang="ts">
@@ -155,17 +70,20 @@ import type { ICustomer, ICustomerForm } from '../types/customer';
 import type { ITableColumns } from '../types/tables';
 import CustomerSearch from '../components/CustomerSearch.vue';
 import CustomerTable from '../components/CustomerTable.vue';
+import PetInfoCard from '../components/petInfoCard.vue';
 
 const $q = useQuasar();
-const route = useRoute();
+const $route = useRoute();
 const $router = useRouter();
-const petStore = usePetStore();
-const customerStore = useCustomerStore();
+const $petStore = usePetStore();
+const $customerStore = useCustomerStore();
 
-const owner = computed(() => customerStore.list.find((c) => c.id === pet.value.customer_id));
+const selectedCustomerName = ref('');
+const showCustomerDialog = ref(false);
+const owner = computed(() => $customerStore.list.find((c) => c.id === pet.value.customer_id));
 const ownerName = computed(() => owner.value?.name ?? '');
 
-const petId = route.params.id as string;
+const petId = $route.params.id as string;
 const readonly = ref(true);
 const pet = ref<IPet>({
   id: '',
@@ -183,9 +101,6 @@ const pet = ref<IPet>({
   created_at: '',
   updated_at: '',
 });
-const showCustomerDialog = ref(false);
-const selectedCustomerId = ref('');
-const selectCustomerName = ref('');
 
 const columns: ITableColumns[] = [
   { name: 'name', label: '姓名', field: 'name', align: 'left', sortable: true },
@@ -194,10 +109,11 @@ const columns: ITableColumns[] = [
 ];
 
 onMounted(() => {
-  const detail = petStore.fetchPetDetail(petId);
+  const detail = $petStore.fetchPetDetail(petId);
 
   if (!detail) readonly.value = false;
 
+  console.log('pet detail:', detail);
   pet.value = detail || {
     ...pet.value,
     id: '',
@@ -214,6 +130,27 @@ onMounted(() => {
   }
 });
 
+function handleSearch(form: ICustomerForm) {
+  $customerStore.filterList(form);
+}
+
+function selectCustomer(evt: Event, row: ICustomer) {
+  console.log(row);
+
+  pet.value.customer_id = row.id;
+  selectedCustomerName.value = row.name;
+  showCustomerDialog.value = false;
+  $customerStore.filterList({}); // 更新顧客列表
+}
+
+async function ownerClick() {
+  if (petId !== 'create') {
+    await $router.push(`/customer-list/${owner.value?.id}`);
+    return;
+  }
+  showCustomerDialog.value = true;
+}
+
 function onEdit() {
   readonly.value = false;
   $q.notify({ type: 'info', message: '已開啟編輯模式' });
@@ -221,8 +158,9 @@ function onEdit() {
 
 function onSave() {
   if (!pet.value) return;
+  console.log(pet.value.petType);
   pet.value.updated_at = new Date().toISOString().slice(0, 16).replace('T', ' ');
-  petStore.updatePet(pet.value);
+  $petStore.updatePet(pet.value);
   readonly.value = true;
   $q.notify({ type: 'positive', message: '寵物資料已儲存' });
 }
@@ -230,12 +168,14 @@ function onSave() {
 async function onCreate() {
   if (!pet.value) return;
 
-  const isDuplicate = petStore.list.some((p) => p.name.trim() === pet.value.name.trim());
+  const isDuplicate = $petStore.list.some(
+    (p) => p.name.trim() === pet.value.name.trim() && p.customer_id === pet.value.customer_id,
+  );
 
   if (isDuplicate) {
     $q.notify({
       type: 'negative',
-      message: '已有相同名稱的寵物，請確認是否重複建立',
+      message: '已有相同的寵物，請確認是否重複建立',
     });
     return;
   }
@@ -244,37 +184,16 @@ async function onCreate() {
   pet.value.created_at = now;
   pet.value.updated_at = now;
   pet.value.id = crypto.randomUUID();
-  pet.value.customer_id = selectedCustomerId.value;
 
-  if (!selectedCustomerId.value) {
+  if (!pet.value.customer_id) {
     $q.notify({ type: 'negative', message: '請選擇一位飼主' });
     return;
   }
 
-  petStore.createPet(pet.value);
+  $petStore.createPet(pet.value);
   readonly.value = true;
   $q.notify({ type: 'positive', message: '新寵物已建立' });
 
   await $router.push('/pet-list');
-}
-
-async function onOwner() {
-  if (owner.value && petId !== 'create') {
-    await $router.push(`/customer-list/${owner.value?.id}`);
-    return;
-  }
-
-  showCustomerDialog.value = true;
-}
-
-function handleSearch(form: ICustomerForm) {
-  customerStore.filterList(form);
-}
-
-function selectCustomer(evt: Event, row: ICustomer) {
-  pet.value.customer_id = row.id;
-  selectCustomerName.value = row.name;
-  showCustomerDialog.value = false;
-  customerStore.filterList({}); // 更新顧客列表
 }
 </script>

@@ -5,7 +5,7 @@
     </template>
 
     <template #body-cell-petType="props">
-      <q-td :props="props">{{ props.row.petType }}</q-td>
+      <q-td :props="props">{{ petTypeMap[props.row.petType] }}</q-td>
     </template>
 
     <template #body-cell-petBreed="props">
@@ -36,6 +36,7 @@
 <script setup lang="ts">
 import type { IPet } from '../types/pet';
 import type { ITableColumns } from '../types/tables';
+import { petTypeMap } from '../constants/pet';
 
 defineProps<{
   rows: IPet[];

@@ -42,7 +42,7 @@
             :color="BookingStatusColorMap[item.status.value as keyof typeof BookingStatusColorMap]"
             :label="getBookingLabel(item)"
             class="q-mb-xs cursor-pointer full-width text-wrap"
-            @click="() => onClickBooking(item)"
+            @click="$router.push('/booking/' + item.bookingId)"
           />
         </div>
       </template>
@@ -97,9 +97,9 @@ const onClickDate = (data: { scope: { timestamp: { date: string } } }) => {
 };
 
 // 點擊預約
-const onClickBooking = (booking: IBooking) => {
-  console.log('Clicked booking:', booking);
-};
+// const onClickBooking = (booking: IBooking) => {
+//   console.log('Clicked booking:', booking);
+// };
 
 function getBookingLabel(booking: IBooking): string {
   const time = booking.time;
