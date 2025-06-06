@@ -1,0 +1,41 @@
+[
+  {
+    "recordId": "rec_001",
+    "bookingId": "bk_001",
+    "petId": "pet_001",
+    "groomerId": "gr_001",
+    "services": ["洗澡", "全套美容"],
+    "photos": ["/uploads/pet_001_before.jpg", "/uploads/pet_001_after.jpg"],
+    "mood": "calm",
+    "skinCondition": "毛髮較乾，有少許打結，耳朵內側有輕微紅腫。 ",
+    "note": "整體狀況良好，毛髮打結部位已順利清理。建議下次多補充護毛素。 ",
+    "createdAt": "2025-06-04 15:10",
+    "nextBookingSuggestion": "2025-07-05"
+  },
+  {
+    "recordId": "rec_002",
+    "bookingId": "bk_003",
+    "petId": "pet_003",
+    "groomerId": "gr_002",
+    "services": ["剪毛"],
+    "photos": ["/uploads/pet_003_before.jpg", "/uploads/pet_003_after.jpg"],
+    "mood": "aggressive",
+    "skinCondition": "皮膚無明顯異常，但貓咪因緊張抓咬，修剪後留意傷口，已進行消毒。 ",
+    "note": "剪毛過程中貓咪多次企圖抓人，建議下次使用防咬套或改約溫和時段。 ",
+    "createdAt": "2025-06-15 14:05",
+    "nextBookingSuggestion": "2025-07-15"
+  },
+  {
+    "recordId": "rec_003",
+    "bookingId": "bk_007",
+    "petId": "pet_012",
+    "groomerId": "gr_001",
+    "services": ["全套美容", "耳朵清潔"],
+    "photos": ["/uploads/pet_012_before.jpg", "/uploads/pet_012_after.jpg"],
+    "mood": "excited",
+    "skinCondition": "皮膚健康，無跳蚤或皮膚紅腫。毛髮豐厚，剪毛流暢。 ",
+    "note": "狗狗表現興奮，但未影響操作。下次可以嘗試延長間隔到 45 天。 ",
+    "createdAt": "2025-07-03 17:40",
+    "nextBookingSuggestion": "2025-08-01"
+  }
+]
