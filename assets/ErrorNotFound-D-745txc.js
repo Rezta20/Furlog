@@ -1,1 +1,0 @@
-import{br as e,aa as t,a2 as r,a4 as o,a7 as s,a3 as n,a5 as c}from"./index-IoTA-hBY.js";import{Q as l}from"./QPage-Dgq2Ci5f.js";const d={};function f(_,a){return r(),t(l,{padding:"",class:"column items-center justify-center"},{default:o(()=>[a[0]||(a[0]=s("h3",null,"抱歉，你要的頁面不存在",-1)),n(c,{label:"回首頁",to:"/"})]),_:1,__:[0]})}const m=e(d,[["render",f]]);export{m as default};
