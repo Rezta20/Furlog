@@ -4,6 +4,7 @@ Furlog 是一套專為寵物美容店設計的店務管理系統，協助商家�
 
 👉 [Demo 預覽（GitHub Pages）](https://rezta20.github.io/Furlog/)  
 👉 [Dev Issue Tracker / MVP Docs（Notion）](https://watery-beast-0f9.notion.site/FURLOG-Site-Map-1fde71962f7f807db44cf260bcd91daa)
+👉 [Furlog v1.0 文件設計規劃 (GitHub Repo)](https://github.com/Rezta20/FurS)
 
 ---
 
@@ -24,7 +25,6 @@ Furlog 是一套專為寵物美容店設計的店務管理系統，協助商家�
 - **員工與美容師管理模組模組**：美容師資料與統計、排班與出勤管理
 - **報表分析模組**：異常狀況快速提醒（預約衝突 / 毛孩異常）、收入報表統計
 - **數據報表與分析模組**:營運報表 預約數趨勢（服務類別比）、客戶回流與流失率報表
-  -\*\*W
 
 ---
 
@@ -95,7 +95,7 @@ Furlog 是一套專為寵物美容店設計的店務管理系統，協助商家�
 
 | Sprint 階段 | 模組                | 重點目標                   | 已完成 |
 | ----------- | ------------------- | -------------------------- | ------ |
-| Sprint 1    | 顧客 / 毛孩管理     | 建立基本 CRUD 與資料關聯   | [x]    |
+| Sprint 1    | 顧客 / 毛孩管理     | 建立基本 CRUD 與資料關聯   | ✅     |
 | Sprint 2    | 美容排程 + 紀錄     | 預約 → 美容 → 紀錄整合流程 |        |
 | Sprint 3    | 籠房管理 + 住宿流程 | 空間分配與照護紀錄         |        |
 | Sprint 4    | Dashboard           | 整合今日概況與異常快速提醒 |        |
