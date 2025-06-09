@@ -1,40 +1,110 @@
-# Quasar App (furlog)
+# 🐾 Furlog｜寵物店美容與住宿管理系統
 
-A Quasar Project
+Furlog 是一套專為寵物美容店設計的店務管理系統，協助商家整合預約、住宿、美容紀錄、籠位分配與 LINE 通知，簡化日常作業流程、提升服務體驗。此為個人作品集專案，持續開發中 🔧
 
-## Install the dependencies
-```bash
-yarn
-# or
-npm install
-```
+👉 [Demo 預覽（GitHub Pages）](https://rezta20.github.io/Furlog/)  
+👉 [Dev Issue Tracker / MVP Docs（Notion）](https://watery-beast-0f9.notion.site/FURLOG-Site-Map-1fde71962f7f807db44cf260bcd91daa)
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
-```bash
-quasar dev
-```
+---
 
+## 📦 系統模組架構
 
-### Lint the files
-```bash
-yarn lint
-# or
-npm run lint
-```
+### MVP
 
+- **主控台 Dashboard**：今日預約、住宿狀況總覽、異常提醒
+- **顧客與毛孩管理**：支援多寵物、等級標註與健康紀錄
+- **美容模組**：預約排程、服務紀錄、美容前後照片上傳
+- **住宿 / 安親模組**：籠位管理、入住退房與行為紀錄
+- **行銷與通知**：LINE Bot 完工通知、回訪提醒、生日推播
+- **報表分析模組**：顧客回流、服務趨勢
 
-### Format the files
-```bash
-yarn format
-# or
-npm run format
-```
+### Extend
 
+- **賣場/商品模組**：商品管理、顧客購買紀錄、優惠設定
+- **員工與美容師管理模組模組**：美容師資料與統計、排班與出勤管理
+- **報表分析模組**：異常狀況快速提醒（預約衝突 / 毛孩異常）、收入報表統計
+- **數據報表與分析模組**:營運報表 預約數趨勢（服務類別比）、客戶回流與流失率報表
+  -\*\*W
 
-### Build the app for production
-```bash
-quasar build
-```
+---
 
-### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+## 🚧 MVP 開發進度
+
+### 1.顧客與毛孩資料管理（已完成）
+
+- [x] 顧客清單（新增 / 編輯 / 查詢）
+- [x] 毛孩清單（支援一位顧客多隻寵物）
+- [x] 毛孩建立資料時 可以選飼主
+
+### 2.美容流程（開發中）
+
+- [x] 美容預約排程（日曆 / 列表視圖）
+- [ ] 新增 / 編輯美容預約（可指定美容師）
+- [ ] 美容服務紀錄（勾選服務項目、異常備註）
+- [ ] 美容照片上傳（前照 / 後照）
+
+### 3.住宿 / 籠房管理（開發中）
+
+- [ ] 籠房總覽（籠位狀態標記：空 / 滿 / 清潔中）
+- [ ] 入住登記（設定入住 / 退房時間 + 指派籠位）
+- [ ] 在住列表（顯示入住中寵物、可備註異常狀況）
+
+### 4.Dashboard
+
+- [ ] 今日預約總覽（美容 / 安親 / 住宿分開顯示）
+- [ ] 籠房使用狀態一覽（以色塊標示）
+
+### 5.LINE OA 通知整合
+
+- [ ] 美容完成通知（固定模板文字）
+- [ ] 安親 / 住宿退房通知（手動發送）
+
+---
+
+## 🧪 技術架構
+
+| 類別       | 技術選型                                                                                     |
+| ---------- | -------------------------------------------------------------------------------------------- |
+| 前端框架   | Vue 3 + Quasar                                                                               |
+| UI 套件    | Quasar UI                                                                                    |
+| 資料庫服務 | Firebase（規劃中）                                                                           |
+| 認證與存儲 | 現階段採用 localStorage 暫存使用者資料，預計串接 Firebase Authentication 與 Firebase Storage |
+
+| 通知整合 | LINE Messaging API |
+| 部署方式 | GitHub Pages（SPA） |
+
+---
+
+## 📂 資料表設計（部分預覽）
+
+- `users`：顧客資料（姓名、電話、備註）
+- `pets`：毛孩資料（體型、健康紀錄、攻擊性）
+- `appointments`：預約（美容/住宿）
+- `groomings`：美容紀錄（服務項目、照片）
+- `cages`：籠房資料與使用狀態
+- `stays`：住宿安親記錄
+- `messages`：LINE 通知發送記錄
+
+開發中會部分修改，並非與初步規劃文件相同
+
+完整 Schema 規劃請見 資料庫設計 [Notion 連結](https://watery-beast-0f9.notion.site/FURLOG-Site-Map-1fde71962f7f807db44cf260bcd91daa)
+
+---
+
+## 🎯 開發規劃
+
+| Sprint 階段 | 模組                | 重點目標                   | 已完成 |
+| ----------- | ------------------- | -------------------------- | ------ |
+| Sprint 1    | 顧客 / 毛孩管理     | 建立基本 CRUD 與資料關聯   | [x]    |
+| Sprint 2    | 美容排程 + 紀錄     | 預約 → 美容 → 紀錄整合流程 |        |
+| Sprint 3    | 籠房管理 + 住宿流程 | 空間分配與照護紀錄         |        |
+| Sprint 4    | Dashboard           | 整合今日概況與異常快速提醒 |        |
+| Sprint 5    | LINE 通知           | 串接完成通知與回訪推播功能 |        |
+
+---
+
+## 📨 聯絡方式
+
+本作品為面試與展示用 Side Project，持續開發中，如有機會合作或面試邀約歡迎來信聯繫！
+
+- Email: mariafu0801@gmail.com
