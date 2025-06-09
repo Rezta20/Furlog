@@ -2,8 +2,10 @@
 
 Furlog 是一套專為寵物美容店設計的店務管理系統，協助商家整合預約、住宿、美容紀錄、籠位分配與 LINE 通知，簡化日常作業流程、提升服務體驗。此為個人作品集專案，持續開發中 🔧
 
-👉 [Demo 預覽（GitHub Pages）](https://rezta20.github.io/Furlog/)  
+👉 [Demo 預覽（GitHub Pages）](https://rezta20.github.io/Furlog/)
+
 👉 [Dev Issue Tracker / MVP Docs（Notion）](https://watery-beast-0f9.notion.site/FURLOG-Site-Map-1fde71962f7f807db44cf260bcd91daa)
+
 👉 [Furlog v1.0 文件設計規劃 (GitHub Repo)](https://github.com/Rezta20/FurS)
 
 ---
