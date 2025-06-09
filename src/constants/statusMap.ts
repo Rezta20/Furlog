@@ -23,3 +23,15 @@ export const BookingStatusColorMap: Record<BookingStatus, string> = {
   [BookingStatus.NO_SHOW]: 'red-5',
   [BookingStatus.REJECTED]: 'red-5',
 };
+
+export const HistoryActionLabelMap: Record<BookingStatus, string> = {
+  [BookingStatus.CREATED]: '建立預約',
+  [BookingStatus.CONFIRMED]: '確認預約',
+  [BookingStatus.IN_SERVICE]: '開始服務',
+  [BookingStatus.ARRIVED]: '等待服務',
+  [BookingStatus.FINISHED]: '服務完成',
+  [BookingStatus.CANCELLED_BY_STORE]: '店家取消',
+  [BookingStatus.CANCELLED_BY_CUSTOMER]: '顧客取消',
+  [BookingStatus.NO_SHOW]: '客未到店',
+  [BookingStatus.REJECTED]: '預約遭拒',
+};

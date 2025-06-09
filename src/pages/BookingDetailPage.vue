@@ -1,753 +1,148 @@
 <template>
   <q-page padding>
-    <q-btn color="primary" icon="chevron_left" label="回上一頁" flat dense @click="$router.back" />
-    <q-card class="q-pa-lg q-mx-auto">
-      <q-card-section class="row">
-        <div class="col-8">
-          <div class="text-h6">訂單詳情</div>
-        </div>
-        <div v-if="booking" class="col-4 row q-gutter-md justify-end">
-          <q-btn
-            v-if="booking?.status.value === 'created'"
-            label="接單"
-            type="submit"
-            color="info"
-            @click="onConfirmBooking"
-          />
-          <q-btn
-            v-if="booking?.status.value === 'created'"
-            label="拒絕"
-            type="submit"
-            color="negative"
-            @click="onRejectedBooking"
-          />
-          <q-btn
-            v-if="isToday(booking.date) && booking?.status.value === 'confirmed'"
-            label="到店"
-            type="submit"
-            :color="getStatusColor('arrived')"
-            @click="onArrivedForService"
-          />
-          <q-btn
-            v-if="isToday(booking.date) && booking?.status.value === 'arrived'"
-            label="美容去"
-            type="submit"
-            :color="getStatusColor('in_service')"
-            @click="onServiceBooking"
-          />
-          <q-btn
-            v-if="booking?.status.value === 'in_service'"
-            label="完成"
-            type="submit"
-            :color="getStatusColor('finished')"
-            @click="onFinishedBooking"
-          />
-          <q-btn
-            v-if="readonly"
-            label="編輯"
-            type="submit"
-            color="primary"
-            @click="onEditBooking"
-          />
-          <q-btn
-            v-if="!readonly"
-            label="儲存"
-            type="submit"
-            color="primary"
-            @click="onSaveBooking"
-          />
-          <q-btn
-            v-if="
-              booking?.status.value !== 'cancelled_by_customer' &&
-              booking?.status.value !== 'created' &&
-              booking?.status.value !== 'rejected' &&
-              booking?.status.value !== 'finished'
-            "
-            label="取消"
-            type="submit"
-            color="secondary"
-            outline
-            @click="onCancelledBooking"
-          />
-        </div>
-      </q-card-section>
-      <q-separator />
-
-      <!-- 基本資訊 -->
-      <q-card-section>
-        <div class="row q-col-gutter-x-lg">
-          <div class="col-9">
-            <q-card flat>
-              <q-card-section class="q-pa-none">
-                <div class="row q-col-gutter-md">
-                  <div class="col-6">
-                    <q-input
-                      v-if="booking"
-                      label="預約編號"
-                      v-model="booking.bookingId"
-                      readonly
-                      dense
-                      outlined
-                    />
-                  </div>
-                  <div class="col-6">
-                    <q-input
-                      v-if="booking"
-                      label="預約來源"
-                      v-model="booking.source"
-                      :readonly="readonly"
-                      dense
-                      outlined
-                    />
-                  </div>
-                  <div class="col-6">
-                    <q-input
-                      v-if="booking"
-                      label="預約日期"
-                      v-model="booking.date"
-                      :readonly="readonly"
-                      dense
-                      outlined
-                    />
-                  </div>
-                  <div class="col-6">
-                    <q-input
-                      v-if="booking"
-                      label="預約時間"
-                      v-model="booking.time"
-                      :readonly="readonly"
-                      dense
-                      outlined
-                    />
-                  </div>
-                  <div class="col-6">
-                    <q-input
-                      v-if="booking"
-                      label="建立時間"
-                      v-model="booking.createdAt"
-                      :readonly="readonly"
-                      dense
-                      outlined
-                    />
-                  </div>
-                  <div class="col-6">
-                    <q-input
-                      v-if="booking"
-                      label="更新時間"
-                      v-model="booking.updatedAt"
-                      :readonly="readonly"
-                      dense
-                      outlined
-                    />
-                  </div>
-                  <q-input
-                    v-if="booking"
-                    label="訂單備註"
-                    v-model="booking.note"
-                    :readonly="readonly"
-                    type="textarea"
-                    class="col-12"
-                    autogrow
-                    outlined
-                  />
-                </div>
-              </q-card-section>
-            </q-card>
-
-            <div>
-              <q-card flat>
-                <q-card-section class="q-px-none">
-                  <div class="text-subtitle1 q-mb-sm">
-                    <q-icon name="person" class="q-mr-xs" />顧客資訊
-                  </div>
-                  <div class="row q-col-gutter-md">
-                    <div class="col-4">
-                      <q-input
-                        v-if="booking"
-                        label="姓名"
-                        v-model="booking.customer.name"
-                        :readonly="readonly"
-                        dense
-                        outlined
-                      />
-                    </div>
-                    <div class="col-4">
-                      <q-input
-                        v-if="booking"
-                        label="電話"
-                        v-model="booking.customer.phone"
-                        :readonly="readonly"
-                        dense
-                        outlined
-                      />
-                    </div>
-                    <div class="col-4">
-                      <q-input
-                        v-if="booking"
-                        label="Email"
-                        v-model="booking.customer.email"
-                        :readonly="readonly"
-                        dense
-                        outlined
-                      />
-                    </div>
-                    <div class="col-12">
-                      <q-input
-                        v-if="booking"
-                        label="聯絡備註"
-                        v-model="booking.customer.note"
-                        :readonly="readonly"
-                        type="textarea"
-                        autogrow
-                        outlined
-                      />
-                    </div>
-                  </div>
-                </q-card-section>
-              </q-card>
-              <div class="col">
-                <q-item-label>目前狀態</q-item-label>
-                <q-badge
-                  v-if="booking"
-                  :color="getStatusColor(booking.status.value)"
-                  class="q-mr-xs"
-                >
-                  {{ BookingStatusMap[booking.status.value] }}
-                </q-badge>
-              </div>
-            </div>
-          </div>
-          <div class="col-3">
-            <q-card flat style="max-width: 220px">
-              <q-card-section class="q-pa-none">
-                <q-timeline>
-                  <q-timeline-entry
-                    v-for="(h, idx) in booking?.status.history"
-                    :key="idx"
-                    :subtitle="h.timestamp"
-                    :title="historyActionLabel(h.action)"
-                    :color="getStatusColor(h.action)"
-                  >
-                    <div v-if="h.by">操作者：{{ h.by }}</div>
-                    <div v-if="h.note">備註：{{ h.note }}</div>
-                  </q-timeline-entry>
-                </q-timeline>
-                <div v-if="booking?.status.cancelReason" class="text-negative q-mt-md">
-                  <q-icon name="cancel" color="negative" class="q-mr-xs" />
-                  <b>取消說明：</b>{{ booking.status.cancelReason }}
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-        </div>
-      </q-card-section>
-    </q-card>
-
-    <!-- 寵物資訊 -->
-    <q-card class="q-mt-md">
-      <q-separator />
-      <q-card-section>
-        <div class="text-subtitle1 q-mb-sm">
-          <q-icon name="pets" class="q-mr-xs" />
-          寵物資訊
-        </div>
-
-        <template v-if="booking">
-          <div
-            v-for="(pet, index) in booking.pet"
-            :key="pet.id"
-            class="q-mb-md q-pa-sm q-rounded bordered row q-col-gutter-md"
-          >
-            <div class="col-12 text-subtitle2 text-weight-medium">寵物 {{ index + 1 }}</div>
-
-            <div class="col-4">
-              <q-input label="姓名" v-model="pet.name" :readonly="readonly" dense outlined />
-            </div>
-
-            <div class="col-4">
-              <q-select
-                label="種類"
-                v-model="pet.petType"
-                :options="petTypes"
-                :readonly="readonly"
-                dense
-                outlined
-              />
-            </div>
-
-            <div class="col-4">
-              <q-input label="品種" v-model="pet.petBreed" :readonly="readonly" dense outlined />
-            </div>
-
-            <div class="col-4">
-              <q-select
-                label="性別"
-                v-model="pet.petGender"
-                :options="petGenders"
-                :readonly="readonly"
-                dense
-                outlined
-              />
-            </div>
-
-            <div class="col-4">
-              <q-input
-                label="年齡"
-                type="number"
-                v-model.number="pet.petAge"
-                :readonly="readonly"
-                dense
-                outlined
-              />
-            </div>
-
-            <div class="col-4">
-              <q-input
-                label="體重(kg)"
-                type="number"
-                v-model.number="pet.petWeight"
-                :readonly="readonly"
-                dense
-                outlined
-              />
-            </div>
-
-            <div class="col-12">
-              <q-input
-                label="寵物備註"
-                v-model="pet.petNote"
-                :readonly="readonly"
-                type="textarea"
-                autogrow
-                outlined
-              />
-            </div>
-
-            <div class="col-12">
-              <q-input
-                label="健康提醒"
-                v-model="pet.healthReminder"
-                :readonly="readonly"
-                type="textarea"
-                autogrow
-                outlined
-              />
-            </div>
-
-            <div class="col-4">
-              <q-select
-                label="是否攻擊"
-                v-model="pet.isAttack"
-                :options="boolOptions"
-                :readonly="readonly"
-                dense
-                outlined
-                emit-value
-                map-options
-              />
-            </div>
-
-            <div class="col-8" v-if="pet.isAttack">
-              <q-input
-                label="攻擊行為備註"
-                v-model="pet.attackNote"
-                :readonly="readonly"
-                outlined
-                autogrow
-              />
-            </div>
-          </div>
-        </template>
-
-        <q-card class="q-mt-md">
-          <q-separator />
-          <q-card-section>
-            <div class="text-subtitle1 q-mb-sm">
-              <q-icon name="spa" class="q-mr-xs" />
-              美容資訊
-            </div>
-
-            <template v-if="booking">
-              {{ mapPetsToRecords(booking) }}
-              <div
-                v-for="(pet, index) in booking.pet"
-                :key="pet.id"
-                class="q-mb-md q-pa-sm q-rounded bordered row q-col-gutter-md"
-              >
-                <div class="col-12 text-subtitle2 text-weight-medium">寵物 {{ index + 1 }}</div>
-
-                <div class="col-4">
-                  <q-input label="姓名" v-model="pet.name" :readonly="readonly" dense outlined />
-                </div>
-
-                <div class="col-4">
-                  <q-select
-                    label="種類"
-                    v-model="pet.petType"
-                    :options="petTypes"
-                    :readonly="readonly"
-                    dense
-                    outlined
-                  />
-                </div>
-
-                <div class="col-4">
-                  <q-input
-                    label="品種"
-                    v-model="pet.petBreed"
-                    :readonly="readonly"
-                    dense
-                    outlined
-                  />
-                </div>
-
-                <div class="col-4">
-                  <q-select
-                    label="性別"
-                    v-model="pet.petGender"
-                    :options="petGenders"
-                    :readonly="readonly"
-                    dense
-                    outlined
-                  />
-                </div>
-
-                <div class="col-4">
-                  <q-input
-                    label="年齡"
-                    type="number"
-                    v-model.number="pet.petAge"
-                    :readonly="readonly"
-                    dense
-                    outlined
-                  />
-                </div>
-
-                <div class="col-4">
-                  <q-input
-                    label="體重(kg)"
-                    type="number"
-                    v-model.number="pet.petWeight"
-                    :readonly="readonly"
-                    dense
-                    outlined
-                  />
-                </div>
-
-                <div class="col-12">
-                  <q-input
-                    label="寵物備註"
-                    v-model="pet.petNote"
-                    :readonly="readonly"
-                    type="textarea"
-                    autogrow
-                    outlined
-                  />
-                </div>
-
-                <div class="col-12">
-                  <q-input
-                    label="健康提醒"
-                    v-model="pet.healthReminder"
-                    :readonly="readonly"
-                    type="textarea"
-                    autogrow
-                    outlined
-                  />
-                </div>
-
-                <div class="col-4">
-                  <q-select
-                    label="是否攻擊"
-                    v-model="pet.isAttack"
-                    :options="boolOptions"
-                    :readonly="readonly"
-                    dense
-                    outlined
-                    emit-value
-                    map-options
-                  />
-                </div>
-
-                <div class="col-8" v-if="pet.isAttack">
-                  <q-input
-                    label="攻擊行為備註"
-                    v-model="pet.attackNote"
-                    :readonly="readonly"
-                    outlined
-                    autogrow
-                  />
-                </div>
-              </div>
-            </template>
-          </q-card-section>
-        </q-card>
-      </q-card-section>
-    </q-card>
-
-    <!-- 服務項目 -->
-    <q-card class="q-mt-md">
-      <q-separator />
-      <q-card-section>
-        <div class="text-subtitle1 q-mb-sm">
-          <q-icon name="content_cut" class="q-mr-xs" />服務項目
-        </div>
-
-        <!-- 每隻寵物 -->
-        <div v-for="group in booking?.services" :key="group.petId" class="q-mb-md">
-          <div class="text-subtitle2 q-mb-xs">{{ findPetName(group.petId) }}</div>
-          <q-list>
-            <q-item v-for="s in group.items" :key="s.serviceId" class="q-pa-none">
-              <q-item-section>
-                <q-input
-                  v-model="s.serviceName"
-                  :readonly="readonly"
-                  label="服務名稱"
-                  dense
-                  outlined
-                />
-              </q-item-section>
-              <q-item-section>
-                <q-input
-                  v-model.number="s.price"
-                  :readonly="readonly"
-                  label="價格"
-                  dense
-                  outlined
-                  type="number"
-                />
-              </q-item-section>
-            </q-item>
-          </q-list>
-          <div class="text-right text-caption text-grey q-mt-sm">
-            小計：NT$ {{ subtotal(group.items) }}
-          </div>
-        </div>
-
-        <div class="row q-col-gutter-sm q-pt-xs">
-          <q-input
-            v-if="booking"
-            class="col-6"
-            label="折扣說明"
-            v-model="discountType"
-            :readonly="readonly"
-            dense
-            outlined
-          />
-          <q-input
-            v-if="booking"
-            class="col-6"
-            label="折扣金額"
-            v-model.number="discountAmount"
-            :readonly="readonly"
-            dense
-            outlined
-            type="number"
-          />
-        </div>
-
-        <div class="q-mt-xs row q-col-gutter-sm">
-          <div class="col-6">
-            <q-input
-              v-if="booking"
-              label="總金額"
-              v-model.number="totalPrice"
-              :readonly="readonly"
-              dense
-              outlined
-              type="number"
-            />
-          </div>
-          <div class="col-6">
-            <q-input
-              v-if="booking"
-              label="折扣後"
-              v-model.number="finalPrice"
-              :readonly="readonly"
-              dense
-              outlined
-              type="number"
-            />
-          </div>
-        </div>
-      </q-card-section>
-    </q-card>
-
-    <!-- 付款與流程 -->
-    <q-card class="q-mt-md">
-      <q-separator />
-      <q-card-section>
-        <div class="text-subtitle1 q-mb-sm">
-          <q-icon name="credit_card" class="q-mr-xs" />付款與流程
-        </div>
-        <div class="row q-col-gutter-md">
-          <div class="col-4">
-            <q-select
-              v-if="booking"
-              label="付款方式"
-              v-model="booking.payment.method"
-              :options="paymentMethods"
-              :readonly="readonly"
-              dense
-              outlined
-            />
-          </div>
-          <div class="col-4">
-            <q-select
-              v-if="booking"
-              label="付款狀態"
-              v-model="booking.payment.status"
-              :options="paymentStatus"
-              :readonly="readonly"
-              dense
-              outlined
-            />
-          </div>
-          <div class="col-4">
-            <q-input
-              v-if="booking"
-              label="美容師"
-              v-model="booking.groomer.groomerName"
-              :readonly="readonly"
-              dense
-              outlined
-            />
-          </div>
-          <div class="col-6">
-            <q-input
-              v-if="booking"
-              label="到店時間"
-              v-model="booking.arriveTime"
-              :readonly="readonly"
-              dense
-              outlined
-            />
-          </div>
-          <div class="col-6">
-            <q-input
-              v-if="booking"
-              label="完成時間"
-              v-model="booking.finishTime"
-              :readonly="readonly"
-              dense
-              outlined
-            />
-          </div>
-        </div>
-      </q-card-section>
-    </q-card>
-
-    <!-- 狀態與備註 -->
-    <q-card class="q-mt-md">
-      <q-separator />
-      <q-card-section class="row">
-        <q-input
-          v-if="booking"
-          label="下一次建議預約"
-          v-model="booking.nextBookingSuggestion"
-          :readonly="readonly"
-          class="col-6"
-          dense
-          outlined
+    <div class="flex justify-between q-mb-md">
+      <q-breadcrumbs class="q-mb-xs text-h6 text-bold">
+        <q-breadcrumbs-el label="預約管理" @click="$router.back" class="cursor-pointer" />
+        <q-breadcrumbs-el label="訂單詳情" />
+      </q-breadcrumbs>
+      <div v-if="booking" class="q-gutter-md">
+        <q-btn
+          v-if="booking?.status.value === 'created'"
+          label="接單"
+          type="submit"
+          color="info"
+          @click="onConfirmBooking"
         />
-      </q-card-section>
-    </q-card>
+        <q-btn
+          v-if="booking?.status.value === 'created'"
+          label="拒絕"
+          type="submit"
+          color="negative"
+          @click="onRejectedBooking"
+        />
+        <q-btn
+          v-if="isToday(booking.date) && booking?.status.value === 'confirmed'"
+          label="到店"
+          type="submit"
+          :color="BookingStatusColorMap[BookingStatus.ARRIVED]"
+          @click="onArrivedForService"
+        />
+        <q-btn
+          v-if="isToday(booking.date) && booking?.status.value === 'arrived'"
+          label="美容去"
+          type="submit"
+          :color="BookingStatusColorMap[BookingStatus.IN_SERVICE]"
+          @click="onServiceBooking"
+        />
+        <q-btn
+          v-if="booking?.status.value === 'in_service'"
+          label="完成"
+          type="submit"
+          :color="BookingStatusColorMap[BookingStatus.FINISHED]"
+          @click="onFinishedBooking"
+        />
+        <q-btn v-if="readonly" label="編輯" type="submit" color="primary" @click="onEditBooking" />
+        <q-btn v-if="!readonly" label="儲存" type="submit" color="primary" @click="onSaveBooking" />
+        <q-btn
+          v-if="
+            booking?.status.value !== 'cancelled_by_customer' &&
+            booking?.status.value !== 'created' &&
+            booking?.status.value !== 'rejected' &&
+            booking?.status.value !== 'finished'
+          "
+          label="取消"
+          type="submit"
+          color="secondary"
+          outline
+          @click="onCancelledBooking"
+        />
+      </div>
+    </div>
+
+    <q-tabs v-model="tab" class="bg-white text-primary" active-bg-color="indigo-1" align="left">
+      <q-tab v-for="tab in tabs" :key="tab.name" :name="tab.name" :label="tab.label" />
+    </q-tabs>
+    <q-separator />
+
+    <q-tab-panels v-model="tab">
+      <q-tab-panel name="info" class="q-pa-none">
+        <InfoCard v-if="booking" :booking="booking" :readonly="readonly" />
+      </q-tab-panel>
+
+      <q-tab-panel name="customer" class="q-pa-none">
+        <CustomerInfoCard v-if="booking" :booking="booking" :readonly="readonly" />
+      </q-tab-panel>
+
+      <q-tab-panel name="pets" class="q-pa-none">
+        <PetInfoCard v-if="booking" :booking="booking" :readonly="readonly" />
+      </q-tab-panel>
+
+      <q-tab-panel name="services" class="q-pa-none">
+        <ServicesInfoCard v-if="booking" :booking="booking" :readonly="readonly" />
+      </q-tab-panel>
+
+      <q-tab-panel name="grooming" class="q-pa-none">
+        <GroomingRecordCard v-if="booking" :booking="booking" :readonly="readonly" />
+      </q-tab-panel>
+    </q-tab-panels>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 import { useBookingStore } from 'src/stores/useBookingStore';
-import { useGroomingRecordStore } from 'src/stores/useGroomingRecordStore';
-import type { IBooking, IService } from '../types/booking';
+// import { useGroomingRecordStore } from 'src/stores/useGroomingRecordStore';
+import type { IBooking } from '../types/booking';
+// import type { IGroomingRecord } from '../types/groomingRecord';
 import { BookingStatus } from '../enums/bookingStatus';
-import { BookingStatusMap } from '../constants/statusMap';
-import type { IGroomingRecord } from '../types/groomingRecord';
+import { BookingStatusColorMap } from '../constants/statusMap';
+import InfoCard from '../components/BookingList/InfoCard.vue';
+import CustomerInfoCard from '../components/BookingList/CustomerInfoCard.vue';
+import PetInfoCard from '../components/BookingList/PetInfoCard.vue';
+import ServicesInfoCard from '../components/BookingList/ServicesInfoCard.vue';
+import GroomingRecordCard from '../components/BookingList/GroomingRecordCard.vue';
 
 const $q = useQuasar();
 const route = useRoute();
 const bookingStore = useBookingStore();
-const $groomingRecordStore = useGroomingRecordStore();
+// const $groomingRecordStore = useGroomingRecordStore();
 
 const booking = ref<IBooking>();
 const bookingId = route.params.id as string;
 
-const discountType = ref(booking.value?.discount?.type || '');
-const discountAmount = ref(booking.value?.discount?.amount || 0);
+const tab = ref('info');
+const tabs: { name: string; label: string }[] = [
+  { name: 'info', label: '基本資訊' },
+  { name: 'customer', label: '顧客資訊' },
+  { name: 'pets', label: '寵物資訊' },
+  { name: 'services', label: '服務項目' },
+  { name: 'grooming', label: '美容紀錄' },
+];
 
 onMounted(() => {
   const detail = bookingStore.fetchBookingDetail(bookingId);
   booking.value = detail;
 });
 
-// readonly 控制編輯
 const readonly = ref(true);
 
-// 各選項
-const petTypes = [
-  { label: '狗', value: 'dog' },
-  { label: '貓', value: 'cat' },
-  { label: '其他', value: 'other' },
-];
-const petGenders = [
-  { label: '公', value: 'male' },
-  { label: '母', value: 'female' },
-];
-const boolOptions = [
-  { label: '是', value: true },
-  { label: '否', value: false },
-];
-const paymentMethods = [
-  { label: '現金', value: '現金' },
-  { label: '信用卡', value: '信用卡' },
-];
-const paymentStatus = [
-  { label: '未付款', value: 'unpaid' },
-  { label: '已付款', value: 'paid' },
-];
+// function getGroomingRecordsByBookingId(id: string) {
+//   return $groomingRecordStore.list.filter((record) => record.bookingId === id);
+// }
 
-function findPetName(petId: string): string {
-  return booking.value?.pet.find((p) => p.id === petId)?.name || '未知寵物';
-}
+// function mapPetsToRecords(booking: IBooking) {
+//   const records = getGroomingRecordsByBookingId(booking.bookingId);
 
-function getGroomingRecordsByBookingId(id: string) {
-  return $groomingRecordStore.list.filter((record) => record.bookingId === id);
-}
-
-function mapPetsToRecords(booking: IBooking) {
-  const records = getGroomingRecordsByBookingId(booking.bookingId);
-
-  return booking.pet.map((p) => {
-    const matchingRecord = records.find((r: IGroomingRecord) => r.petId === p.id) || null;
-    return {
-      pet: p,
-      record: matchingRecord,
-    };
-  });
-}
-
-function subtotal(items: IService[]) {
-  return items.reduce((sum, item) => sum + item.price, 0);
-}
-
-// 總金額（所有寵物所有服務加總）
-const totalPrice = computed(() => {
-  if (!booking.value?.services) return 0;
-  return booking.value.services.reduce((total, group) => {
-    const subtotal = group.items.reduce((sum, item) => sum + (item.price || 0), 0);
-    return total + subtotal;
-  }, 0);
-});
-
-// 折扣金額（如果有填則取折扣金額）
-const discountValue = computed(() => Number(discountAmount.value || 0));
-
-// 折扣後金額
-const finalPrice = computed(() => {
-  return Math.max(totalPrice.value - discountValue.value, 0); // 保底 0
-});
+//   return booking.pet.map((p) => {
+//     const matchingRecord = records.find((r: IGroomingRecord) => r.petId === p.id) || null;
+//     return {
+//       pet: p,
+//       record: matchingRecord,
+//     };
+//   });
+// }
 
 function onConfirmBooking() {
   bookingStore.updateBookingStatus(bookingId, BookingStatus.CONFIRMED);
@@ -870,51 +265,5 @@ function isToday(date: string): boolean {
   const today = formatDate(new Date());
   const rowDate = formatDate(date);
   return today === rowDate;
-}
-
-function getStatusColor(status: string) {
-  switch (status) {
-    case 'completed':
-      return 'green-6';
-    case 'confirmed':
-      return 'info';
-    case 'cancelled':
-    case 'cancelledByCustomer':
-    case 'rejected':
-      return 'negative';
-    case 'waiting':
-      return 'light-blue-4';
-    case 'in_service':
-      return 'primary';
-    case 'pending':
-      return 'grey-6';
-    default:
-      return 'secondary';
-  }
-}
-
-function historyActionLabel(action: string) {
-  switch (action) {
-    case 'created':
-      return '建立預約';
-    case 'confirmed':
-      return '確認預約';
-    case 'in_service':
-      return '開始服務';
-    case 'waiting':
-      return '等待服務';
-    case 'pending':
-      return '等待確認';
-    case 'completed':
-      return '服務完成';
-    case 'cancelled':
-      return '店家取消';
-    case 'cancelledByCustomer':
-      return '顧客取消';
-    case 'rejected':
-      return '預約遭拒';
-    default:
-      return action;
-  }
 }
 </script>

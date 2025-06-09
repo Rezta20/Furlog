@@ -1,7 +1,5 @@
 <template>
   <div class="q-gutter-md">
-    <!-- <p class="text-bold text-h5">預約清單</p> -->
-    <!-- search -->
     <q-card class="q-pa-md">
       <BookingSearch @search="onSearch" />
     </q-card>

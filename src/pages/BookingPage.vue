@@ -1,12 +1,16 @@
 <!-- eslint-disable @typescript-eslint/no-floating-promises -->
 <template>
   <q-page padding>
-    <div class="row items-center justify-between">
-      <p class="text-bold text-h6">預約管理</p>
+    <div class="flex justify-between">
+      <q-breadcrumbs class="q-mb-xs text-h6 text-bold">
+        <q-breadcrumbs-el label="預約管理" />
+      </q-breadcrumbs>
+
       <q-btn-toggle
         v-model="viewMode"
         toggle-color="primary"
         color="secondary"
+        class="q-mb-sm"
         size="1rem"
         :options="[
           { label: '清單', value: 'list' },
@@ -20,7 +24,7 @@
 
     <!-- 清單模式顯示 -->
     <div v-if="viewMode === 'list'">
-      <BookingListPage />
+      <BookingList />
     </div>
 
     <!-- 月檢視模式 -->
@@ -38,7 +42,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 // import { useBookingStore } from '../stores/useBookingStore';
-import BookingListPage from './BookingListPage.vue';
+import BookingList from '../components/BookingList.vue';
 import BookingCalendarMonth from '../components/BookingCalendarMonth.vue';
 import BookingCalendarWeek from '../components/BookingCalendarWeek.vue';
 import { useRoute, useRouter } from 'vue-router';
