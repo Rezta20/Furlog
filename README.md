@@ -51,7 +51,7 @@ Furlog 是一套專為寵物美容店設計的店務管理系統，協助商家�
 - [ ] 入住登記（設定入住 / 退房時間 + 指派籠位）
 - [ ] 在住列表（顯示入住中寵物、可備註異常狀況）
 
-### 4.Dashboard
+### 4. Dashboard
 
 - [ ] 今日預約總覽（美容 / 安親 / 住宿分開顯示）
 - [ ] 籠房使用狀態一覽（以色塊標示）
@@ -71,7 +71,6 @@ Furlog 是一套專為寵物美容店設計的店務管理系統，協助商家�
 | UI 套件    | Quasar UI                                                                                    |
 | 資料庫服務 | Firebase（規劃中）                                                                           |
 | 認證與存儲 | 現階段採用 localStorage 暫存使用者資料，預計串接 Firebase Authentication 與 Firebase Storage |
-
 | 通知整合 | LINE Messaging API |
 | 部署方式 | GitHub Pages（SPA） |
 
