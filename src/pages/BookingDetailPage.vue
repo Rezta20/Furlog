@@ -64,7 +64,7 @@
     </q-tabs>
     <q-separator />
 
-    <q-tab-panels v-model="tab">
+    <q-tab-panels v-model="tab" class="q-pb">
       <q-tab-panel name="info" class="q-pa-none">
         <InfoCard v-if="booking" :booking="booking" :readonly="readonly" />
       </q-tab-panel>
