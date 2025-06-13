@@ -1,6 +1,6 @@
 [
   {
-    "recordId": "rec_001",
+    "id": "rec_001",
     "bookingId": "bk_001",
     "petId": "pet_001",
     "groomerId": "gr_001",
@@ -13,11 +13,11 @@
     "nextBookingSuggestion": "2025-07-05"
   },
   {
-    "recordId": "rec_002",
+    "id": "rec_002",
     "bookingId": "bk_003",
     "petId": "pet_003",
     "groomerId": "gr_002",
-    "services": ["剪毛"],
+    "services": ["剪毛", "洗澡", "全套美容"],
     "photos": ["/uploads/pet_003_before.jpg", "/uploads/pet_003_after.jpg"],
     "mood": "aggressive",
     "skinCondition": "皮膚無明顯異常，但貓咪因緊張抓咬，修剪後留意傷口，已進行消毒。",
@@ -26,7 +26,7 @@
     "nextBookingSuggestion": "2025-07-15"
   },
   {
-    "recordId": "rec_003",
+    "id": "rec_003",
     "bookingId": "bk_007",
     "petId": "pet_012",
     "groomerId": "gr_001",
@@ -37,5 +37,18 @@
     "note": "狗狗表現興奮，但未影響操作。下次可以嘗試延長間隔到 45 天。",
     "createdAt": "2025-07-03 17:40",
     "nextBookingSuggestion": "2025-08-01"
+  },
+  {
+    "id": "rec_004",
+    "bookingId": "bk_003",
+    "petId": "pet_004",
+    "groomerId": "gr_001",
+    "services": ["洗澡", "耳朵清潔"],
+    "photos": ["https://placekitten.com/200/204", "https://placekitten.com/200/214"],
+    "mood": "calm",
+    "skinCondition": "皮膚清潔良好，耳朵稍有分泌物已處理。",
+    "note": "美容過程穩定，可安排下次全套護理。",
+    "createdAt": "2025-06-15 14:05",
+    "nextBookingSuggestion": "2025-07-15"
   }
 ]

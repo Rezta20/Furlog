@@ -1,10 +1,18 @@
 <template>
   <q-page padding>
     <div class="flex justify-between q-mb-md">
-      <q-breadcrumbs class="q-mb-xs text-h6 text-bold">
-        <q-breadcrumbs-el label="預約管理" @click="$router.back" class="cursor-pointer" />
-        <q-breadcrumbs-el label="訂單詳情" />
-      </q-breadcrumbs>
+      <div class="flex items-center q-gutter-sm">
+        <q-breadcrumbs class="q-mb-xs text-h6 text-bold">
+          <q-breadcrumbs-el label="預約管理" @click="$router.back" class="cursor-pointer" />
+          <q-breadcrumbs-el :label="`訂單${bookingId}`" />
+        </q-breadcrumbs>
+        <div>
+          <q-badge v-if="booking" :color="BookingStatusColorMap[booking.status.value]" dense>
+            {{ BookingStatusMap[booking.status.value] }}
+          </q-badge>
+        </div>
+      </div>
+
       <div v-if="booking" class="q-gutter-md">
         <q-btn
           v-if="booking?.status.value === 'created'"
@@ -64,53 +72,70 @@
     </q-tabs>
     <q-separator />
 
-    <q-tab-panels v-model="tab" class="q-pb">
-      <q-tab-panel name="info" class="q-pa-none">
+    <q-tab-panels v-model="tab" class="q-pa-none bg-transparent">
+      <q-tab-panel name="info" class="q-pa-none q-mb-xs">
         <InfoCard v-if="booking" :booking="booking" :readonly="readonly" />
+        <p v-else>[目前沒有相關資料]</p>
       </q-tab-panel>
 
-      <q-tab-panel name="customer" class="q-pa-none">
+      <q-tab-panel name="customer" class="q-pa-none q-mb-xs">
         <CustomerInfoCard v-if="booking" :booking="booking" :readonly="readonly" />
+        <p v-else>[目前沒有相關資料]</p>
       </q-tab-panel>
 
-      <q-tab-panel name="pets" class="q-pa-none">
+      <q-tab-panel name="pets" class="q-pa-none q-mb-xs">
         <PetInfoCard v-if="booking" :booking="booking" :readonly="readonly" />
+        <p v-else>[目前沒有相關資料]</p>
       </q-tab-panel>
 
-      <q-tab-panel name="services" class="q-pa-none">
+      <q-tab-panel name="services" class="q-pa-none q-mb-xs">
         <ServicesInfoCard v-if="booking" :booking="booking" :readonly="readonly" />
+        <p v-else>[目前沒有相關資料]</p>
       </q-tab-panel>
 
-      <q-tab-panel name="grooming" class="q-pa-none">
-        <GroomingRecordCard v-if="booking" :booking="booking" :readonly="readonly" />
+      <q-tab-panel name="grooming" class="q-pa-none q-mb-xs">
+        <!-- {{ petRecordPairs }} -->
+        <div v-if="booking && petRecordPairs.length > 0">
+          <GroomingRecordCard
+            v-for="record in petRecordPairs"
+            :key="record.pet.id"
+            :groomingRecord="record"
+            :readonly="readonly"
+          />
+        </div>
+        <p v-else>[目前沒有相關資料]</p>
       </q-tab-panel>
     </q-tab-panels>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed, type ComputedRef } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 import { useBookingStore } from 'src/stores/useBookingStore';
-// import { useGroomingRecordStore } from 'src/stores/useGroomingRecordStore';
+import { useGroomingRecordStore } from 'src/stores/useGroomingRecordStore';
 import type { IBooking } from '../types/booking';
 // import type { IGroomingRecord } from '../types/groomingRecord';
+import type { IPetGroomingRecord } from '../types/groomingRecord';
 import { BookingStatus } from '../enums/bookingStatus';
-import { BookingStatusColorMap } from '../constants/statusMap';
+import { BookingStatusMap, BookingStatusColorMap } from '../constants/statusMap';
 import InfoCard from '../components/BookingList/InfoCard.vue';
 import CustomerInfoCard from '../components/BookingList/CustomerInfoCard.vue';
 import PetInfoCard from '../components/BookingList/PetInfoCard.vue';
 import ServicesInfoCard from '../components/BookingList/ServicesInfoCard.vue';
 import GroomingRecordCard from '../components/BookingList/GroomingRecordCard.vue';
+import { getNowDateTimeString } from '../utils/datetime';
 
 const $q = useQuasar();
-const route = useRoute();
-const bookingStore = useBookingStore();
-// const $groomingRecordStore = useGroomingRecordStore();
+const $route = useRoute();
+const $bookingStore = useBookingStore();
+const $groomingRecordStore = useGroomingRecordStore();
+
+const readonly = ref(true);
 
 const booking = ref<IBooking>();
-const bookingId = route.params.id as string;
+const bookingId = $route.params.id as string;
 
 const tab = ref('info');
 const tabs: { name: string; label: string }[] = [
@@ -122,30 +147,46 @@ const tabs: { name: string; label: string }[] = [
 ];
 
 onMounted(() => {
-  const detail = bookingStore.fetchBookingDetail(bookingId);
+  const detail = $bookingStore.fetchBookingDetail(bookingId);
   booking.value = detail;
 });
 
-const readonly = ref(true);
+const recordsOfBooking = computed(() =>
+  $groomingRecordStore.list.filter((r) => r.bookingId === bookingId),
+);
 
-// function getGroomingRecordsByBookingId(id: string) {
-//   return $groomingRecordStore.list.filter((record) => record.bookingId === id);
+const petRecordPairs: ComputedRef<IPetGroomingRecord[]> = computed(() => {
+  if (!booking.value) return [];
+  return booking.value.pet.map((p) => ({
+    pet: p,
+    groomingRecord: recordsOfBooking.value.find((r) => r.petId === p.id) || {
+      id: '',
+      petId: p.id,
+      bookingId: bookingId,
+      groomerId: '',
+      services: [],
+      photos: [],
+      mood: 'none',
+      skinCondition: '',
+      note: '',
+      createdAt: getNowDateTimeString(),
+      updatedAt: getNowDateTimeString(),
+    },
+  }));
+});
+
+// function onUpdateRecord(record: IGroomingRecord) {
+//   $groomingRecordStore.updateRecord(record);
 // }
-
-// function mapPetsToRecords(booking: IBooking) {
-//   const records = getGroomingRecordsByBookingId(booking.bookingId);
-
-//   return booking.pet.map((p) => {
-//     const matchingRecord = records.find((r: IGroomingRecord) => r.petId === p.id) || null;
-//     return {
-//       pet: p,
-//       record: matchingRecord,
-//     };
-//   });
+// function onDeleteRecord(recordId: string) {
+//   $groomingRecordStore.deleteRecord(recordId);
+// }
+// function onCreateRecord(record: IGroomingRecord) {
+//   $groomingRecordStore.createRecord(record);
 // }
 
 function onConfirmBooking() {
-  bookingStore.updateBookingStatus(bookingId, BookingStatus.CONFIRMED);
+  $bookingStore.updateBookingStatus(bookingId, BookingStatus.CONFIRMED);
 
   $q.notify({
     type: 'positive',
@@ -162,7 +203,7 @@ function onRejectedBooking() {
     cancel: true,
     persistent: true,
   }).onOk(() => {
-    bookingStore.updateBookingStatus(bookingId, BookingStatus.REJECTED);
+    $bookingStore.updateBookingStatus(bookingId, BookingStatus.REJECTED);
 
     $q.notify({
       type: 'negative',
@@ -184,7 +225,7 @@ function onSaveBooking() {
   }).onOk(() => {
     $q.loading.show({ message: '儲存中...' });
     if (booking.value) {
-      bookingStore.updateBookingDetail(bookingId, booking.value);
+      $bookingStore.updateBookingDetail(bookingId, booking.value);
       readonly.value = true;
 
       setTimeout(() => {
@@ -210,7 +251,7 @@ function onCancelledBooking() {
   }).onOk(() => {
     if (booking.value && booking.value.status) {
       booking.value.status.cancelReason = '寵物當下過度緊張不適合美容';
-      bookingStore.updateBookingStatus(bookingId, BookingStatus.CANCELLED_BY_STORE);
+      $bookingStore.updateBookingStatus(bookingId, BookingStatus.CANCELLED_BY_STORE);
       readonly.value = true;
     }
   });
@@ -227,7 +268,7 @@ function onEditBooking() {
 }
 
 function onArrivedForService() {
-  bookingStore.updateBookingStatus(bookingId, BookingStatus.ARRIVED);
+  $bookingStore.updateBookingStatus(bookingId, BookingStatus.ARRIVED);
 
   $q.notify({
     type: 'info',
@@ -237,7 +278,7 @@ function onArrivedForService() {
 }
 
 function onServiceBooking() {
-  bookingStore.updateBookingStatus(bookingId, BookingStatus.IN_SERVICE);
+  $bookingStore.updateBookingStatus(bookingId, BookingStatus.IN_SERVICE);
 
   $q.notify({
     type: 'info',
@@ -247,7 +288,7 @@ function onServiceBooking() {
 }
 
 function onFinishedBooking() {
-  bookingStore.updateBookingStatus(bookingId, BookingStatus.FINISHED);
+  $bookingStore.updateBookingStatus(bookingId, BookingStatus.FINISHED);
 
   $q.notify({
     type: 'positive',

@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia';
-import type { IBooking, IBookingSearch } from '../types/booking';
-import { BookingStatus } from '../enums/bookingStatus';
 import bookingsRaw from 'src/data/bookings.json';
+import { BookingStatus } from '../enums/bookingStatus';
+import type { IBooking, IBookingSearch } from '../types/booking';
+import { getNowDateTimeString } from '../utils/datetime';
 
 // 型別守門：驗證是否為 enum 之一
 function isBookingStatus(val: string): val is BookingStatus {
@@ -58,20 +59,8 @@ export const useBookingStore = defineStore('booking', {
     },
 
     updateBookingStatus(id: string, status: BookingStatus) {
-      function getNowDateTimeString(): string {
-        const date = new Date();
-        const yyyy = date.getFullYear();
-        const mm = String(date.getMonth() + 1).padStart(2, '0');
-        const dd = String(date.getDate()).padStart(2, '0');
-        const hh = String(date.getHours()).padStart(2, '0');
-        const min = String(date.getMinutes()).padStart(2, '0');
-        const ss = String(date.getSeconds()).padStart(2, '0');
-        return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
-      }
-
       const target = this.list.find((b) => b.bookingId === id);
       if (!target) return;
-
       target.status.value = status;
       target.status.history.push({
         timestamp: getNowDateTimeString(),

@@ -79,19 +79,6 @@
               </div>
             </q-card-section>
           </q-card>
-
-          <div>
-            <div class="col">
-              <q-item-label>目前狀態</q-item-label>
-              <q-badge
-                v-if="localBooking"
-                :color="BookingStatusColorMap[localBooking.status.value]"
-                class="q-mr-xs"
-              >
-                {{ BookingStatusMap[localBooking.status.value] }}
-              </q-badge>
-            </div>
-          </div>
         </div>
         <div class="col-3">
           <q-card flat style="max-width: 220px">
@@ -125,7 +112,7 @@
         <q-icon name="credit_card" class="q-mr-xs" />付款與流程
       </div>
       <div class="row q-col-gutter-md">
-        <div class="col-4">
+        <div class="col-6">
           <q-select
             v-if="localBooking"
             label="付款方式"
@@ -136,7 +123,7 @@
             outlined
           />
         </div>
-        <div class="col-4">
+        <div class="col-6">
           <q-select
             v-if="localBooking"
             label="付款狀態"
@@ -147,16 +134,7 @@
             outlined
           />
         </div>
-        <div class="col-4">
-          <q-input
-            v-if="localBooking"
-            label="美容師"
-            v-model="localBooking.groomer.groomerName"
-            :readonly="readonly"
-            dense
-            outlined
-          />
-        </div>
+
         <div class="col-6">
           <q-input
             v-if="localBooking"
@@ -199,11 +177,7 @@
 <script setup lang="ts">
 import { watch, reactive } from 'vue';
 import type { IBooking } from '../../types/booking';
-import {
-  BookingStatusColorMap,
-  BookingStatusMap,
-  HistoryActionLabelMap,
-} from '../../constants/statusMap';
+import { BookingStatusColorMap, HistoryActionLabelMap } from '../../constants/statusMap';
 
 const props = defineProps<{
   booking: IBooking;

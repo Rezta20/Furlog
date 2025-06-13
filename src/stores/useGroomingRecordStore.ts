@@ -60,7 +60,7 @@ export const useGroomingRecordStore = defineStore('groomingRecord', {
 
     // 更新美容紀錄
     updateRecord(updated: IGroomingRecord) {
-      const index = this.list.findIndex((r: IGroomingRecord) => r.recordId === updated.recordId);
+      const index = this.list.findIndex((r: IGroomingRecord) => r.id === updated.id);
       if (index !== -1) {
         this.list[index] = updated;
         localStorage.setItem('groomingRecords', JSON.stringify(this.list));
@@ -69,13 +69,13 @@ export const useGroomingRecordStore = defineStore('groomingRecord', {
 
     // 刪除美容紀錄
     deleteRecord(recordId: string) {
-      this.list = this.list.filter((r: IGroomingRecord) => r.recordId !== recordId);
+      this.list = this.list.filter((r: IGroomingRecord) => r.id !== recordId);
       localStorage.setItem('groomingRecords', JSON.stringify(this.list));
     },
 
     // 取得單筆紀錄
     fetchRecordDetail(recordId: string) {
-      return this.list.find((r: IGroomingRecord) => r.recordId === recordId);
+      return this.list.find((r: IGroomingRecord) => r.id === recordId);
     },
 
     // 取得某隻寵物所有紀錄（可用於寵物詳情頁面）
