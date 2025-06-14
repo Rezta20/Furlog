@@ -12,6 +12,7 @@ export interface IGroomingRecord {
   note: string; // 美容師備註
   createdAt: string; // 建立時間
   nextBookingSuggestion?: string; // 建議下次預約時間（如：2025-07-05）
+  updatedAt?: string;
 }
 export interface IPetGroomingRecord {
   pet: IPet;

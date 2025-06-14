@@ -8,3 +8,14 @@ export function getNowDateTimeString(): string {
   const ss = String(date.getSeconds()).padStart(2, '0');
   return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
 }
+
+export function formatDate(d: string | Date): string {
+  const dateObj = typeof d === 'string' ? new Date(d) : d;
+  return dateObj.toISOString().slice(0, 10);
+}
+
+export function isToday(date: string): boolean {
+  const today = formatDate(new Date());
+  const rowDate = formatDate(date);
+  return today === rowDate;
+}

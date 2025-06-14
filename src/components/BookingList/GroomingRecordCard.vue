@@ -1,27 +1,30 @@
 <template>
-  <q-card class="q-mt-md" v-if="localGroomingRecord.groomingRecord">
-    <q-card-section>
+  <q-card class="q-mb-md">
+    <q-card-section v-if="petGroomingRecord">
       <div class="text-subtitle1 q-mb-md">
         <q-icon name="pets" class="q-mr-xs" />
-        <span class="text-subtitle1 text-bold"> {{ localGroomingRecord.pet.name }} </span>
+        <span class="text-subtitle1 text-bold"> {{ petGroomingRecord.pet.name }} </span>
         的美容紀錄
       </div>
 
       <div class="row q-col-gutter-md">
         <div class="col-4">
           <div class="text-subtitle2 q-mb-xs">美容師</div>
-          <q-input
-            v-model="localGroomingRecord.groomingRecord.groomerId"
+          <q-select
+            v-model="petGroomingRecord.groomingRecord.groomerId"
+            :options="groomerOptions"
             :readonly="readonly"
-            dense
             outlined
+            dense
+            emit-value
+            map-options
           />
         </div>
         <!-- 情緒 -->
         <div class="col-4">
           <div class="text-subtitle2 q-mb-xs">寵物當日情緒</div>
           <q-select
-            v-model="localGroomingRecord.groomingRecord.mood"
+            v-model="petGroomingRecord.groomingRecord.mood"
             :options="moodOptions"
             :readonly="readonly"
             outlined
@@ -29,10 +32,7 @@
             emit-value
             map-options
           >
-            <template
-              v-slot:prepend
-              v-if="localGroomingRecord.groomingRecord.mood === 'aggressive'"
-            >
+            <template v-slot:prepend v-if="petGroomingRecord.groomingRecord.mood === 'aggressive'">
               <q-icon name="warning" color="negative" />
             </template>
           </q-select>
@@ -40,9 +40,8 @@
         <!-- 下次建議 -->
         <div class="col-4">
           <div class="text-subtitle2 q-mb-xs">建議下次美容日期：</div>
-
           <q-input
-            v-model="localGroomingRecord.groomingRecord.nextBookingSuggestion"
+            v-model="petGroomingRecord.groomingRecord.nextBookingSuggestion"
             :readonly="readonly"
             type="date"
             dense
@@ -54,29 +53,31 @@
         <div class="col-6">
           <div class="text-subtitle2 q-mb-xs">皮膚狀況</div>
           <q-input
-            v-model="localGroomingRecord.groomingRecord.skinCondition"
+            v-model="petGroomingRecord.groomingRecord.skinCondition"
             :readonly="readonly"
             type="textarea"
             autogrow
             outlined
+            dense
           />
         </div>
         <!-- 備註 -->
         <div class="col-6">
           <div class="text-subtitle2 q-mb-xs">備註</div>
           <q-input
-            v-model="localGroomingRecord.groomingRecord.note"
+            v-model="petGroomingRecord.groomingRecord.note"
             :readonly="readonly"
             type="textarea"
             autogrow
             outlined
+            dense
           />
         </div>
         <!-- 服務項目 -->
         <div class="col-4">
           <div class="text-subtitle2 q-mb-xs">服務項目</div>
           <q-chip
-            v-for="(item, i) in localGroomingRecord.groomingRecord.services"
+            v-for="(item, i) in petGroomingRecord.groomingRecord.services"
             :key="i"
             color="primary"
             text-color="white"
@@ -87,11 +88,11 @@
         </div>
         <div class="col-8">
           <!-- 照片區 -->
-          <div v-if="localGroomingRecord.groomingRecord.photos?.length" class="q-mb-md">
+          <div v-if="petGroomingRecord.groomingRecord.photos?.length" class="q-mb-md">
             <div class="text-subtitle2 q-mb-xs">美容照片</div>
 
             <q-img
-              v-for="(url, index) in localGroomingRecord.groomingRecord.photos"
+              v-for="(url, index) in petGroomingRecord.groomingRecord.photos"
               :key="index"
               src="https://place-puppy.com/puppy/y:200/x:300"
               style="width: 300px; height: 200px"
@@ -108,20 +109,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { IPetGroomingRecord } from '../../types/groomingRecord';
+import type { IPetGroomingRecord } from '../../types/groomingRecord';
 
-const props = defineProps<{
-  groomingRecord: IPetGroomingRecord;
-  readonly: boolean;
-}>();
-
-// const emit = defineEmits(['update:pet', 'onOwner']);
-const localGroomingRecord = reactive({ ...props.groomingRecord });
-
-/**
- * 將英文情緒轉換為中文標籤
- */
+const readonly = defineModel<boolean>('readonly');
+const petGroomingRecord = defineModel<IPetGroomingRecord | undefined>('groomingRecord');
 
 const moodOptions = [
   { label: '冷靜', value: 'calm' },
@@ -133,25 +124,9 @@ const moodOptions = [
   { label: '無', value: 'none' },
 ];
 
-// const localOwnerName = computed(() => props.ownerName);
-
-// watch(
-//   () => props.pet,
-//   (newVal) => {
-//     Object.assign(localPet, newVal);
-//   },
-//   { deep: true, immediate: true },
-// );
-
-// watch(
-//   localPet,
-//   (val) => {
-//     emit('update:pet', { ...val }); // 送一份淺拷貝
-//   },
-//   { deep: true },
-// );
-
-// function onOwner() {
-//   emit('onOwner');
-// }
+const groomerOptions = [
+  { label: '阿毛', value: 'gr_001' },
+  { label: '小美', value: 'gr_002' },
+  { label: '陳師父', value: 'gr_003' },
+];
 </script>

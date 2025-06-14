@@ -10,6 +10,7 @@
     "skinCondition": "毛髮較乾，有少許打結，耳朵內側有輕微紅腫。",
     "note": "整體狀況良好，毛髮打結部位已順利清理。建議下次多補充護毛素。",
     "createdAt": "2025-06-04 15:10",
+    "updatedAt": "",
     "nextBookingSuggestion": "2025-07-05"
   },
   {
@@ -17,7 +18,17 @@
     "bookingId": "bk_003",
     "petId": "pet_003",
     "groomerId": "gr_002",
-    "services": ["剪毛", "洗澡", "全套美容"],
+    "services": [
+      "剪毛",
+      "洗澡",
+      "全套美容",
+      "洗澡",
+      "耳朵清潔",
+      "洗澡",
+      "耳朵清潔",
+      "洗澡",
+      "耳朵清潔"
+    ],
     "photos": ["/uploads/pet_003_before.jpg", "/uploads/pet_003_after.jpg"],
     "mood": "aggressive",
     "skinCondition": "皮膚無明顯異常，但貓咪因緊張抓咬，修剪後留意傷口，已進行消毒。",

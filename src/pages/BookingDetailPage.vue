@@ -1,123 +1,129 @@
 <template>
-  <q-page padding>
-    <div class="flex justify-between q-mb-md">
-      <div class="flex items-center q-gutter-sm">
-        <q-breadcrumbs class="q-mb-xs text-h6 text-bold">
-          <q-breadcrumbs-el label="預約管理" @click="$router.back" class="cursor-pointer" />
-          <q-breadcrumbs-el :label="`訂單${bookingId}`" />
-        </q-breadcrumbs>
-        <div>
-          <q-badge v-if="booking" :color="BookingStatusColorMap[booking.status.value]" dense>
-            {{ BookingStatusMap[booking.status.value] }}
-          </q-badge>
+  <q-form>
+    <q-page padding>
+      <div class="flex justify-between q-mb-md">
+        <div class="flex items-center q-gutter-sm">
+          <q-breadcrumbs class="q-mb-xs text-h6 text-bold">
+            <q-breadcrumbs-el label="預約管理" @click="$router.back" class="cursor-pointer" />
+            <q-breadcrumbs-el :label="`訂單${bookingId}`" />
+          </q-breadcrumbs>
+          <div>
+            <q-badge v-if="booking" :color="BookingStatusColorMap[booking.status.value]" dense>
+              {{ BookingStatusMap[booking.status.value] }}
+            </q-badge>
+          </div>
         </div>
-      </div>
 
-      <div v-if="booking" class="q-gutter-md">
-        <q-btn
-          v-if="booking?.status.value === 'created'"
-          label="接單"
-          type="submit"
-          color="info"
-          @click="onConfirmBooking"
-        />
-        <q-btn
-          v-if="booking?.status.value === 'created'"
-          label="拒絕"
-          type="submit"
-          color="negative"
-          @click="onRejectedBooking"
-        />
-        <q-btn
-          v-if="isToday(booking.date) && booking?.status.value === 'confirmed'"
-          label="到店"
-          type="submit"
-          :color="BookingStatusColorMap[BookingStatus.ARRIVED]"
-          @click="onArrivedForService"
-        />
-        <q-btn
-          v-if="isToday(booking.date) && booking?.status.value === 'arrived'"
-          label="美容去"
-          type="submit"
-          :color="BookingStatusColorMap[BookingStatus.IN_SERVICE]"
-          @click="onServiceBooking"
-        />
-        <q-btn
-          v-if="booking?.status.value === 'in_service'"
-          label="完成"
-          type="submit"
-          :color="BookingStatusColorMap[BookingStatus.FINISHED]"
-          @click="onFinishedBooking"
-        />
-        <q-btn v-if="readonly" label="編輯" type="submit" color="primary" @click="onEditBooking" />
-        <q-btn v-if="!readonly" label="儲存" type="submit" color="primary" @click="onSaveBooking" />
-        <q-btn
-          v-if="
-            booking?.status.value !== 'cancelled_by_customer' &&
-            booking?.status.value !== 'created' &&
-            booking?.status.value !== 'rejected' &&
-            booking?.status.value !== 'finished'
-          "
-          label="取消"
-          type="submit"
-          color="secondary"
-          outline
-          @click="onCancelledBooking"
-        />
-      </div>
-    </div>
-
-    <q-tabs v-model="tab" class="bg-white text-primary" active-bg-color="indigo-1" align="left">
-      <q-tab v-for="tab in tabs" :key="tab.name" :name="tab.name" :label="tab.label" />
-    </q-tabs>
-    <q-separator />
-
-    <q-tab-panels v-model="tab" class="q-pa-none bg-transparent">
-      <q-tab-panel name="info" class="q-pa-none q-mb-xs">
-        <InfoCard v-if="booking" :booking="booking" :readonly="readonly" />
-        <p v-else>[目前沒有相關資料]</p>
-      </q-tab-panel>
-
-      <q-tab-panel name="customer" class="q-pa-none q-mb-xs">
-        <CustomerInfoCard v-if="booking" :booking="booking" :readonly="readonly" />
-        <p v-else>[目前沒有相關資料]</p>
-      </q-tab-panel>
-
-      <q-tab-panel name="pets" class="q-pa-none q-mb-xs">
-        <PetInfoCard v-if="booking" :booking="booking" :readonly="readonly" />
-        <p v-else>[目前沒有相關資料]</p>
-      </q-tab-panel>
-
-      <q-tab-panel name="services" class="q-pa-none q-mb-xs">
-        <ServicesInfoCard v-if="booking" :booking="booking" :readonly="readonly" />
-        <p v-else>[目前沒有相關資料]</p>
-      </q-tab-panel>
-
-      <q-tab-panel name="grooming" class="q-pa-none q-mb-xs">
-        <!-- {{ petRecordPairs }} -->
-        <div v-if="booking && petRecordPairs.length > 0">
-          <GroomingRecordCard
-            v-for="record in petRecordPairs"
-            :key="record.pet.id"
-            :groomingRecord="record"
-            :readonly="readonly"
+        <div v-if="booking" class="q-gutter-md">
+          <q-btn
+            v-if="booking?.status.value === 'created'"
+            label="接單"
+            type="submit"
+            color="info"
+            @click="onConfirmBooking"
+          />
+          <q-btn
+            v-if="booking?.status.value === 'created'"
+            label="拒絕"
+            type="submit"
+            color="negative"
+            @click="onRejectedBooking"
+          />
+          <q-btn
+            v-if="isToday(booking.date) && booking?.status.value === 'confirmed'"
+            label="到店"
+            type="submit"
+            :color="BookingStatusColorMap[BookingStatus.ARRIVED]"
+            @click="onArrivedForService"
+          />
+          <q-btn
+            v-if="isToday(booking.date) && booking?.status.value === 'arrived'"
+            label="美容去"
+            type="submit"
+            :color="BookingStatusColorMap[BookingStatus.IN_SERVICE]"
+            @click="onServiceBooking"
+          />
+          <q-btn
+            v-if="booking?.status.value === 'in_service'"
+            label="完成"
+            type="submit"
+            :color="BookingStatusColorMap[BookingStatus.FINISHED]"
+            @click="onFinishedBooking"
+          />
+          <q-btn
+            v-if="readonly"
+            label="編輯"
+            type="submit"
+            color="primary"
+            @click="onEditBooking"
+          />
+          <q-btn
+            v-if="!readonly"
+            label="儲存"
+            type="submit"
+            color="primary"
+            @click="onSaveBooking"
+          />
+          <q-btn
+            v-if="
+              booking?.status.value !== 'cancelled_by_customer' &&
+              booking?.status.value !== 'created' &&
+              booking?.status.value !== 'rejected' &&
+              booking?.status.value !== 'finished'
+            "
+            label="取消"
+            type="submit"
+            color="secondary"
+            outline
+            @click="onCancelledBooking"
           />
         </div>
-        <p v-else>[目前沒有相關資料]</p>
-      </q-tab-panel>
-    </q-tab-panels>
-  </q-page>
+      </div>
+
+      <q-tabs v-model="tab" class="bg-white text-primary" active-bg-color="indigo-1" align="left">
+        <q-tab v-for="tab in tabs" :key="tab.name" :name="tab.name" :label="tab.label" />
+      </q-tabs>
+      <q-separator />
+
+      <q-tab-panels v-model="tab" class="q-pa-none bg-transparent">
+        <q-tab-panel name="info" class="q-pa-none q-mb-xs">
+          <InfoCard v-model:booking="booking" v-model:readonly="readonly" />
+        </q-tab-panel>
+
+        <q-tab-panel name="customer" class="q-pa-none q-mb-xs">
+          <CustomerInfoCard v-model:booking="booking" v-model:readonly="readonly" />
+        </q-tab-panel>
+
+        <q-tab-panel name="pets" class="q-pa-none q-mb-xs">
+          <PetInfoCard v-model:booking="booking" v-model:readonly="readonly" />
+        </q-tab-panel>
+
+        <q-tab-panel name="services" class="q-pa-none q-mb-xs">
+          <ServicesInfoCard v-model:booking="booking" v-model:readonly="readonly" />
+        </q-tab-panel>
+
+        <q-tab-panel name="grooming" class="q-pa-none q-mb-xs">
+          <div v-if="booking && petGroomingRecords.length > 0">
+            <GroomingRecordCard
+              v-for="(record, index) in petGroomingRecords"
+              v-model:readonly="readonly"
+              v-model:groomingRecord="petGroomingRecords[index]"
+              :key="record.pet.id"
+            />
+          </div>
+        </q-tab-panel>
+      </q-tab-panels>
+    </q-page>
+  </q-form>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, type ComputedRef } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 import { useBookingStore } from 'src/stores/useBookingStore';
 import { useGroomingRecordStore } from 'src/stores/useGroomingRecordStore';
 import type { IBooking } from '../types/booking';
-// import type { IGroomingRecord } from '../types/groomingRecord';
-import type { IPetGroomingRecord } from '../types/groomingRecord';
 import { BookingStatus } from '../enums/bookingStatus';
 import { BookingStatusMap, BookingStatusColorMap } from '../constants/statusMap';
 import InfoCard from '../components/BookingList/InfoCard.vue';
@@ -125,18 +131,16 @@ import CustomerInfoCard from '../components/BookingList/CustomerInfoCard.vue';
 import PetInfoCard from '../components/BookingList/PetInfoCard.vue';
 import ServicesInfoCard from '../components/BookingList/ServicesInfoCard.vue';
 import GroomingRecordCard from '../components/BookingList/GroomingRecordCard.vue';
-import { getNowDateTimeString } from '../utils/datetime';
+import { getNowDateTimeString, isToday } from '../utils/datetime';
 
 const $q = useQuasar();
 const $route = useRoute();
 const $bookingStore = useBookingStore();
 const $groomingRecordStore = useGroomingRecordStore();
 
-const readonly = ref(true);
-
+const readonly = ref<boolean>(true);
 const booking = ref<IBooking>();
 const bookingId = $route.params.id as string;
-
 const tab = ref('info');
 const tabs: { name: string; label: string }[] = [
   { name: 'info', label: '基本資訊' },
@@ -155,7 +159,7 @@ const recordsOfBooking = computed(() =>
   $groomingRecordStore.list.filter((r) => r.bookingId === bookingId),
 );
 
-const petRecordPairs: ComputedRef<IPetGroomingRecord[]> = computed(() => {
+const petGroomingRecords = computed(() => {
   if (!booking.value) return [];
   return booking.value.pet.map((p) => ({
     pet: p,
@@ -175,15 +179,49 @@ const petRecordPairs: ComputedRef<IPetGroomingRecord[]> = computed(() => {
   }));
 });
 
-// function onUpdateRecord(record: IGroomingRecord) {
-//   $groomingRecordStore.updateRecord(record);
-// }
-// function onDeleteRecord(recordId: string) {
-//   $groomingRecordStore.deleteRecord(recordId);
-// }
-// function onCreateRecord(record: IGroomingRecord) {
-//   $groomingRecordStore.createRecord(record);
-// }
+function saveGroomingRecord() {
+  const updatedPets: string[] = [];
+  const createdPets: string[] = [];
+
+  petGroomingRecords.value.forEach(({ pet, groomingRecord }) => {
+    const isExisting =
+      groomingRecord.id && recordsOfBooking.value.find((r) => r.id === groomingRecord.id);
+
+    groomingRecord.updatedAt = getNowDateTimeString();
+
+    if (isExisting) {
+      $groomingRecordStore.updateRecord(groomingRecord);
+      updatedPets.push(pet.name);
+    } else {
+      groomingRecord.createdAt = getNowDateTimeString();
+      $groomingRecordStore.createRecord(groomingRecord);
+      createdPets.push(pet.name);
+    }
+  });
+
+  notifyGroomingRecords(updatedPets, createdPets);
+}
+
+function notifyGroomingRecords(updated: string[], created: string[]) {
+  // 整理訊息
+  const messages: string[] = [];
+  if (updated.length) {
+    messages.push(`已更新 ${updated.length} 筆：${updated.join('、')}`);
+  }
+  if (created.length) {
+    messages.push(`已新增 ${created.length} 筆：${created.join('、')}`);
+  }
+
+  // 顯示合併通知
+  const finalMessage = messages.length ? messages.join('；') : '沒有任何變更紀錄';
+
+  $q.notify({
+    type: messages.length ? 'positive' : 'info',
+    message: finalMessage,
+    timeout: 3000,
+    position: 'top',
+  });
+}
 
 function onConfirmBooking() {
   $bookingStore.updateBookingStatus(bookingId, BookingStatus.CONFIRMED);
@@ -223,21 +261,33 @@ function onSaveBooking() {
     cancel: true,
     persistent: true,
   }).onOk(() => {
-    $q.loading.show({ message: '儲存中...' });
-    if (booking.value) {
-      $bookingStore.updateBookingDetail(bookingId, booking.value);
-      readonly.value = true;
+    try {
+      $q.loading.show({ message: '儲存中...' });
+      if (booking.value) {
+        $bookingStore.updateBookingDetail(bookingId, booking.value);
+        saveGroomingRecord();
+        readonly.value = true;
 
-      setTimeout(() => {
-        $q.loading.hide();
+        setTimeout(() => {
+          $q.loading.hide();
 
-        $q.notify({
-          type: 'positive',
-          message: '儲存成功',
-          position: 'top',
-          timeout: 2000,
-        });
-      }, 1500);
+          $q.notify({
+            type: 'positive',
+            message: '儲存成功',
+            position: 'top',
+            timeout: 2000,
+          });
+        }, 1500);
+      } else {
+        throw new Error('找不到 booking 資料');
+      }
+    } catch (error) {
+      $q.loading.hide();
+      $q.notify({
+        type: 'negative',
+        message: '儲存失敗：' + (error as Error).message,
+      });
+      console.error('儲存過程發生錯誤：', error);
     }
   });
 }
@@ -295,16 +345,5 @@ function onFinishedBooking() {
     message: '已完成服務',
     position: 'top',
   });
-}
-
-function formatDate(d: string | Date): string {
-  const dateObj = typeof d === 'string' ? new Date(d) : d;
-  return dateObj.toISOString().slice(0, 10);
-}
-
-function isToday(date: string): boolean {
-  const today = formatDate(new Date());
-  const rowDate = formatDate(date);
-  return today === rowDate;
 }
 </script>

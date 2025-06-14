@@ -6,9 +6,9 @@
         寵物資訊
       </div>
 
-      <template v-if="localBooking">
+      <template v-if="booking">
         <div
-          v-for="(pet, index) in localBooking.pet"
+          v-for="(pet, index) in booking.pet"
           :key="pet.id"
           class="q-mb-md q-pa-sm q-rounded bordered row q-col-gutter-md"
         >
@@ -101,36 +101,25 @@
             />
           </div>
 
-          <div class="col-8" v-if="pet.isAttack">
+          <div class="col-8">
             <q-input
               label="攻擊行為備註"
               v-model="pet.attackNote"
               :readonly="readonly"
+              :disable="!pet.isAttack"
               outlined
               autogrow
+              dense
             />
           </div>
         </div> </template></q-card-section
   ></q-card>
 </template>
 <script setup lang="ts">
-import { watch, reactive } from 'vue';
 import type { IBooking } from '../../types/booking';
 
-const props = defineProps<{
-  booking: IBooking;
-  readonly: boolean;
-}>();
-
-const localBooking = reactive({ ...props.booking });
-
-watch(
-  () => props.booking,
-  (newVal) => {
-    Object.assign(localBooking, newVal);
-  },
-  { deep: true, immediate: true },
-);
+const booking = defineModel<IBooking | undefined>('booking');
+const readonly = defineModel<boolean>('readonly');
 
 const petTypes = [
   { label: '狗', value: 'dog' },

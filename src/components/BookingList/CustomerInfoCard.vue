@@ -5,9 +5,9 @@
       <div class="row q-col-gutter-md">
         <div class="col-4">
           <q-input
-            v-if="localBooking"
+            v-if="booking"
             label="姓名"
-            v-model="localBooking.customer.name"
+            v-model="booking.customer.name"
             :readonly="readonly"
             dense
             outlined
@@ -15,9 +15,9 @@
         </div>
         <div class="col-4">
           <q-input
-            v-if="localBooking"
+            v-if="booking"
             label="電話"
-            v-model="localBooking.customer.phone"
+            v-model="booking.customer.phone"
             :readonly="readonly"
             dense
             outlined
@@ -25,9 +25,9 @@
         </div>
         <div class="col-4">
           <q-input
-            v-if="localBooking"
+            v-if="booking"
             label="Email"
-            v-model="localBooking.customer.email"
+            v-model="booking.customer.email"
             :readonly="readonly"
             dense
             outlined
@@ -35,9 +35,9 @@
         </div>
         <div class="col-12">
           <q-input
-            v-if="localBooking"
+            v-if="booking"
             label="聯絡備註"
-            v-model="localBooking.customer.note"
+            v-model="booking.customer.note"
             :readonly="readonly"
             type="textarea"
             autogrow
@@ -49,21 +49,8 @@
   </q-card>
 </template>
 <script setup lang="ts">
-import { watch, reactive } from 'vue';
 import type { IBooking } from '../../types/booking';
 
-const props = defineProps<{
-  booking: IBooking;
-  readonly: boolean;
-}>();
-
-const localBooking = reactive({ ...props.booking });
-
-watch(
-  () => props.booking,
-  (newVal) => {
-    Object.assign(localBooking, newVal);
-  },
-  { deep: true, immediate: true },
-);
+const booking = defineModel<IBooking | undefined>('booking');
+const readonly = defineModel<boolean>('readonly');
 </script>

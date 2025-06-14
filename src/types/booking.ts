@@ -70,8 +70,6 @@ export interface IBooking {
     cancelReason?: string;
     history: IBookingHistory[];
   };
-
   photoRecords: string[]; // 照片 URL 陣列
-  nextBookingSuggestion?: string;
   note?: string;
 }

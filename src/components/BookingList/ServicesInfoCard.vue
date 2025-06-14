@@ -1,12 +1,12 @@
 <template>
   <q-card>
     <q-card-section>
-      <div class="text-subtitle1 q-mb-sm">
+      <div class="text-subtitle1 q-mb-sm" v-if="booking">
         <q-icon name="content_cut" class="q-mr-xs" />服務項目
       </div>
 
       <!-- 每隻寵物 -->
-      <div v-for="group in localBooking?.services" :key="group.petId" class="q-mb-md">
+      <div v-for="group in booking?.services" :key="group.petId" class="q-mb-md">
         <div class="text-subtitle2 q-mb-xs">{{ findPetName(group.petId) }}</div>
         <q-list>
           <q-item v-for="s in group.items" :key="s.serviceId" class="q-pa-none">
@@ -37,8 +37,17 @@
       </div>
 
       <div class="row q-col-gutter-sm q-pt-xs">
+        <div class="col-6"></div>
         <q-input
-          v-if="localBooking"
+          class="col-6"
+          label="總金額"
+          v-model.number="totalPrice"
+          :readonly="readonly"
+          dense
+          outlined
+          type="number"
+        />
+        <q-input
           class="col-6"
           label="折扣說明"
           v-model="discountType"
@@ -47,7 +56,6 @@
           outlined
         />
         <q-input
-          v-if="localBooking"
           class="col-6"
           label="折扣金額"
           v-model.number="discountAmount"
@@ -56,65 +64,39 @@
           outlined
           type="number"
         />
-      </div>
-
-      <div class="q-mt-xs row q-col-gutter-sm">
-        <div class="col-6">
-          <q-input
-            v-if="localBooking"
-            label="總金額"
-            v-model.number="totalPrice"
-            :readonly="readonly"
-            dense
-            outlined
-            type="number"
-          />
-        </div>
-        <div class="col-6">
-          <q-input
-            v-if="localBooking"
-            label="折扣後"
-            v-model.number="finalPrice"
-            :readonly="readonly"
-            dense
-            outlined
-            type="number"
-          />
-        </div>
+        <div class="col-6"></div>
+        <q-input
+          class="col-6 text-h6"
+          bg-color="orange-1"
+          label="折扣後"
+          v-model.number="finalPrice"
+          :readonly="readonly"
+          dense
+          outlined
+          type="number"
+        />
       </div>
     </q-card-section>
   </q-card>
 </template>
 <script setup lang="ts">
-import { ref, watch, reactive, computed } from 'vue';
+import { ref, computed } from 'vue';
 import type { IBooking, IService } from '../../types/booking';
 
-const props = defineProps<{
-  booking: IBooking;
-  readonly: boolean;
-}>();
+const booking = defineModel<IBooking | undefined>('booking');
+const readonly = defineModel<boolean>('readonly');
 
-const localBooking = reactive({ ...props.booking });
-
-watch(
-  () => props.booking,
-  (newVal) => {
-    Object.assign(localBooking, newVal);
-  },
-  { deep: true, immediate: true },
-);
-
-const discountType = ref(localBooking.discount?.type || '');
-const discountAmount = ref(localBooking.discount?.amount || 0);
+const discountType = ref(booking.value?.discount?.type || '');
+const discountAmount = ref(booking.value?.discount?.amount || 0);
 
 function findPetName(petId: string): string {
-  return localBooking?.pet.find((p) => p.id === petId)?.name || '未知寵物';
+  return booking.value?.pet.find((p) => p.id === petId)?.name || '未知寵物';
 }
 
 // 總金額（所有寵物所有服務加總）
 const totalPrice = computed(() => {
-  if (!localBooking?.services) return 0;
-  return localBooking.services.reduce((total, group) => {
+  if (!booking.value || !booking.value.services) return 0;
+  return booking.value.services.reduce((total, group) => {
     const subtotal = group.items.reduce((sum, item) => sum + (item.price || 0), 0);
     return total + subtotal;
   }, 0);
