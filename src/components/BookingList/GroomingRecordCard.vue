@@ -3,7 +3,9 @@
     <q-card-section v-if="petGroomingRecord">
       <div class="text-subtitle1 q-mb-md">
         <q-icon name="pets" class="q-mr-xs" />
-        <span class="text-subtitle1 text-bold"> {{ petGroomingRecord.pet.name }} </span>
+        <span class="text-subtitle1 text-bold">
+          {{ petGroomingRecord.pet.name }}{{ petGroomingRecord.pet.id }}
+        </span>
         的美容紀錄
       </div>
 

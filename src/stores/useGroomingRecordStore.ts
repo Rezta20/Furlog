@@ -2,6 +2,10 @@
 import { defineStore } from 'pinia';
 import type { IGroomingRecord } from '../types/groomingRecord';
 import groomingRecordsRaw from 'src/data/groomingRecord.json';
+import type { IBooking } from '../types/booking';
+import type { IPetGroomingRecord } from '../types/groomingRecord';
+import { getNowDateTimeString } from '../utils/datetime';
+
 // └─ 你需要先建立一個 data/groomingRecords.json，內容可參考範例資料
 
 export const useGroomingRecordStore = defineStore('groomingRecord', {
@@ -40,7 +44,6 @@ export const useGroomingRecordStore = defineStore('groomingRecord', {
       originList: formatted,
     };
   },
-
   actions: {
     setList(records: IGroomingRecord[]) {
       this.list = records;
@@ -85,6 +88,48 @@ export const useGroomingRecordStore = defineStore('groomingRecord', {
         .sort((a: { createdAt: string }, b: { createdAt: string }) =>
           b.createdAt.localeCompare(a.createdAt),
         );
+    },
+
+    initPetGroomingRecords(booking: IBooking, bookingId: string): IPetGroomingRecord[] {
+      return booking.pet.map((pet) => {
+        const existing = this.list.find((r) => r.petId === pet.id && r.bookingId === bookingId);
+
+        return {
+          pet,
+          groomingRecord: existing || {
+            id: '',
+            petId: pet.id,
+            bookingId: bookingId,
+            groomerId: '',
+            services: [],
+            photos: [],
+            mood: 'none',
+            skinCondition: '',
+            note: '',
+            createdAt: getNowDateTimeString(),
+            updatedAt: getNowDateTimeString(),
+          },
+        };
+      });
+    },
+    saveGroomingRecord(records: IPetGroomingRecord[]) {
+      const updatedPets: string[] = [];
+      const createdPets: string[] = [];
+
+      records.forEach(({ pet, groomingRecord }) => {
+        groomingRecord.updatedAt = getNowDateTimeString();
+
+        if (groomingRecord.id) {
+          this.updateRecord(groomingRecord);
+          updatedPets.push(pet.name);
+        } else {
+          groomingRecord.createdAt = getNowDateTimeString();
+          this.createRecord(groomingRecord);
+          createdPets.push(pet.name);
+        }
+      });
+
+      return { updatedPets, createdPets };
     },
   },
 });

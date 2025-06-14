@@ -118,7 +118,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 import { useBookingStore } from 'src/stores/useBookingStore';
@@ -131,7 +131,8 @@ import CustomerInfoCard from '../components/BookingList/CustomerInfoCard.vue';
 import PetInfoCard from '../components/BookingList/PetInfoCard.vue';
 import ServicesInfoCard from '../components/BookingList/ServicesInfoCard.vue';
 import GroomingRecordCard from '../components/BookingList/GroomingRecordCard.vue';
-import { getNowDateTimeString, isToday } from '../utils/datetime';
+import { isToday } from '../utils/datetime';
+import type { IPetGroomingRecord } from '../types/groomingRecord';
 
 const $q = useQuasar();
 const $route = useRoute();
@@ -153,52 +154,17 @@ const tabs: { name: string; label: string }[] = [
 onMounted(() => {
   const detail = $bookingStore.fetchBookingDetail(bookingId);
   booking.value = detail;
+  if (detail) {
+    petGroomingRecords.value = $groomingRecordStore.initPetGroomingRecords(detail, bookingId);
+  }
 });
 
-const recordsOfBooking = computed(() =>
-  $groomingRecordStore.list.filter((r) => r.bookingId === bookingId),
-);
-
-const petGroomingRecords = computed(() => {
-  if (!booking.value) return [];
-  return booking.value.pet.map((p) => ({
-    pet: p,
-    groomingRecord: recordsOfBooking.value.find((r) => r.petId === p.id) || {
-      id: '',
-      petId: p.id,
-      bookingId: bookingId,
-      groomerId: '',
-      services: [],
-      photos: [],
-      mood: 'none',
-      skinCondition: '',
-      note: '',
-      createdAt: getNowDateTimeString(),
-      updatedAt: getNowDateTimeString(),
-    },
-  }));
-});
+const petGroomingRecords = ref<IPetGroomingRecord[]>([]);
 
 function saveGroomingRecord() {
-  const updatedPets: string[] = [];
-  const createdPets: string[] = [];
-
-  petGroomingRecords.value.forEach(({ pet, groomingRecord }) => {
-    const isExisting =
-      groomingRecord.id && recordsOfBooking.value.find((r) => r.id === groomingRecord.id);
-
-    groomingRecord.updatedAt = getNowDateTimeString();
-
-    if (isExisting) {
-      $groomingRecordStore.updateRecord(groomingRecord);
-      updatedPets.push(pet.name);
-    } else {
-      groomingRecord.createdAt = getNowDateTimeString();
-      $groomingRecordStore.createRecord(groomingRecord);
-      createdPets.push(pet.name);
-    }
-  });
-
+  const { updatedPets, createdPets } = $groomingRecordStore.saveGroomingRecord(
+    petGroomingRecords.value,
+  );
   notifyGroomingRecords(updatedPets, createdPets);
 }
 
