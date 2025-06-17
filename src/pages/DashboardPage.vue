@@ -1,6 +1,11 @@
 <template>
   <q-page padding>
-    <h2>儀表板</h2>
+    <div class="flex justify-between">
+      <q-breadcrumbs class="q-mb-xs text-h6 text-bold">
+        <q-breadcrumbs-el label="儀表板" />
+      </q-breadcrumbs>
+    </div>
+
     <q-card>
       <q-card-section> 今日預約：{{ todayCount }} </q-card-section>
     </q-card>
